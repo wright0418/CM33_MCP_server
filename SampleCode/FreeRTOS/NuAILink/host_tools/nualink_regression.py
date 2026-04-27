@@ -88,6 +88,8 @@ def main() -> int:
                         help="Also verify led.bpwm.set duty command")
     parser.add_argument("--check-eadc", action="store_true",
                         help="Also verify eadc.read for channels 8 and 9")
+    parser.add_argument("--check-llsi", action="store_true",
+                        help="Also verify llsi.fill on PB15 WS2812 output")
     args = parser.parse_args()
 
     serial = _load_serial_module()
@@ -194,6 +196,38 @@ def main() -> int:
                             "params": {"name": "eadc.read", "arguments": {"channel": 9}},
                         },
                         10,
+                    ),
+                ]
+            )
+
+        if args.check_llsi:
+            smoke_requests.extend(
+                [
+                    (
+                        "llsi.fill red",
+                        {
+                            "jsonrpc": "2.0",
+                            "id": 11,
+                            "method": "tools/call",
+                            "params": {
+                                "name": "llsi.fill",
+                                "arguments": {"r": 255, "g": 0, "b": 0, "count": 10},
+                            },
+                        },
+                        11,
+                    ),
+                    (
+                        "llsi.fill off",
+                        {
+                            "jsonrpc": "2.0",
+                            "id": 12,
+                            "method": "tools/call",
+                            "params": {
+                                "name": "llsi.fill",
+                                "arguments": {"r": 0, "g": 0, "b": 0, "count": 10},
+                            },
+                        },
+                        12,
                     ),
                 ]
             )

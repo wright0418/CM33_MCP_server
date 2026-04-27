@@ -15,6 +15,7 @@ bool NuAILink_BoardIsLedBpwmActive(void);
 uint32_t NuAILink_BoardGetLedBpwmDutyPercent(void);
 uint32_t NuAILink_BoardGetCoreClockHz(void);
 bool NuAILink_BoardEadcRead(uint32_t channel, uint32_t *out_raw, uint32_t *out_millivolt);
+bool NuAILink_BoardLlsiFill(uint32_t red, uint32_t green, uint32_t blue, uint32_t pixel_count);
 
 /* Phase 2.1: PB14 button + generic GPIO read/write helpers. */
 void NuAILink_BoardButtonInit(void);

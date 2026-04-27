@@ -16,6 +16,9 @@ static bool s_led_bpwm_clock_ready = false;
 static bool s_eadc_clock_ready = false;
 static bool s_eadc_pin_ready = false;
 static bool s_eadc_opened = false;
+static bool s_llsi_clock_ready = false;
+static bool s_llsi_pin_ready = false;
+static bool s_llsi_opened = false;
 
 #define NUALINK_LED_BPWM_MODULE BPWM2_MODULE
 #define NUALINK_LED_BPWM BPWM2
@@ -27,6 +30,16 @@ static bool s_eadc_opened = false;
 #define NUALINK_EADC_SAMPLE_MODULE 0U
 #define NUALINK_EADC_VREF_MV 3300U
 #define NUALINK_EADC_MAX_CODE 4095U
+
+#define NUALINK_LLSI_MODULE LLSI0_MODULE
+#define NUALINK_LLSI LLSI0
+#define NUALINK_LLSI_MAX_PIXELS 10U
+#define NUALINK_LLSI_TX_FIFO_TIMEOUT_LOOPS (SystemCoreClock / 100U)
+
+#define NUALINK_WS2812_TRANSFER_NS 1250U
+#define NUALINK_WS2812_T0H_NS 400U
+#define NUALINK_WS2812_T1H_NS 850U
+#define NUALINK_WS2812_RESET_NS 50000U
 
 /* Phase 2.1: PB14 button state + debounce. */
 #define NUALINK_BUTTON_DEBOUNCE_MS 30U
@@ -112,6 +125,61 @@ static bool prvEnsureEadcReady(void)
         }
         EADC_CLR_INT_FLAG(EADC0, EADC_STATUS2_ADIF0_Msk);
         s_eadc_opened = true;
+    }
+
+    return true;
+}
+
+static void prvEnsureLlsiClockReady(void)
+{
+    if (!s_llsi_clock_ready)
+    {
+        CLK_EnableModuleClock(NUALINK_LLSI_MODULE);
+        s_llsi_clock_ready = true;
+    }
+}
+
+static void prvEnsureLlsiPinReady(void)
+{
+    if (!s_llsi_pin_ready)
+    {
+        SYS_UnlockReg();
+        CLK->AHBCLK0 |= CLK_AHBCLK0_GPBCKEN_Msk;
+        SET_LLSI0_OUT_PB15();
+        SYS_LockReg();
+        s_llsi_pin_ready = true;
+    }
+}
+
+static bool prvEnsureLlsiReady(uint32_t pixel_count)
+{
+    if ((pixel_count == 0U) || (pixel_count > NUALINK_LLSI_MAX_PIXELS))
+    {
+        return false;
+    }
+
+    prvEnsureLlsiClockReady();
+    prvEnsureLlsiPinReady();
+
+    if (!s_llsi_opened)
+    {
+        LLSI_Open(NUALINK_LLSI,
+                  LLSI_MODE_SW,
+                  LLSI_FORMAT_GRB,
+                  SystemCoreClock,
+                  NUALINK_WS2812_TRANSFER_NS,
+                  NUALINK_WS2812_T0H_NS,
+                  NUALINK_WS2812_T1H_NS,
+                  NUALINK_WS2812_RESET_NS,
+                  pixel_count,
+                  LLSI_IDLE_LOW);
+        LLSI_SetFIFO(NUALINK_LLSI, 2U);
+        LLSI_ENABLE_RESET_COMMAND(NUALINK_LLSI);
+        s_llsi_opened = true;
+    }
+    else
+    {
+        NUALINK_LLSI->PCNT = pixel_count;
     }
 
     return true;
@@ -366,6 +434,91 @@ bool NuAILink_BoardEadcRead(uint32_t channel, uint32_t *out_raw, uint32_t *out_m
     raw = EADC_GET_CONV_DATA(EADC0, NUALINK_EADC_SAMPLE_MODULE) & 0xFFFU;
     *out_raw = raw;
     *out_millivolt = ((raw * NUALINK_EADC_VREF_MV) + (NUALINK_EADC_MAX_CODE / 2U)) / NUALINK_EADC_MAX_CODE;
+    return true;
+}
+
+bool NuAILink_BoardLlsiFill(uint32_t red, uint32_t green, uint32_t blue, uint32_t pixel_count)
+{
+    uint8_t tx_bytes[NUALINK_LLSI_MAX_PIXELS * 3U];
+    uint32_t tx_words[(NUALINK_LLSI_MAX_PIXELS * 3U + 3U) / 4U];
+    uint32_t total_bytes;
+    uint32_t word_count;
+    uint32_t pixel_index;
+    uint32_t word_index;
+    uint32_t byte_index;
+    uint32_t timeout;
+
+    if ((red > 255U) || (green > 255U) || (blue > 255U))
+    {
+        return false;
+    }
+    if (!prvEnsureLlsiReady(pixel_count))
+    {
+        return false;
+    }
+
+    total_bytes = pixel_count * 3U;
+    for (pixel_index = 0U; pixel_index < pixel_count; pixel_index++)
+    {
+        tx_bytes[pixel_index * 3U + 0U] = (uint8_t)red;
+        tx_bytes[pixel_index * 3U + 1U] = (uint8_t)green;
+        tx_bytes[pixel_index * 3U + 2U] = (uint8_t)blue;
+    }
+
+    word_count = (total_bytes + 3U) / 4U;
+    for (word_index = 0U; word_index < word_count; word_index++)
+    {
+        uint32_t word = 0U;
+
+        for (byte_index = 0U; byte_index < 4U; byte_index++)
+        {
+            uint32_t src_index = word_index * 4U + byte_index;
+            if (src_index < total_bytes)
+            {
+                word |= ((uint32_t)tx_bytes[src_index]) << (byte_index * 8U);
+            }
+        }
+        tx_words[word_index] = word;
+    }
+
+    LLSI_ClearIntFlag(NUALINK_LLSI, LLSI_UNDFL_INT_MASK | LLSI_FEND_INT_MASK | LLSI_RSTC_INT_MASK);
+
+    for (word_index = 0U; word_index < word_count; word_index++)
+    {
+        timeout = NUALINK_LLSI_TX_FIFO_TIMEOUT_LOOPS;
+        while (LLSI_GET_TX_FIFO_FULL_FLAG(NUALINK_LLSI) != 0U)
+        {
+            if (timeout == 0U)
+            {
+                return false;
+            }
+            timeout--;
+        }
+
+        if (word_index == (word_count - 1U))
+        {
+            LLSI_SET_LAST_DATA(NUALINK_LLSI);
+        }
+        LLSI_WRITE_DATA(NUALINK_LLSI, tx_words[word_index]);
+    }
+
+    timeout = NUALINK_LLSI_TX_FIFO_TIMEOUT_LOOPS;
+    while (LLSI_GetIntFlag(NUALINK_LLSI, LLSI_FEND_INT_MASK) == 0U)
+    {
+        if (LLSI_GetIntFlag(NUALINK_LLSI, LLSI_UNDFL_INT_MASK) != 0U)
+        {
+            LLSI_ClearIntFlag(NUALINK_LLSI, LLSI_UNDFL_INT_MASK);
+            return false;
+        }
+
+        if (timeout == 0U)
+        {
+            return false;
+        }
+        timeout--;
+    }
+
+    LLSI_ClearIntFlag(NUALINK_LLSI, LLSI_FEND_INT_MASK);
     return true;
 }
 

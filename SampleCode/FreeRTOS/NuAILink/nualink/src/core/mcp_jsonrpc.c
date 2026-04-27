@@ -240,6 +240,14 @@ int32_t MCP_JSONRPC_Handle(const char *request, char *response, size_t response_
     }
 
     status = MCP_ResponseWriteSuccess(response, response_size, id, result);
+    if(status < 0)
+    {
+        status = MCP_ResponseWriteError(response,
+                                        response_size,
+                                        id,
+                                        MCP_STATUS_INTERNAL_ERROR,
+                                        "response_too_large");
+    }
     cJSON_Delete(root);
     return status;
 }
