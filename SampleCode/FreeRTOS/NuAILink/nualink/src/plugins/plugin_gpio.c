@@ -19,6 +19,7 @@
 #include "cJSON.h"
 #include "FreeRTOS.h"
 #include "nualink_board.h"
+#include "nualink_tasks.h"
 #include "task.h"
 
 #define NUALINK_GPIO_AUTO_DEFAULT_PORT 'C'
@@ -50,15 +51,18 @@ static const char s_gpio_auto_schema[] =
     "\"port\":{\"type\":\"string\",\"pattern\":\"^[A-Ha-h]$\"},"
     "\"pin\":{\"type\":\"integer\",\"minimum\":0,\"maximum\":15},"
     "\"initial_value\":{\"type\":\"integer\",\"minimum\":0,\"maximum\":1},"
-    "\"interval_ms\":{\"type\":\"integer\",\"minimum\":20,\"maximum\":5000}"
+    "\"interval_ms\":{\"type\":\"integer\",\"minimum\":20,\"maximum\":5000},"
+    "\"notify\":{\"type\":\"boolean\"}"
     "},\"required\":[\"action\"],\"additionalProperties\":false}";
 
 typedef struct
 {
     bool enabled;
+    bool notify;
     char port;
     uint32_t pin;
     uint32_t value;
+    uint32_t event_count;
     uint32_t interval_ms;
     TickType_t next_tick;
 } nualink_gpio_auto_state_t;
@@ -66,11 +70,39 @@ typedef struct
 static nualink_gpio_auto_state_t s_gpio_auto =
     {
         false,
+        false,
         NUALINK_GPIO_AUTO_DEFAULT_PORT,
         NUALINK_GPIO_AUTO_DEFAULT_PIN,
         0U,
+        0U,
         NUALINK_GPIO_AUTO_DEFAULT_INTERVAL_MS,
         0U};
+
+static char prvNormalizePort(char port)
+{
+    return (char)((port >= 'a') ? (port - 'a' + 'A') : port);
+}
+
+static void prvNotifyGpioAutoEvent(void)
+{
+    char json_line[176];
+
+    if (!s_gpio_auto.notify)
+    {
+        return;
+    }
+
+    s_gpio_auto.event_count++;
+    (void)snprintf(json_line,
+                   sizeof(json_line),
+                   "{\"jsonrpc\":\"2.0\",\"method\":\"gpio.auto.event\",\"params\":{\"port\":\"%c\",\"pin\":%lu,\"value\":%lu,\"event_count\":%lu,\"tick\":%lu}}\n",
+                   prvNormalizePort(s_gpio_auto.port),
+                   (unsigned long)s_gpio_auto.pin,
+                   (unsigned long)s_gpio_auto.value,
+                   (unsigned long)s_gpio_auto.event_count,
+                   (unsigned long)xTaskGetTickCount());
+    (void)NuAILink_TasksPushNotification(json_line);
+}
 
 static TickType_t prvMsToTicksMin1(uint32_t interval_ms)
 {
@@ -296,20 +328,24 @@ static int32_t prvBuildGpioAutoResult(cJSON *result, const char *action)
     (void)cJSON_AddStringToObject(structured, "action", action);
     (void)cJSON_AddStringToObject(structured, "mode", "toggle");
     (void)cJSON_AddBoolToObject(structured, "running", s_gpio_auto.enabled ? 1 : 0);
-    (void)cJSON_AddStringToObject(structured, "port", (char[]){(char)((s_gpio_auto.port >= 'a') ? (s_gpio_auto.port - 'a' + 'A') : s_gpio_auto.port), '\0'});
+    (void)cJSON_AddStringToObject(structured, "port", (char[]){prvNormalizePort(s_gpio_auto.port), '\0'});
     (void)cJSON_AddNumberToObject(structured, "pin", (double)s_gpio_auto.pin);
     (void)cJSON_AddNumberToObject(structured, "value", (double)s_gpio_auto.value);
+    (void)cJSON_AddBoolToObject(structured, "notify", s_gpio_auto.notify ? 1 : 0);
+    (void)cJSON_AddNumberToObject(structured, "event_count", (double)s_gpio_auto.event_count);
     (void)cJSON_AddNumberToObject(structured, "interval_ms", (double)s_gpio_auto.interval_ms);
 
     (void)snprintf(message,
                    sizeof(message),
-                   "GPIO auto %s: running=%lu P%c%lu toggle interval_ms=%lu value=%lu",
+                   "GPIO auto %s: running=%lu P%c%lu toggle interval_ms=%lu value=%lu notify=%lu events=%lu",
                    action,
                    (unsigned long)(s_gpio_auto.enabled ? 1U : 0U),
-                   (s_gpio_auto.port >= 'a') ? (s_gpio_auto.port - 'a' + 'A') : s_gpio_auto.port,
+                   prvNormalizePort(s_gpio_auto.port),
                    (unsigned long)s_gpio_auto.pin,
                    (unsigned long)s_gpio_auto.interval_ms,
-                   (unsigned long)s_gpio_auto.value);
+                   (unsigned long)s_gpio_auto.value,
+                   (unsigned long)(s_gpio_auto.notify ? 1U : 0U),
+                   (unsigned long)s_gpio_auto.event_count);
 
     return prvBuildContent(result, message, structured);
 }
@@ -319,12 +355,14 @@ static int32_t prvGpioAutoCallback(const cJSON *arguments, cJSON *result, void *
     const cJSON *action_item;
     const cJSON *mode_item;
     const cJSON *port_item;
+    const cJSON *notify_item;
     const char *action;
     const char *port_str;
     char port = s_gpio_auto.port;
     uint32_t pin = s_gpio_auto.pin;
     uint32_t value = s_gpio_auto.value;
     uint32_t interval_ms = s_gpio_auto.interval_ms;
+    bool notify = s_gpio_auto.notify;
 
     (void)context;
 
@@ -348,6 +386,7 @@ static int32_t prvGpioAutoCallback(const cJSON *arguments, cJSON *result, void *
             pin = NUALINK_GPIO_AUTO_DEFAULT_PIN;
             value = 0U;
             interval_ms = NUALINK_GPIO_AUTO_DEFAULT_INTERVAL_MS;
+            notify = false;
         }
 
         mode_item = cJSON_GetObjectItemCaseSensitive(arguments, "mode");
@@ -385,14 +424,26 @@ static int32_t prvGpioAutoCallback(const cJSON *arguments, cJSON *result, void *
             return MCP_STATUS_INVALID_PARAMS;
         }
 
+        notify_item = cJSON_GetObjectItemCaseSensitive(arguments, "notify");
+        if (notify_item != NULL)
+        {
+            if (!cJSON_IsBool(notify_item))
+            {
+                return MCP_STATUS_INVALID_PARAMS;
+            }
+            notify = cJSON_IsTrue(notify_item) ? true : false;
+        }
+
         s_gpio_auto.port = port;
         s_gpio_auto.pin = pin;
         s_gpio_auto.value = value;
         s_gpio_auto.interval_ms = interval_ms;
+        s_gpio_auto.notify = notify;
 
         if (strcmp(action, "start") == 0)
         {
             s_gpio_auto.enabled = true;
+            s_gpio_auto.event_count = 0U;
         }
 
         if (s_gpio_auto.enabled)
@@ -438,6 +489,7 @@ void NuAILink_GpioAutoProcess(void)
         s_gpio_auto.enabled = false;
         return;
     }
+    prvNotifyGpioAutoEvent();
     s_gpio_auto.next_tick = now + prvMsToTicksMin1(s_gpio_auto.interval_ms);
 }
 

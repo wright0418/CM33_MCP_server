@@ -14,12 +14,14 @@
 #include "cJSON.h"
 #include "FreeRTOS.h"
 #include "nualink_board.h"
+#include "nualink_tasks.h"
 #include "task.h"
 
 #define NUALINK_EADC_AUTO_DEFAULT_CHANNEL 8U
 #define NUALINK_EADC_AUTO_DEFAULT_INTERVAL_MS 200U
 #define NUALINK_EADC_AUTO_MIN_INTERVAL_MS 20U
 #define NUALINK_EADC_AUTO_MAX_INTERVAL_MS 10000U
+#define NUALINK_EADC_AUTO_MAX_THRESHOLD_MV 3300U
 
 static const char s_eadc_read_schema[] =
     "{\"type\":\"object\",\"properties\":{"
@@ -30,17 +32,27 @@ static const char s_eadc_auto_schema[] =
     "{\"type\":\"object\",\"properties\":{"
     "\"action\":{\"type\":\"string\",\"enum\":[\"start\",\"update\",\"stop\",\"status\"]},"
     "\"channel\":{\"type\":\"integer\",\"enum\":[8,9]},"
-    "\"interval_ms\":{\"type\":\"integer\",\"minimum\":20,\"maximum\":10000}"
+    "\"interval_ms\":{\"type\":\"integer\",\"minimum\":20,\"maximum\":10000},"
+    "\"notify\":{\"type\":\"boolean\"},"
+    "\"threshold_enabled\":{\"type\":\"boolean\"},"
+    "\"threshold_mV\":{\"type\":\"integer\",\"minimum\":0,\"maximum\":3300},"
+    "\"threshold_mode\":{\"type\":\"string\",\"enum\":[\"above\",\"below\"]}"
     "},\"required\":[\"action\"],\"additionalProperties\":false}";
 
 typedef struct
 {
     bool enabled;
     bool sample_valid;
+    bool notify;
+    bool threshold_enabled;
+    bool threshold_above;
+    bool threshold_condition_active;
     uint32_t channel;
     uint32_t interval_ms;
     uint32_t raw;
     uint32_t millivolt;
+    uint32_t threshold_millivolt;
+    uint32_t event_count;
     TickType_t next_tick;
     TickType_t last_sample_tick;
 } nualink_eadc_auto_state_t;
@@ -49,8 +61,14 @@ static nualink_eadc_auto_state_t s_eadc_auto =
     {
         false,
         false,
+        false,
+        false,
+        true,
+        false,
         NUALINK_EADC_AUTO_DEFAULT_CHANNEL,
         NUALINK_EADC_AUTO_DEFAULT_INTERVAL_MS,
+        0U,
+        0U,
         0U,
         0U,
         0U,
@@ -108,6 +126,76 @@ static const char *prvPinNameFromChannel(uint32_t channel)
     }
 
     return "PB9";
+}
+
+static const char *prvThresholdModeName(void)
+{
+    return s_eadc_auto.threshold_above ? "above" : "below";
+}
+
+static bool prvThresholdConditionIsActive(void)
+{
+    if (!s_eadc_auto.threshold_enabled)
+    {
+        return false;
+    }
+
+    if (s_eadc_auto.threshold_above)
+    {
+        return s_eadc_auto.millivolt > s_eadc_auto.threshold_millivolt;
+    }
+
+    return s_eadc_auto.millivolt < s_eadc_auto.threshold_millivolt;
+}
+
+static void prvNotifyEadcAutoEvent(const char *event)
+{
+    char json_line[256];
+
+    if ((event == NULL) || !s_eadc_auto.notify)
+    {
+        return;
+    }
+
+    s_eadc_auto.event_count++;
+    (void)snprintf(json_line,
+                   sizeof(json_line),
+                   "{\"jsonrpc\":\"2.0\",\"method\":\"eadc.auto.event\",\"params\":{\"event\":\"%s\",\"channel\":%lu,\"pin\":\"%s\",\"raw\":%lu,\"mV\":%lu,\"event_count\":%lu,\"tick\":%lu}}\n",
+                   event,
+                   (unsigned long)s_eadc_auto.channel,
+                   prvPinNameFromChannel(s_eadc_auto.channel),
+                   (unsigned long)s_eadc_auto.raw,
+                   (unsigned long)s_eadc_auto.millivolt,
+                   (unsigned long)s_eadc_auto.event_count,
+                   (unsigned long)xTaskGetTickCount());
+    (void)NuAILink_TasksPushNotification(json_line);
+}
+
+static void prvMaybeNotifyEadcAutoEvent(void)
+{
+    bool active;
+
+    if (!s_eadc_auto.notify)
+    {
+        return;
+    }
+
+    if (!s_eadc_auto.threshold_enabled)
+    {
+        prvNotifyEadcAutoEvent("sample");
+        return;
+    }
+
+    active = prvThresholdConditionIsActive();
+    if (active && !s_eadc_auto.threshold_condition_active)
+    {
+        s_eadc_auto.threshold_condition_active = true;
+        prvNotifyEadcAutoEvent(s_eadc_auto.threshold_above ? "threshold_above" : "threshold_below");
+    }
+    else if (!active)
+    {
+        s_eadc_auto.threshold_condition_active = false;
+    }
 }
 
 static int32_t prvEadcReadCallback(const cJSON *arguments, cJSON *result, void *context)
@@ -182,7 +270,7 @@ static int32_t prvEadcReadCallback(const cJSON *arguments, cJSON *result, void *
     return MCP_STATUS_OK;
 }
 
-static bool prvSampleEadcAuto(void)
+static bool prvSampleEadcAuto(bool allow_notification)
 {
     uint32_t raw;
     uint32_t millivolt;
@@ -196,6 +284,12 @@ static bool prvSampleEadcAuto(void)
     s_eadc_auto.millivolt = millivolt;
     s_eadc_auto.last_sample_tick = xTaskGetTickCount();
     s_eadc_auto.sample_valid = true;
+
+    if (allow_notification)
+    {
+        prvMaybeNotifyEadcAutoEvent();
+    }
+
     return true;
 }
 
@@ -220,7 +314,7 @@ static int32_t prvBuildEadcAutoResult(cJSON *result, const char *action)
 
     (void)snprintf(message,
                    sizeof(message),
-                   "EADC auto %s: running=%lu CH%lu(%s) interval_ms=%lu valid=%lu raw=%lu mV=%lu",
+                   "EADC auto %s: running=%lu CH%lu(%s) interval_ms=%lu valid=%lu raw=%lu mV=%lu notify=%lu events=%lu",
                    action,
                    (unsigned long)(s_eadc_auto.enabled ? 1U : 0U),
                    (unsigned long)s_eadc_auto.channel,
@@ -228,7 +322,9 @@ static int32_t prvBuildEadcAutoResult(cJSON *result, const char *action)
                    (unsigned long)s_eadc_auto.interval_ms,
                    (unsigned long)(s_eadc_auto.sample_valid ? 1U : 0U),
                    (unsigned long)s_eadc_auto.raw,
-                   (unsigned long)s_eadc_auto.millivolt);
+                   (unsigned long)s_eadc_auto.millivolt,
+                   (unsigned long)(s_eadc_auto.notify ? 1U : 0U),
+                   (unsigned long)s_eadc_auto.event_count);
 
     (void)cJSON_AddStringToObject(text_item, "type", "text");
     (void)cJSON_AddStringToObject(text_item, "text", message);
@@ -242,6 +338,14 @@ static int32_t prvBuildEadcAutoResult(cJSON *result, const char *action)
     (void)cJSON_AddNumberToObject(structured, "interval_ms", (double)s_eadc_auto.interval_ms);
     (void)cJSON_AddNumberToObject(structured, "raw", (double)s_eadc_auto.raw);
     (void)cJSON_AddNumberToObject(structured, "mV", (double)s_eadc_auto.millivolt);
+    (void)cJSON_AddBoolToObject(structured, "notify", s_eadc_auto.notify ? 1 : 0);
+    (void)cJSON_AddNumberToObject(structured, "event_count", (double)s_eadc_auto.event_count);
+    (void)cJSON_AddBoolToObject(structured, "threshold_enabled", s_eadc_auto.threshold_enabled ? 1 : 0);
+    (void)cJSON_AddNumberToObject(structured, "threshold_mV", (double)s_eadc_auto.threshold_millivolt);
+    (void)cJSON_AddStringToObject(structured, "threshold_mode", prvThresholdModeName());
+    (void)cJSON_AddBoolToObject(structured,
+                                "threshold_active",
+                                prvThresholdConditionIsActive() ? 1 : 0);
     (void)cJSON_AddNumberToObject(structured, "last_sample_tick", (double)s_eadc_auto.last_sample_tick);
 
     (void)cJSON_AddItemToObject(result, "content", content);
@@ -253,9 +357,16 @@ static int32_t prvBuildEadcAutoResult(cJSON *result, const char *action)
 static int32_t prvEadcAutoCallback(const cJSON *arguments, cJSON *result, void *context)
 {
     const cJSON *action_item;
+    const cJSON *notify_item;
+    const cJSON *threshold_enabled_item;
+    const cJSON *threshold_mode_item;
     const char *action;
     uint32_t channel = s_eadc_auto.channel;
     uint32_t interval_ms = s_eadc_auto.interval_ms;
+    uint32_t threshold_millivolt = s_eadc_auto.threshold_millivolt;
+    bool notify = s_eadc_auto.notify;
+    bool threshold_enabled = s_eadc_auto.threshold_enabled;
+    bool threshold_above = s_eadc_auto.threshold_above;
 
     (void)context;
 
@@ -277,6 +388,10 @@ static int32_t prvEadcAutoCallback(const cJSON *arguments, cJSON *result, void *
         {
             channel = NUALINK_EADC_AUTO_DEFAULT_CHANNEL;
             interval_ms = NUALINK_EADC_AUTO_DEFAULT_INTERVAL_MS;
+            notify = false;
+            threshold_enabled = false;
+            threshold_above = true;
+            threshold_millivolt = 0U;
         }
 
         if (!prvGetU32InRange(arguments, "channel", 8U, 9U, &channel, false) ||
@@ -291,18 +406,79 @@ static int32_t prvEadcAutoCallback(const cJSON *arguments, cJSON *result, void *
             return MCP_STATUS_INVALID_PARAMS;
         }
 
+        notify_item = cJSON_GetObjectItemCaseSensitive(arguments, "notify");
+        if (notify_item != NULL)
+        {
+            if (!cJSON_IsBool(notify_item))
+            {
+                return MCP_STATUS_INVALID_PARAMS;
+            }
+            notify = cJSON_IsTrue(notify_item) ? true : false;
+        }
+
+        threshold_enabled_item = cJSON_GetObjectItemCaseSensitive(arguments, "threshold_enabled");
+        if (threshold_enabled_item != NULL)
+        {
+            if (!cJSON_IsBool(threshold_enabled_item))
+            {
+                return MCP_STATUS_INVALID_PARAMS;
+            }
+            threshold_enabled = cJSON_IsTrue(threshold_enabled_item) ? true : false;
+        }
+
+        if (!prvGetU32InRange(arguments,
+                              "threshold_mV",
+                              0U,
+                              NUALINK_EADC_AUTO_MAX_THRESHOLD_MV,
+                              &threshold_millivolt,
+                              false))
+        {
+            return MCP_STATUS_INVALID_PARAMS;
+        }
+        if (cJSON_GetObjectItemCaseSensitive(arguments, "threshold_mV") != NULL)
+        {
+            threshold_enabled = true;
+        }
+
+        threshold_mode_item = cJSON_GetObjectItemCaseSensitive(arguments, "threshold_mode");
+        if (threshold_mode_item != NULL)
+        {
+            if (!cJSON_IsString(threshold_mode_item) || (threshold_mode_item->valuestring == NULL))
+            {
+                return MCP_STATUS_INVALID_PARAMS;
+            }
+            if (strcmp(threshold_mode_item->valuestring, "above") == 0)
+            {
+                threshold_above = true;
+            }
+            else if (strcmp(threshold_mode_item->valuestring, "below") == 0)
+            {
+                threshold_above = false;
+            }
+            else
+            {
+                return MCP_STATUS_INVALID_PARAMS;
+            }
+        }
+
         s_eadc_auto.channel = channel;
         s_eadc_auto.interval_ms = interval_ms;
+        s_eadc_auto.notify = notify;
+        s_eadc_auto.threshold_enabled = threshold_enabled;
+        s_eadc_auto.threshold_above = threshold_above;
+        s_eadc_auto.threshold_millivolt = threshold_millivolt;
+        s_eadc_auto.threshold_condition_active = false;
 
         if (strcmp(action, "start") == 0)
         {
             s_eadc_auto.enabled = true;
             s_eadc_auto.sample_valid = false;
+            s_eadc_auto.event_count = 0U;
         }
 
         if (s_eadc_auto.enabled)
         {
-            if (!prvSampleEadcAuto())
+            if (!prvSampleEadcAuto(false))
             {
                 s_eadc_auto.enabled = false;
                 return MCP_STATUS_INTERNAL_ERROR;
@@ -337,7 +513,7 @@ void NuAILink_EadcAutoProcess(void)
         return;
     }
 
-    if (!prvSampleEadcAuto())
+    if (!prvSampleEadcAuto(true))
     {
         s_eadc_auto.enabled = false;
         return;

@@ -6,6 +6,7 @@
 #include "cJSON.h"
 #include "FreeRTOS.h"
 #include "nualink_board.h"
+#include "nualink_tasks.h"
 #include "task.h"
 
 #define NUALINK_LED_AUTO_DEFAULT_INTERVAL_MS 500U
@@ -23,13 +24,16 @@ static const char s_led_auto_schema[] =
     "\"action\":{\"type\":\"string\",\"enum\":[\"start\",\"update\",\"stop\",\"status\"]},"
     "\"mode\":{\"type\":\"string\",\"enum\":[\"blink\"]},"
     "\"interval_ms\":{\"type\":\"integer\",\"minimum\":20,\"maximum\":5000},"
-    "\"initial_on\":{\"type\":\"boolean\"}"
+    "\"initial_on\":{\"type\":\"boolean\"},"
+    "\"notify\":{\"type\":\"boolean\"}"
     "},\"required\":[\"action\"],\"additionalProperties\":false}";
 
 typedef struct
 {
     bool enabled;
     bool led_on;
+    bool notify;
+    uint32_t event_count;
     uint32_t interval_ms;
     TickType_t next_tick;
 } nualink_led_auto_state_t;
@@ -38,8 +42,29 @@ static nualink_led_auto_state_t s_led_auto =
     {
         false,
         false,
+        false,
+        0U,
         NUALINK_LED_AUTO_DEFAULT_INTERVAL_MS,
         0U};
+
+static void prvNotifyLedAutoEvent(void)
+{
+    char json_line[160];
+
+    if (!s_led_auto.notify)
+    {
+        return;
+    }
+
+    s_led_auto.event_count++;
+    (void)snprintf(json_line,
+                   sizeof(json_line),
+                   "{\"jsonrpc\":\"2.0\",\"method\":\"led.auto.event\",\"params\":{\"pin\":\"PC14\",\"on\":%s,\"event_count\":%lu,\"tick\":%lu}}\n",
+                   s_led_auto.led_on ? "true" : "false",
+                   (unsigned long)s_led_auto.event_count,
+                   (unsigned long)xTaskGetTickCount());
+    (void)NuAILink_TasksPushNotification(json_line);
+}
 
 static TickType_t prvMsToTicksMin1(uint32_t interval_ms)
 {
@@ -105,11 +130,13 @@ static int32_t prvBuildLedAutoResult(cJSON *result, const char *action)
 
     (void)snprintf(message,
                    sizeof(message),
-                   "PC14 LED auto %s: running=%lu mode=blink interval_ms=%lu on=%lu",
+                   "PC14 LED auto %s: running=%lu mode=blink interval_ms=%lu on=%lu notify=%lu events=%lu",
                    action,
                    (unsigned long)(s_led_auto.enabled ? 1U : 0U),
                    (unsigned long)s_led_auto.interval_ms,
-                   (unsigned long)(s_led_auto.led_on ? 1U : 0U));
+                   (unsigned long)(s_led_auto.led_on ? 1U : 0U),
+                   (unsigned long)(s_led_auto.notify ? 1U : 0U),
+                   (unsigned long)s_led_auto.event_count);
 
     (void)cJSON_AddStringToObject(text_item, "type", "text");
     (void)cJSON_AddStringToObject(text_item, "text", message);
@@ -120,6 +147,8 @@ static int32_t prvBuildLedAutoResult(cJSON *result, const char *action)
     (void)cJSON_AddStringToObject(structured, "mode", "blink");
     (void)cJSON_AddBoolToObject(structured, "running", s_led_auto.enabled ? 1 : 0);
     (void)cJSON_AddBoolToObject(structured, "on", s_led_auto.led_on ? 1 : 0);
+    (void)cJSON_AddBoolToObject(structured, "notify", s_led_auto.notify ? 1 : 0);
+    (void)cJSON_AddNumberToObject(structured, "event_count", (double)s_led_auto.event_count);
     (void)cJSON_AddNumberToObject(structured, "interval_ms", (double)s_led_auto.interval_ms);
 
     (void)cJSON_AddItemToObject(result, "content", content);
@@ -244,9 +273,11 @@ static int32_t prvLedAutoCallback(const cJSON *arguments, cJSON *result, void *c
     const cJSON *action_item;
     const cJSON *mode_item;
     const cJSON *initial_on_item;
+    const cJSON *notify_item;
     const char *action;
     uint32_t interval_ms = s_led_auto.interval_ms;
     bool led_on = s_led_auto.led_on;
+    bool notify = s_led_auto.notify;
 
     (void)context;
 
@@ -275,6 +306,7 @@ static int32_t prvLedAutoCallback(const cJSON *arguments, cJSON *result, void *c
         {
             interval_ms = NUALINK_LED_AUTO_DEFAULT_INTERVAL_MS;
             led_on = false;
+            notify = false;
         }
 
         if (!prvGetU32InRange(arguments,
@@ -297,12 +329,24 @@ static int32_t prvLedAutoCallback(const cJSON *arguments, cJSON *result, void *c
             led_on = cJSON_IsTrue(initial_on_item) ? true : false;
         }
 
+        notify_item = cJSON_GetObjectItemCaseSensitive(arguments, "notify");
+        if (notify_item != NULL)
+        {
+            if (!cJSON_IsBool(notify_item))
+            {
+                return MCP_STATUS_INVALID_PARAMS;
+            }
+            notify = cJSON_IsTrue(notify_item) ? true : false;
+        }
+
         s_led_auto.interval_ms = interval_ms;
         s_led_auto.led_on = led_on;
+        s_led_auto.notify = notify;
 
         if (strcmp(action, "start") == 0)
         {
             s_led_auto.enabled = true;
+            s_led_auto.event_count = 0U;
         }
 
         if (s_led_auto.enabled)
@@ -340,6 +384,7 @@ void NuAILink_LedAutoProcess(void)
 
     s_led_auto.led_on = s_led_auto.led_on ? false : true;
     NuAILink_BoardSetLed(s_led_auto.led_on);
+    prvNotifyLedAutoEvent();
     s_led_auto.next_tick = now + prvMsToTicksMin1(s_led_auto.interval_ms);
 }
 

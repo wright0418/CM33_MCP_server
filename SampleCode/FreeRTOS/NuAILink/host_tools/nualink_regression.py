@@ -28,15 +28,7 @@ def _load_serial_module() -> Any:
     return serial
 
 
-def _send_request(port: Any, request: dict[str, Any], timeout_s: float) -> tuple[dict[str, Any], float]:
-    payload = json.dumps(request, separators=(
-        ",", ":")).encode("utf-8") + b"\n"
-    t0 = time.monotonic()
-    deadline = t0 + timeout_s
-
-    port.write(payload)
-    port.flush()
-
+def _read_json_object(port: Any, deadline: float, stage: str) -> dict[str, Any]:
     while time.monotonic() < deadline:
         line = port.readline()
         if not line:
@@ -46,10 +38,55 @@ def _send_request(port: Any, request: dict[str, Any], timeout_s: float) -> tuple
         if not text:
             continue
 
-        response = json.loads(text)
+        value = json.loads(text)
+        if not isinstance(value, dict):
+            raise AssertionError(f"[{stage}] JSON frame is not an object: {value!r}")
+        return value
+
+    raise TimeoutError(f"No JSON frame for {stage}")
+
+
+def _is_notification(frame: dict[str, Any]) -> bool:
+    return frame.get("jsonrpc") == "2.0" and "id" not in frame and isinstance(frame.get("method"), str)
+
+
+def _send_request(port: Any, request: dict[str, Any], timeout_s: float) -> tuple[dict[str, Any], float]:
+    payload = json.dumps(request, separators=(
+        ",", ":")).encode("utf-8") + b"\n"
+    t0 = time.monotonic()
+    deadline = t0 + timeout_s
+    expected_id = request.get("id")
+
+    port.write(payload)
+    port.flush()
+
+    while time.monotonic() < deadline:
+        response = _read_json_object(port, deadline, f"method {request.get('method')}")
+
+        if _is_notification(response):
+            print(f"[REG][EVT] {response.get('method')} {json.dumps(response.get('params', {}), separators=(',', ':'))}")
+            continue
+
+        if (expected_id is None) or (response.get("id") == expected_id):
+            return response, (time.monotonic() - t0)
+
         return response, (time.monotonic() - t0)
 
     raise TimeoutError(f"No response for method {request.get('method')}")
+
+
+def _wait_for_notification(port: Any, method: str, timeout_s: float) -> dict[str, Any]:
+    deadline = time.monotonic() + timeout_s
+
+    while time.monotonic() < deadline:
+        frame = _read_json_object(port, deadline, method)
+        if _is_notification(frame) and frame.get("method") == method:
+            return frame
+
+        if _is_notification(frame):
+            print(f"[REG][EVT] {frame.get('method')} {json.dumps(frame.get('params', {}), separators=(',', ':'))}")
+
+    raise TimeoutError(f"No notification {method}")
 
 
 def _expect_ok(response: dict[str, Any], expected_id: int, stage: str) -> None:
@@ -72,6 +109,43 @@ def _p95(values: list[float]) -> float:
     return sorted_values[index]
 
 
+def _verify_auto_notification(port: Any,
+                              timeout_s: float,
+                              start_id: int,
+                              stop_id: int,
+                              tool_name: str,
+                              start_arguments: dict[str, Any],
+                              notification_method: str) -> None:
+    start_request = {
+        "jsonrpc": "2.0",
+        "id": start_id,
+        "method": "tools/call",
+        "params": {"name": tool_name, "arguments": start_arguments},
+    }
+    stop_request = {
+        "jsonrpc": "2.0",
+        "id": stop_id,
+        "method": "tools/call",
+        "params": {"name": tool_name, "arguments": {"action": "stop"}},
+    }
+
+    response, elapsed = _send_request(port, start_request, timeout_s)
+    _expect_ok(response, start_id, f"{tool_name} notify start")
+    print(f"[REG][OK] {tool_name + ' notify start':<20} {elapsed * 1000.0:7.2f} ms")
+
+    notification = _wait_for_notification(port, notification_method, max(timeout_s, 2.5))
+    params = notification.get("params", {})
+    if not isinstance(params, dict):
+        raise AssertionError(f"[{notification_method}] params missing")
+    if int(params.get("event_count", 0)) <= 0:
+        raise AssertionError(f"[{notification_method}] expected event_count > 0")
+    print(f"[REG][OK] {notification_method:<20} {json.dumps(params, separators=(',', ':'))}")
+
+    response, elapsed = _send_request(port, stop_request, timeout_s)
+    _expect_ok(response, stop_id, f"{tool_name} notify stop")
+    print(f"[REG][OK] {tool_name + ' notify stop':<20} {elapsed * 1000.0:7.2f} ms")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(
         description="NuAILink USB CDC one-click regression")
@@ -91,7 +165,7 @@ def main() -> int:
     parser.add_argument("--check-llsi", action="store_true",
                         help="Also verify llsi.fill on PB15 WS2812 output")
     parser.add_argument("--check-auto", action="store_true",
-                        help="Also verify autonomous modes: led.auto, gpio.auto, eadc.auto")
+                        help="Also verify autonomous modes and Phase 2.8 notifications")
     args = parser.parse_args()
 
     serial = _load_serial_module()
@@ -553,6 +627,43 @@ def main() -> int:
                     raise AssertionError(f"[{stage}] expected running=false")
 
             print(f"[REG][OK] {stage:<12} {elapsed * 1000.0:7.2f} ms")
+
+        if args.check_auto:
+            print("[REG] ---- auto notification checks ----")
+            _verify_auto_notification(
+                port,
+                args.timeout,
+                200,
+                201,
+                "led.auto",
+                {"action": "start", "interval_ms": 40, "initial_on": False, "notify": True},
+                "led.auto.event",
+            )
+            _verify_auto_notification(
+                port,
+                args.timeout,
+                202,
+                203,
+                "gpio.auto",
+                {
+                    "action": "start",
+                    "port": "C",
+                    "pin": 14,
+                    "initial_value": 0,
+                    "interval_ms": 40,
+                    "notify": True,
+                },
+                "gpio.auto.event",
+            )
+            _verify_auto_notification(
+                port,
+                args.timeout,
+                204,
+                205,
+                "eadc.auto",
+                {"action": "start", "channel": 8, "interval_ms": 60, "notify": True},
+                "eadc.auto.event",
+            )
 
         lat_ms: list[float] = []
         failures: list[str] = []
