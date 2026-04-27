@@ -10,6 +10,15 @@
 
 static volatile bool s_led_on = false;
 static volatile bool s_heartbeat_enabled = true;
+static volatile bool s_led_bpwm_active = false;
+static volatile uint32_t s_led_bpwm_duty_percent = 0U;
+static bool s_led_bpwm_clock_ready = false;
+
+#define NUALINK_LED_BPWM_MODULE BPWM2_MODULE
+#define NUALINK_LED_BPWM BPWM2
+#define NUALINK_LED_BPWM_CHANNEL 0U
+#define NUALINK_LED_BPWM_CHANNEL_MASK BPWM_CH_0_MASK
+#define NUALINK_LED_BPWM_FREQ_HZ 2000U
 
 /* Phase 2.1: PB14 button state + debounce. */
 #define NUALINK_BUTTON_DEBOUNCE_MS 30U
@@ -24,6 +33,31 @@ static void prvSetLedPin(bool on)
 {
     PC14 = on ? 0U : 1U;
     s_led_on = on;
+}
+
+static void prvSwitchPc14ToGpioMode(void)
+{
+    SYS_UnlockReg();
+    SET_GPIO_PC14();
+    SYS_LockReg();
+    GPIO_SetMode(PC, BIT14, GPIO_MODE_OUTPUT);
+}
+
+static void prvSwitchPc14ToBpwmMode(void)
+{
+    SYS_UnlockReg();
+    SET_BPWM2_CH0_PC14();
+    SYS_LockReg();
+}
+
+static void prvEnsureLedBpwmClockReady(void)
+{
+    if (!s_led_bpwm_clock_ready)
+    {
+        CLK_SetModuleClock(NUALINK_LED_BPWM_MODULE, CLK_CLKSEL2_BPWM2SEL_PCLK0, 0U);
+        CLK_EnableModuleClock(NUALINK_LED_BPWM_MODULE);
+        s_led_bpwm_clock_ready = true;
+    }
 }
 
 #if (NUALINK_ENABLE_BOOT_DIAGNOSTICS == 1)
@@ -94,6 +128,7 @@ void NuAILink_BoardInit(void)
 
     /* Configure heartbeat LED first so we can flash it at every checkpoint. */
     CLK->AHBCLK0 |= CLK_AHBCLK0_GPCCKEN_Msk;
+    SET_GPIO_PC14();
     GPIO_SetMode(PC, BIT14, GPIO_MODE_OUTPUT);
     prvSetLedPin(false);
 
@@ -157,7 +192,50 @@ void NuAILink_BoardInit(void)
 void NuAILink_BoardSetLed(bool on)
 {
     s_heartbeat_enabled = false;
+    NuAILink_BoardLedUseGpio();
     prvSetLedPin(on);
+    s_led_bpwm_duty_percent = on ? 100U : 0U;
+}
+
+bool NuAILink_BoardLedBpwmSet(uint32_t duty_percent)
+{
+    uint32_t bpwm_duty_percent;
+
+    if (duty_percent > 100U)
+    {
+        return false;
+    }
+
+    s_heartbeat_enabled = false;
+    prvEnsureLedBpwmClockReady();
+    prvSwitchPc14ToBpwmMode();
+
+    /* PC14 LED is active-low; convert user brightness to BPWM high-duty. */
+    bpwm_duty_percent = 100U - duty_percent;
+
+    (void)BPWM_ConfigOutputChannel(NUALINK_LED_BPWM,
+                                   NUALINK_LED_BPWM_CHANNEL,
+                                   NUALINK_LED_BPWM_FREQ_HZ,
+                                   bpwm_duty_percent);
+    BPWM_EnableOutput(NUALINK_LED_BPWM, NUALINK_LED_BPWM_CHANNEL_MASK);
+    BPWM_Start(NUALINK_LED_BPWM, NUALINK_LED_BPWM_CHANNEL_MASK);
+
+    s_led_bpwm_active = true;
+    s_led_bpwm_duty_percent = duty_percent;
+    s_led_on = (duty_percent > 0U);
+    return true;
+}
+
+void NuAILink_BoardLedUseGpio(void)
+{
+    if (s_led_bpwm_active)
+    {
+        BPWM_Stop(NUALINK_LED_BPWM, NUALINK_LED_BPWM_CHANNEL_MASK);
+        BPWM_DisableOutput(NUALINK_LED_BPWM, NUALINK_LED_BPWM_CHANNEL_MASK);
+    }
+
+    prvSwitchPc14ToGpioMode();
+    s_led_bpwm_active = false;
 }
 
 void NuAILink_BoardEnableHeartbeat(bool enabled)
@@ -176,6 +254,16 @@ void NuAILink_BoardHeartbeatToggle(void)
 bool NuAILink_BoardIsLedOn(void)
 {
     return s_led_on;
+}
+
+bool NuAILink_BoardIsLedBpwmActive(void)
+{
+    return s_led_bpwm_active;
+}
+
+uint32_t NuAILink_BoardGetLedBpwmDutyPercent(void)
+{
+    return s_led_bpwm_duty_percent;
 }
 
 uint32_t NuAILink_BoardGetCoreClockHz(void)
@@ -283,6 +371,14 @@ bool NuAILink_BoardGpioWrite(char port_letter, uint32_t pin, uint32_t value)
         {
             return false;
         }
+    }
+
+    /* If host drives PC14 as plain GPIO while LED BPWM mode is active,
+     * transparently hand ownership back to GPIO first. */
+    if (((port_letter == 'C') || (port_letter == 'c')) && (pin == 14U))
+    {
+        NuAILink_BoardLedUseGpio();
+        s_led_bpwm_duty_percent = value ? 100U : 0U;
     }
 
     GPIO_SetMode(port, (1UL << pin), GPIO_MODE_OUTPUT);

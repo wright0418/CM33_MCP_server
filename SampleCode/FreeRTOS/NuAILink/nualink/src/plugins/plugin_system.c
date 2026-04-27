@@ -53,6 +53,12 @@ static int32_t prvSystemInfoCallback(const cJSON *arguments, cJSON *result, void
     (void)cJSON_AddNumberToObject(structured, "usbRxDropCount", (double)NuAILink_TransportGetRxDropCount());
     (void)cJSON_AddBoolToObject(structured, "usbAttached", NuAILink_TransportIsAttached() ? 1 : 0);
     (void)cJSON_AddBoolToObject(structured, "ledOn", NuAILink_BoardIsLedOn() ? 1 : 0);
+    (void)cJSON_AddStringToObject(structured,
+                                  "ledMode",
+                                  NuAILink_BoardIsLedBpwmActive() ? "bpwm" : "gpio");
+    (void)cJSON_AddNumberToObject(structured,
+                                  "ledDutyPercent",
+                                  (double)NuAILink_BoardGetLedBpwmDutyPercent());
 
     (void)cJSON_AddItemToObject(result, "content", content);
     (void)cJSON_AddItemToObject(result, "structuredContent", structured);

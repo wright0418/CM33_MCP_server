@@ -84,6 +84,8 @@ def main() -> int:
                         default=80, help="Ping stress count")
     parser.add_argument("--skip-led", action="store_true",
                         help="Skip led.set on/off checks")
+    parser.add_argument("--check-led-bpwm", action="store_true",
+                        help="Also verify led.bpwm.set duty command")
     args = parser.parse_args()
 
     serial = _load_serial_module()
@@ -138,6 +140,32 @@ def main() -> int:
                             "params": {"name": "led.set", "arguments": {"on": False}},
                         },
                         6,
+                    ),
+                ]
+            )
+
+        if args.check_led_bpwm:
+            smoke_requests.extend(
+                [
+                    (
+                        "led.bpwm.set 35",
+                        {
+                            "jsonrpc": "2.0",
+                            "id": 7,
+                            "method": "tools/call",
+                            "params": {"name": "led.bpwm.set", "arguments": {"duty": 35}},
+                        },
+                        7,
+                    ),
+                    (
+                        "led.set off (gpio restore)",
+                        {
+                            "jsonrpc": "2.0",
+                            "id": 8,
+                            "method": "tools/call",
+                            "params": {"name": "led.set", "arguments": {"on": False}},
+                        },
+                        8,
                     ),
                 ]
             )

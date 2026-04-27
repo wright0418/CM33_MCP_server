@@ -5,6 +5,7 @@
 
 extern const mcp_tool_t gNuAILinkSystemInfoTool;
 extern const mcp_tool_t gNuAILinkLedSetTool;
+extern const mcp_tool_t gNuAILinkLedBpwmSetTool;
 extern const mcp_tool_t gNuAILinkGpioReadTool;
 extern const mcp_tool_t gNuAILinkGpioWriteTool;
 extern const mcp_tool_t gNuAILinkButtonReadTool;
@@ -13,6 +14,7 @@ static const mcp_tool_t *const s_tools[] =
     {
         &gNuAILinkSystemInfoTool,
         &gNuAILinkLedSetTool,
+        &gNuAILinkLedBpwmSetTool,
         &gNuAILinkGpioReadTool,
         &gNuAILinkGpioWriteTool,
         &gNuAILinkButtonReadTool};

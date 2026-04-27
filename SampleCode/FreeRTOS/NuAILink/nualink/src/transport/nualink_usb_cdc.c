@@ -537,18 +537,21 @@ int32_t NuAILink_TransportWrite(const uint8_t *data, uint32_t length, TickType_t
             chunk_length = s_bulk_in_max_packet;
         }
 
+        /* Reset EPA FIFO write pointer before filling this chunk, otherwise
+         * residual bytes from the previous transfer can be shifted into the
+         * next frame (observed as leading/trailing newline drift). */
+        HSUSBD->EP[EPA].EPRSPCTL = HSUSBD_EPRSPCTL_FLUSH_Msk;
+
         for(index = 0U; index < chunk_length; index++)
         {
             HSUSBD->EP[EPA].EPDAT_BYTE = data[offset + index];
         }
 
         s_tx_busy = 1U;
-        /* Clear any stale IN-token flag before enabling the IRQ; otherwise a
-         * pending INTKIF (left over from a host IN that was NAK'd while we
-         * were preparing this chunk) would fire the IRQ immediately, clear
-         * s_tx_busy prematurely, and let the next chunk overwrite the FIFO
-         * before the current chunk has actually been transmitted. */
-        HSUSBD_CLR_EP_INT_FLAG(EPA, HSUSBD_EPINTSTS_INTKIF_Msk);
+        /* Gate chunk sequencing with TXPKIF (packet transmitted), not INTKIF
+         * (IN token seen). INTKIF can arrive before the packet physically
+         * completes, which allows premature FIFO overwrite on long responses. */
+        HSUSBD_CLR_EP_INT_FLAG(EPA, HSUSBD_EPINTSTS_TXPKIF_Msk | HSUSBD_EPINTSTS_INTKIF_Msk);
         /* Only request "transmit short packet immediately" on the final
          * (possibly short) chunk — setting it on full-size packets makes the
          * controller commit transfers before we have finished filling the
@@ -557,8 +560,12 @@ int32_t NuAILink_TransportWrite(const uint8_t *data, uint32_t length, TickType_t
         {
             HSUSBD->EP[EPA].EPRSPCTL = HSUSBD_EP_RSPCTL_SHORTTXEN;
         }
+        else
+        {
+            HSUSBD->EP[EPA].EPRSPCTL = 0U;
+        }
         HSUSBD->EP[EPA].EPTXCNT = chunk_length;
-        HSUSBD_ENABLE_EP_INT(EPA, HSUSBD_EPINTEN_INTKIEN_Msk);
+        HSUSBD_ENABLE_EP_INT(EPA, HSUSBD_EPINTEN_TXPKIEN_Msk);
         offset += chunk_length;
     }
 

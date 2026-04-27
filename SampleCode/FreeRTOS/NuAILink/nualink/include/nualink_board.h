@@ -6,9 +6,13 @@
 
 void NuAILink_BoardInit(void);
 void NuAILink_BoardSetLed(bool on);
+bool NuAILink_BoardLedBpwmSet(uint32_t duty_percent);
+void NuAILink_BoardLedUseGpio(void);
 void NuAILink_BoardEnableHeartbeat(bool enabled);
 void NuAILink_BoardHeartbeatToggle(void);
 bool NuAILink_BoardIsLedOn(void);
+bool NuAILink_BoardIsLedBpwmActive(void);
+uint32_t NuAILink_BoardGetLedBpwmDutyPercent(void);
 uint32_t NuAILink_BoardGetCoreClockHz(void);
 
 /* Phase 2.1: PB14 button + generic GPIO read/write helpers. */
