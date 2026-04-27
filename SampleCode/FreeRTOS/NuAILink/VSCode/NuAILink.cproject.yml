@@ -79,6 +79,7 @@ project:
         - file: ../nualink/src/plugins/plugin_system.c
         - file: ../nualink/src/plugins/plugin_led_gpio.c
         - file: ../nualink/src/plugins/plugin_gpio.c
+        - file: ../nualink/src/plugins/plugin_eadc.c
     - group: FreeRTOS files
       files:
         - file: ../../../../ThirdParty/FreeRTOS/tasks.c

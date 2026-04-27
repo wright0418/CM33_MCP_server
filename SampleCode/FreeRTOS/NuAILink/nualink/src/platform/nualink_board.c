@@ -13,12 +13,20 @@ static volatile bool s_heartbeat_enabled = true;
 static volatile bool s_led_bpwm_active = false;
 static volatile uint32_t s_led_bpwm_duty_percent = 0U;
 static bool s_led_bpwm_clock_ready = false;
+static bool s_eadc_clock_ready = false;
+static bool s_eadc_pin_ready = false;
+static bool s_eadc_opened = false;
 
 #define NUALINK_LED_BPWM_MODULE BPWM2_MODULE
 #define NUALINK_LED_BPWM BPWM2
 #define NUALINK_LED_BPWM_CHANNEL 0U
 #define NUALINK_LED_BPWM_CHANNEL_MASK BPWM_CH_0_MASK
 #define NUALINK_LED_BPWM_FREQ_HZ 2000U
+
+#define NUALINK_EADC_MODULE EADC0_MODULE
+#define NUALINK_EADC_SAMPLE_MODULE 0U
+#define NUALINK_EADC_VREF_MV 3300U
+#define NUALINK_EADC_MAX_CODE 4095U
 
 /* Phase 2.1: PB14 button state + debounce. */
 #define NUALINK_BUTTON_DEBOUNCE_MS 30U
@@ -58,6 +66,55 @@ static void prvEnsureLedBpwmClockReady(void)
         CLK_EnableModuleClock(NUALINK_LED_BPWM_MODULE);
         s_led_bpwm_clock_ready = true;
     }
+}
+
+static void prvEnsureEadcClockReady(void)
+{
+    if (!s_eadc_clock_ready)
+    {
+        CLK_SetModuleClock(NUALINK_EADC_MODULE,
+                           CLK_CLKSEL0_EADC0SEL_PLL_DIV2,
+                           CLK_CLKDIV0_EADC0(12));
+        CLK_EnableModuleClock(NUALINK_EADC_MODULE);
+        s_eadc_clock_ready = true;
+    }
+}
+
+static void prvEnsureEadcPinReady(void)
+{
+    if (!s_eadc_pin_ready)
+    {
+        SYS_UnlockReg();
+        CLK->AHBCLK0 |= CLK_AHBCLK0_GPBCKEN_Msk;
+        SET_EADC0_CH8_PB8();
+        SET_EADC0_CH9_PB9();
+        SYS_LockReg();
+
+        /* Analog input pins should disable digital path to reduce leakage. */
+        GPIO_DISABLE_DIGITAL_PATH(PB, BIT8 | BIT9);
+        s_eadc_pin_ready = true;
+    }
+}
+
+static bool prvEnsureEadcReady(void)
+{
+    int32_t status;
+
+    prvEnsureEadcClockReady();
+    prvEnsureEadcPinReady();
+
+    if (!s_eadc_opened)
+    {
+        status = EADC_Open(EADC0, EADC_CTL_DIFFEN_SINGLE_END);
+        if (status != 0)
+        {
+            return false;
+        }
+        EADC_CLR_INT_FLAG(EADC0, EADC_STATUS2_ADIF0_Msk);
+        s_eadc_opened = true;
+    }
+
+    return true;
 }
 
 #if (NUALINK_ENABLE_BOOT_DIAGNOSTICS == 1)
@@ -269,6 +326,47 @@ uint32_t NuAILink_BoardGetLedBpwmDutyPercent(void)
 uint32_t NuAILink_BoardGetCoreClockHz(void)
 {
     return SystemCoreClock;
+}
+
+bool NuAILink_BoardEadcRead(uint32_t channel, uint32_t *out_raw, uint32_t *out_millivolt)
+{
+    uint32_t timeout;
+    uint32_t raw;
+
+    if ((out_raw == NULL) || (out_millivolt == NULL))
+    {
+        return false;
+    }
+    if ((channel != 8U) && (channel != 9U))
+    {
+        return false;
+    }
+    if (!prvEnsureEadcReady())
+    {
+        return false;
+    }
+
+    EADC_ConfigSampleModule(EADC0,
+                            NUALINK_EADC_SAMPLE_MODULE,
+                            EADC_SOFTWARE_TRIGGER,
+                            channel);
+    EADC_CLR_INT_FLAG(EADC0, EADC_STATUS2_ADIF0_Msk);
+    EADC_START_CONV(EADC0, BIT0);
+
+    timeout = SystemCoreClock / 100U; /* ~10 ms timeout at current HCLK. */
+    while (EADC_GET_DATA_VALID_FLAG(EADC0, BIT0) == 0U)
+    {
+        if (timeout == 0U)
+        {
+            return false;
+        }
+        timeout--;
+    }
+
+    raw = EADC_GET_CONV_DATA(EADC0, NUALINK_EADC_SAMPLE_MODULE) & 0xFFFU;
+    *out_raw = raw;
+    *out_millivolt = ((raw * NUALINK_EADC_VREF_MV) + (NUALINK_EADC_MAX_CODE / 2U)) / NUALINK_EADC_MAX_CODE;
+    return true;
 }
 
 /*-----------------------------------------------------------*/

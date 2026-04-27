@@ -86,6 +86,8 @@ def main() -> int:
                         help="Skip led.set on/off checks")
     parser.add_argument("--check-led-bpwm", action="store_true",
                         help="Also verify led.bpwm.set duty command")
+    parser.add_argument("--check-eadc", action="store_true",
+                        help="Also verify eadc.read for channels 8 and 9")
     args = parser.parse_args()
 
     serial = _load_serial_module()
@@ -166,6 +168,32 @@ def main() -> int:
                             "params": {"name": "led.set", "arguments": {"on": False}},
                         },
                         8,
+                    ),
+                ]
+            )
+
+        if args.check_eadc:
+            smoke_requests.extend(
+                [
+                    (
+                        "eadc.read ch8",
+                        {
+                            "jsonrpc": "2.0",
+                            "id": 9,
+                            "method": "tools/call",
+                            "params": {"name": "eadc.read", "arguments": {"channel": 8}},
+                        },
+                        9,
+                    ),
+                    (
+                        "eadc.read ch9",
+                        {
+                            "jsonrpc": "2.0",
+                            "id": 10,
+                            "method": "tools/call",
+                            "params": {"name": "eadc.read", "arguments": {"channel": 9}},
+                        },
+                        10,
                     ),
                 ]
             )
