@@ -17,6 +17,9 @@
 #include "nualink_log.h"
 #include "nualink_transport.h"
 
+/* Implemented by plugin_llsi.c: advances MCU-side LLSI autoplay frames when due. */
+void NuAILink_LlsiAutoplayProcess(void);
+
 typedef struct
 {
     uint32_t length;
@@ -244,6 +247,8 @@ static void prvUsbCommTask(void *parameters)
                 }
             }
         }
+
+        NuAILink_LlsiAutoplayProcess();
 
         vTaskDelay(pdMS_TO_TICKS(1U));
     }

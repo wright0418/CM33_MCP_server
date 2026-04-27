@@ -255,6 +255,56 @@ def main() -> int:
                         },
                         14,
                     ),
+                    (
+                        "llsi.autoplay start",
+                        {
+                            "jsonrpc": "2.0",
+                            "id": 15,
+                            "method": "tools/call",
+                            "params": {
+                                "name": "llsi.autoplay",
+                                "arguments": {
+                                    "action": "start",
+                                    "pattern": "rainbow",
+                                    "count": 10,
+                                    "phase": 0,
+                                    "step": 3,
+                                    "interval_ms": 60,
+                                },
+                            },
+                        },
+                        15,
+                    ),
+                    (
+                        "llsi.autoplay status",
+                        {
+                            "jsonrpc": "2.0",
+                            "id": 16,
+                            "method": "tools/call",
+                            "params": {
+                                "name": "llsi.autoplay",
+                                "arguments": {
+                                    "action": "status",
+                                },
+                            },
+                        },
+                        16,
+                    ),
+                    (
+                        "llsi.autoplay stop",
+                        {
+                            "jsonrpc": "2.0",
+                            "id": 17,
+                            "method": "tools/call",
+                            "params": {
+                                "name": "llsi.autoplay",
+                                "arguments": {
+                                    "action": "stop",
+                                },
+                            },
+                        },
+                        17,
+                    ),
                 ]
             )
 

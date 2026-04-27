@@ -12,15 +12,23 @@
 #include <string.h>
 
 #include "cJSON.h"
+#include "FreeRTOS.h"
 #include "nualink_board.h"
+#include "task.h"
 
 #define NUALINK_LLSI_DEFAULT_COUNT 10U
 #define NUALINK_LLSI_MAX_COUNT 10U
 #define NUALINK_LLSI_DEFAULT_PHASE 0U
+#define NUALINK_LLSI_DEFAULT_STEP 1U
+#define NUALINK_LLSI_DEFAULT_INTERVAL_MS 50U
 #define NUALINK_LLSI_DEFAULT_RED 255U
 #define NUALINK_LLSI_DEFAULT_GREEN 0U
 #define NUALINK_LLSI_DEFAULT_BLUE 0U
+#define NUALINK_LLSI_DEFAULT_PATTERN "rainbow"
 #define NUALINK_LLSI_MAX_PHASE 4095U
+#define NUALINK_LLSI_MAX_STEP NUALINK_LLSI_MAX_PHASE
+#define NUALINK_LLSI_MIN_INTERVAL_MS 10U
+#define NUALINK_LLSI_MAX_INTERVAL_MS 5000U
 
 static const char s_llsi_fill_schema[] =
     "{\"type\":\"object\",\"properties\":{"
@@ -39,6 +47,58 @@ static const char s_llsi_pattern_schema[] =
     "\"g\":{\"type\":\"integer\",\"minimum\":0,\"maximum\":255},"
     "\"b\":{\"type\":\"integer\",\"minimum\":0,\"maximum\":255}"
     "},\"required\":[\"pattern\"],\"additionalProperties\":false}";
+
+static const char s_llsi_autoplay_schema[] =
+    "{\"type\":\"object\",\"properties\":{"
+    "\"action\":{\"type\":\"string\",\"enum\":[\"start\",\"stop\",\"status\"]},"
+    "\"pattern\":{\"type\":\"string\",\"enum\":[\"off\",\"solid\",\"chase\",\"gradient\",\"rainbow\"]},"
+    "\"count\":{\"type\":\"integer\",\"minimum\":1,\"maximum\":10},"
+    "\"phase\":{\"type\":\"integer\",\"minimum\":0,\"maximum\":4095},"
+    "\"step\":{\"type\":\"integer\",\"minimum\":1,\"maximum\":4095},"
+    "\"interval_ms\":{\"type\":\"integer\",\"minimum\":10,\"maximum\":5000},"
+    "\"r\":{\"type\":\"integer\",\"minimum\":0,\"maximum\":255},"
+    "\"g\":{\"type\":\"integer\",\"minimum\":0,\"maximum\":255},"
+    "\"b\":{\"type\":\"integer\",\"minimum\":0,\"maximum\":255}"
+    "},\"required\":[\"action\"],\"additionalProperties\":false}";
+
+typedef struct
+{
+    bool enabled;
+    char pattern[16];
+    uint32_t count;
+    uint32_t phase;
+    uint32_t step;
+    uint32_t interval_ms;
+    uint32_t red;
+    uint32_t green;
+    uint32_t blue;
+    TickType_t next_tick;
+} nualink_llsi_autoplay_state_t;
+
+static nualink_llsi_autoplay_state_t s_llsi_autoplay =
+    {
+        false,
+        NUALINK_LLSI_DEFAULT_PATTERN,
+        NUALINK_LLSI_DEFAULT_COUNT,
+        NUALINK_LLSI_DEFAULT_PHASE,
+        NUALINK_LLSI_DEFAULT_STEP,
+        NUALINK_LLSI_DEFAULT_INTERVAL_MS,
+        NUALINK_LLSI_DEFAULT_RED,
+        NUALINK_LLSI_DEFAULT_GREEN,
+        NUALINK_LLSI_DEFAULT_BLUE,
+        0U};
+
+static TickType_t prvMsToTicksMin1(uint32_t interval_ms)
+{
+    TickType_t ticks = pdMS_TO_TICKS(interval_ms);
+
+    if (ticks == 0U)
+    {
+        ticks = 1U;
+    }
+
+    return ticks;
+}
 
 static bool prvGetU32InRange(const cJSON *obj,
                              const char *key,
@@ -183,6 +243,81 @@ static void prvBuildPatternFrame(const char *pattern,
         frame[i * 3U + 1U] = g8;
         frame[i * 3U + 2U] = b8;
     }
+}
+
+static bool prvRenderAutoplayFrameAndAdvance(void)
+{
+    uint8_t frame[NUALINK_LLSI_MAX_COUNT * 3U];
+
+    prvBuildPatternFrame(s_llsi_autoplay.pattern,
+                         frame,
+                         s_llsi_autoplay.count,
+                         s_llsi_autoplay.phase,
+                         s_llsi_autoplay.red,
+                         s_llsi_autoplay.green,
+                         s_llsi_autoplay.blue);
+
+    if (!NuAILink_BoardLlsiWritePixels(frame, s_llsi_autoplay.count))
+    {
+        return false;
+    }
+
+    s_llsi_autoplay.phase = (s_llsi_autoplay.phase + s_llsi_autoplay.step) & NUALINK_LLSI_MAX_PHASE;
+    return true;
+}
+
+static int32_t prvBuildAutoplayResult(cJSON *result, const char *action)
+{
+    cJSON *content;
+    cJSON *text_item;
+    cJSON *structured;
+    char message[160];
+
+    content = cJSON_CreateArray();
+    text_item = cJSON_CreateObject();
+    structured = cJSON_CreateObject();
+    if ((content == NULL) || (text_item == NULL) || (structured == NULL))
+    {
+        cJSON_Delete(content);
+        cJSON_Delete(text_item);
+        cJSON_Delete(structured);
+        return MCP_STATUS_INTERNAL_ERROR;
+    }
+
+    (void)snprintf(message,
+                   sizeof(message),
+                   "LLSI autoplay %s: running=%lu pattern=%s count=%lu phase=%lu step=%lu interval_ms=%lu rgb=(%lu,%lu,%lu)",
+                   action,
+                   (unsigned long)(s_llsi_autoplay.enabled ? 1U : 0U),
+                   s_llsi_autoplay.pattern,
+                   (unsigned long)s_llsi_autoplay.count,
+                   (unsigned long)s_llsi_autoplay.phase,
+                   (unsigned long)s_llsi_autoplay.step,
+                   (unsigned long)s_llsi_autoplay.interval_ms,
+                   (unsigned long)s_llsi_autoplay.red,
+                   (unsigned long)s_llsi_autoplay.green,
+                   (unsigned long)s_llsi_autoplay.blue);
+
+    (void)cJSON_AddStringToObject(text_item, "type", "text");
+    (void)cJSON_AddStringToObject(text_item, "text", message);
+    (void)cJSON_AddItemToArray(content, text_item);
+
+    (void)cJSON_AddStringToObject(structured, "pin", "PB15");
+    (void)cJSON_AddStringToObject(structured, "action", action);
+    (void)cJSON_AddBoolToObject(structured, "running", s_llsi_autoplay.enabled ? 1 : 0);
+    (void)cJSON_AddStringToObject(structured, "pattern", s_llsi_autoplay.pattern);
+    (void)cJSON_AddNumberToObject(structured, "count", (double)s_llsi_autoplay.count);
+    (void)cJSON_AddNumberToObject(structured, "phase", (double)s_llsi_autoplay.phase);
+    (void)cJSON_AddNumberToObject(structured, "step", (double)s_llsi_autoplay.step);
+    (void)cJSON_AddNumberToObject(structured, "interval_ms", (double)s_llsi_autoplay.interval_ms);
+    (void)cJSON_AddNumberToObject(structured, "r", (double)s_llsi_autoplay.red);
+    (void)cJSON_AddNumberToObject(structured, "g", (double)s_llsi_autoplay.green);
+    (void)cJSON_AddNumberToObject(structured, "b", (double)s_llsi_autoplay.blue);
+
+    (void)cJSON_AddItemToObject(result, "content", content);
+    (void)cJSON_AddItemToObject(result, "structuredContent", structured);
+    (void)cJSON_AddBoolToObject(result, "isError", 0);
+    return MCP_STATUS_OK;
 }
 
 static int32_t prvLlsiFillCallback(const cJSON *arguments, cJSON *result, void *context)
@@ -340,6 +475,118 @@ static int32_t prvLlsiPatternCallback(const cJSON *arguments, cJSON *result, voi
     return MCP_STATUS_OK;
 }
 
+static int32_t prvLlsiAutoplayCallback(const cJSON *arguments, cJSON *result, void *context)
+{
+    const cJSON *action_item;
+    const cJSON *pattern_item;
+    const char *action;
+    const char *pattern = NUALINK_LLSI_DEFAULT_PATTERN;
+    uint32_t red = NUALINK_LLSI_DEFAULT_RED;
+    uint32_t green = NUALINK_LLSI_DEFAULT_GREEN;
+    uint32_t blue = NUALINK_LLSI_DEFAULT_BLUE;
+    uint32_t count = NUALINK_LLSI_DEFAULT_COUNT;
+    uint32_t phase = NUALINK_LLSI_DEFAULT_PHASE;
+    uint32_t step = NUALINK_LLSI_DEFAULT_STEP;
+    uint32_t interval_ms = NUALINK_LLSI_DEFAULT_INTERVAL_MS;
+
+    (void)context;
+
+    if ((arguments == NULL) || !cJSON_IsObject(arguments))
+    {
+        return MCP_STATUS_INVALID_PARAMS;
+    }
+
+    action_item = cJSON_GetObjectItemCaseSensitive(arguments, "action");
+    if ((action_item == NULL) || !cJSON_IsString(action_item) || (action_item->valuestring == NULL))
+    {
+        return MCP_STATUS_INVALID_PARAMS;
+    }
+    action = action_item->valuestring;
+
+    if (strcmp(action, "start") == 0)
+    {
+        pattern_item = cJSON_GetObjectItemCaseSensitive(arguments, "pattern");
+        if (pattern_item != NULL)
+        {
+            if (!cJSON_IsString(pattern_item) || (pattern_item->valuestring == NULL))
+            {
+                return MCP_STATUS_INVALID_PARAMS;
+            }
+            pattern = pattern_item->valuestring;
+        }
+
+        if (!prvIsSupportedPattern(pattern) ||
+            !prvGetU32InRange(arguments, "count", 1U, NUALINK_LLSI_MAX_COUNT, &count, false) ||
+            !prvGetU32InRange(arguments, "phase", 0U, NUALINK_LLSI_MAX_PHASE, &phase, false) ||
+            !prvGetU32InRange(arguments, "step", 1U, NUALINK_LLSI_MAX_STEP, &step, false) ||
+            !prvGetU32InRange(arguments,
+                              "interval_ms",
+                              NUALINK_LLSI_MIN_INTERVAL_MS,
+                              NUALINK_LLSI_MAX_INTERVAL_MS,
+                              &interval_ms,
+                              false) ||
+            !prvGetU32InRange(arguments, "r", 0U, 255U, &red, false) ||
+            !prvGetU32InRange(arguments, "g", 0U, 255U, &green, false) ||
+            !prvGetU32InRange(arguments, "b", 0U, 255U, &blue, false))
+        {
+            return MCP_STATUS_INVALID_PARAMS;
+        }
+
+        (void)strncpy(s_llsi_autoplay.pattern, pattern, sizeof(s_llsi_autoplay.pattern) - 1U);
+        s_llsi_autoplay.pattern[sizeof(s_llsi_autoplay.pattern) - 1U] = '\0';
+        s_llsi_autoplay.count = count;
+        s_llsi_autoplay.phase = phase;
+        s_llsi_autoplay.step = step;
+        s_llsi_autoplay.interval_ms = interval_ms;
+        s_llsi_autoplay.red = red;
+        s_llsi_autoplay.green = green;
+        s_llsi_autoplay.blue = blue;
+        s_llsi_autoplay.enabled = true;
+
+        if (!prvRenderAutoplayFrameAndAdvance())
+        {
+            s_llsi_autoplay.enabled = false;
+            return MCP_STATUS_INTERNAL_ERROR;
+        }
+
+        s_llsi_autoplay.next_tick = xTaskGetTickCount() + prvMsToTicksMin1(s_llsi_autoplay.interval_ms);
+    }
+    else if (strcmp(action, "stop") == 0)
+    {
+        s_llsi_autoplay.enabled = false;
+    }
+    else if (strcmp(action, "status") != 0)
+    {
+        return MCP_STATUS_INVALID_PARAMS;
+    }
+
+    return prvBuildAutoplayResult(result, action);
+}
+
+void NuAILink_LlsiAutoplayProcess(void)
+{
+    TickType_t now;
+
+    if (!s_llsi_autoplay.enabled)
+    {
+        return;
+    }
+
+    now = xTaskGetTickCount();
+    if ((int32_t)(now - s_llsi_autoplay.next_tick) < 0)
+    {
+        return;
+    }
+
+    if (!prvRenderAutoplayFrameAndAdvance())
+    {
+        s_llsi_autoplay.enabled = false;
+        return;
+    }
+
+    s_llsi_autoplay.next_tick = now + prvMsToTicksMin1(s_llsi_autoplay.interval_ms);
+}
+
 const mcp_tool_t gNuAILinkLlsiFillTool =
     {
         "llsi.fill",
@@ -354,4 +601,12 @@ const mcp_tool_t gNuAILinkLlsiPatternTool =
         "Render one pattern frame on LLSI0(PB15) for animation stepping.",
         s_llsi_pattern_schema,
         prvLlsiPatternCallback,
+        NULL};
+
+const mcp_tool_t gNuAILinkLlsiAutoplayTool =
+    {
+        "llsi.autoplay",
+        "Control autonomous LLSI0(PB15) pattern playback (start/stop/status).",
+        s_llsi_autoplay_schema,
+        prvLlsiAutoplayCallback,
         NULL};
