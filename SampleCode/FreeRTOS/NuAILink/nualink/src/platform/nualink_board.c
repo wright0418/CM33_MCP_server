@@ -185,6 +185,78 @@ static bool prvEnsureLlsiReady(uint32_t pixel_count)
     return true;
 }
 
+static bool prvLlsiTransmitPixels(const uint8_t *rgb_data, uint32_t pixel_count)
+{
+    uint32_t tx_words[(NUALINK_LLSI_MAX_PIXELS * 3U + 3U) / 4U];
+    uint32_t total_bytes;
+    uint32_t word_count;
+    uint32_t word_index;
+    uint32_t byte_index;
+    uint32_t timeout;
+
+    if ((rgb_data == NULL) || !prvEnsureLlsiReady(pixel_count))
+    {
+        return false;
+    }
+
+    total_bytes = pixel_count * 3U;
+    word_count = (total_bytes + 3U) / 4U;
+    for (word_index = 0U; word_index < word_count; word_index++)
+    {
+        uint32_t word = 0U;
+
+        for (byte_index = 0U; byte_index < 4U; byte_index++)
+        {
+            uint32_t src_index = word_index * 4U + byte_index;
+            if (src_index < total_bytes)
+            {
+                word |= ((uint32_t)rgb_data[src_index]) << (byte_index * 8U);
+            }
+        }
+        tx_words[word_index] = word;
+    }
+
+    LLSI_ClearIntFlag(NUALINK_LLSI, LLSI_UNDFL_INT_MASK | LLSI_FEND_INT_MASK | LLSI_RSTC_INT_MASK);
+
+    for (word_index = 0U; word_index < word_count; word_index++)
+    {
+        timeout = NUALINK_LLSI_TX_FIFO_TIMEOUT_LOOPS;
+        while (LLSI_GET_TX_FIFO_FULL_FLAG(NUALINK_LLSI) != 0U)
+        {
+            if (timeout == 0U)
+            {
+                return false;
+            }
+            timeout--;
+        }
+
+        if (word_index == (word_count - 1U))
+        {
+            LLSI_SET_LAST_DATA(NUALINK_LLSI);
+        }
+        LLSI_WRITE_DATA(NUALINK_LLSI, tx_words[word_index]);
+    }
+
+    timeout = NUALINK_LLSI_TX_FIFO_TIMEOUT_LOOPS;
+    while (LLSI_GetIntFlag(NUALINK_LLSI, LLSI_FEND_INT_MASK) == 0U)
+    {
+        if (LLSI_GetIntFlag(NUALINK_LLSI, LLSI_UNDFL_INT_MASK) != 0U)
+        {
+            LLSI_ClearIntFlag(NUALINK_LLSI, LLSI_UNDFL_INT_MASK);
+            return false;
+        }
+
+        if (timeout == 0U)
+        {
+            return false;
+        }
+        timeout--;
+    }
+
+    LLSI_ClearIntFlag(NUALINK_LLSI, LLSI_FEND_INT_MASK);
+    return true;
+}
+
 #if (NUALINK_ENABLE_BOOT_DIAGNOSTICS == 1)
 /* Diagnostic helpers (only used by NuAILink_BoardInit). */
 static void prvDiagDelay(volatile uint32_t loops)
@@ -440,24 +512,13 @@ bool NuAILink_BoardEadcRead(uint32_t channel, uint32_t *out_raw, uint32_t *out_m
 bool NuAILink_BoardLlsiFill(uint32_t red, uint32_t green, uint32_t blue, uint32_t pixel_count)
 {
     uint8_t tx_bytes[NUALINK_LLSI_MAX_PIXELS * 3U];
-    uint32_t tx_words[(NUALINK_LLSI_MAX_PIXELS * 3U + 3U) / 4U];
-    uint32_t total_bytes;
-    uint32_t word_count;
     uint32_t pixel_index;
-    uint32_t word_index;
-    uint32_t byte_index;
-    uint32_t timeout;
 
     if ((red > 255U) || (green > 255U) || (blue > 255U))
     {
         return false;
     }
-    if (!prvEnsureLlsiReady(pixel_count))
-    {
-        return false;
-    }
 
-    total_bytes = pixel_count * 3U;
     for (pixel_index = 0U; pixel_index < pixel_count; pixel_index++)
     {
         tx_bytes[pixel_index * 3U + 0U] = (uint8_t)red;
@@ -465,61 +526,12 @@ bool NuAILink_BoardLlsiFill(uint32_t red, uint32_t green, uint32_t blue, uint32_
         tx_bytes[pixel_index * 3U + 2U] = (uint8_t)blue;
     }
 
-    word_count = (total_bytes + 3U) / 4U;
-    for (word_index = 0U; word_index < word_count; word_index++)
-    {
-        uint32_t word = 0U;
+    return prvLlsiTransmitPixels(tx_bytes, pixel_count);
+}
 
-        for (byte_index = 0U; byte_index < 4U; byte_index++)
-        {
-            uint32_t src_index = word_index * 4U + byte_index;
-            if (src_index < total_bytes)
-            {
-                word |= ((uint32_t)tx_bytes[src_index]) << (byte_index * 8U);
-            }
-        }
-        tx_words[word_index] = word;
-    }
-
-    LLSI_ClearIntFlag(NUALINK_LLSI, LLSI_UNDFL_INT_MASK | LLSI_FEND_INT_MASK | LLSI_RSTC_INT_MASK);
-
-    for (word_index = 0U; word_index < word_count; word_index++)
-    {
-        timeout = NUALINK_LLSI_TX_FIFO_TIMEOUT_LOOPS;
-        while (LLSI_GET_TX_FIFO_FULL_FLAG(NUALINK_LLSI) != 0U)
-        {
-            if (timeout == 0U)
-            {
-                return false;
-            }
-            timeout--;
-        }
-
-        if (word_index == (word_count - 1U))
-        {
-            LLSI_SET_LAST_DATA(NUALINK_LLSI);
-        }
-        LLSI_WRITE_DATA(NUALINK_LLSI, tx_words[word_index]);
-    }
-
-    timeout = NUALINK_LLSI_TX_FIFO_TIMEOUT_LOOPS;
-    while (LLSI_GetIntFlag(NUALINK_LLSI, LLSI_FEND_INT_MASK) == 0U)
-    {
-        if (LLSI_GetIntFlag(NUALINK_LLSI, LLSI_UNDFL_INT_MASK) != 0U)
-        {
-            LLSI_ClearIntFlag(NUALINK_LLSI, LLSI_UNDFL_INT_MASK);
-            return false;
-        }
-
-        if (timeout == 0U)
-        {
-            return false;
-        }
-        timeout--;
-    }
-
-    LLSI_ClearIntFlag(NUALINK_LLSI, LLSI_FEND_INT_MASK);
-    return true;
+bool NuAILink_BoardLlsiWritePixels(const uint8_t *rgb_data, uint32_t pixel_count)
+{
+    return prvLlsiTransmitPixels(rgb_data, pixel_count);
 }
 
 /*-----------------------------------------------------------*/

@@ -229,6 +229,32 @@ def main() -> int:
                         },
                         12,
                     ),
+                    (
+                        "llsi.pattern rainbow",
+                        {
+                            "jsonrpc": "2.0",
+                            "id": 13,
+                            "method": "tools/call",
+                            "params": {
+                                "name": "llsi.pattern",
+                                "arguments": {"pattern": "rainbow", "count": 10, "phase": 7},
+                            },
+                        },
+                        13,
+                    ),
+                    (
+                        "llsi.pattern off",
+                        {
+                            "jsonrpc": "2.0",
+                            "id": 14,
+                            "method": "tools/call",
+                            "params": {
+                                "name": "llsi.pattern",
+                                "arguments": {"pattern": "off", "count": 10},
+                            },
+                        },
+                        14,
+                    ),
                 ]
             )
 

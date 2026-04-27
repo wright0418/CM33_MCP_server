@@ -26,7 +26,7 @@ static cJSON *prvCreateInitializeResult(void)
     cJSON *tools = cJSON_CreateObject();
     cJSON *server_info = cJSON_CreateObject();
 
-    if((result == NULL) || (capabilities == NULL) || (tools == NULL) || (server_info == NULL))
+    if ((result == NULL) || (capabilities == NULL) || (tools == NULL) || (server_info == NULL))
     {
         cJSON_Delete(result);
         cJSON_Delete(capabilities);
@@ -49,7 +49,7 @@ static cJSON *prvCreatePingResult(void)
 {
     cJSON *result = cJSON_CreateObject();
 
-    if(result != NULL)
+    if (result != NULL)
     {
         (void)cJSON_AddStringToObject(result, "status", "ok");
         (void)cJSON_AddNumberToObject(result, "tick", (double)xTaskGetTickCount());
@@ -64,20 +64,20 @@ static cJSON *prvCreateToolsListResult(void)
     cJSON *tools_array = cJSON_CreateArray();
     uint32_t index;
 
-    if((result == NULL) || (tools_array == NULL))
+    if ((result == NULL) || (tools_array == NULL))
     {
         cJSON_Delete(result);
         cJSON_Delete(tools_array);
         return NULL;
     }
 
-    for(index = 0U; index < MCP_RegistryCount(); index++)
+    for (index = 0U; index < MCP_RegistryCount(); index++)
     {
         const mcp_tool_t *tool = MCP_RegistryGet(index);
         cJSON *tool_object = cJSON_CreateObject();
         cJSON *schema = NULL;
 
-        if((tool == NULL) || (tool_object == NULL))
+        if ((tool == NULL) || (tool_object == NULL))
         {
             cJSON_Delete(tool_object);
             cJSON_Delete(result);
@@ -87,7 +87,7 @@ static cJSON *prvCreateToolsListResult(void)
         (void)cJSON_AddStringToObject(tool_object, "name", tool->name);
         (void)cJSON_AddStringToObject(tool_object, "description", tool->description);
         schema = cJSON_CreateRaw(tool->input_schema_json);
-        if(schema == NULL)
+        if (schema == NULL)
         {
             cJSON_Delete(tool_object);
             cJSON_Delete(result);
@@ -109,37 +109,37 @@ static int32_t prvHandleToolCall(const cJSON *params, cJSON **result_out)
     cJSON *tool_result;
     int32_t status;
 
-    if((params == NULL) || !cJSON_IsObject(params))
+    if ((params == NULL) || !cJSON_IsObject(params))
     {
         return MCP_STATUS_INVALID_PARAMS;
     }
 
     name = cJSON_GetObjectItemCaseSensitive(params, "name");
     arguments = cJSON_GetObjectItemCaseSensitive(params, "arguments");
-    if((name == NULL) || !cJSON_IsString(name) || (name->valuestring == NULL))
+    if ((name == NULL) || !cJSON_IsString(name) || (name->valuestring == NULL))
     {
         return MCP_STATUS_INVALID_PARAMS;
     }
 
-    if((arguments != NULL) && !cJSON_IsObject(arguments))
+    if ((arguments != NULL) && !cJSON_IsObject(arguments))
     {
         return MCP_STATUS_INVALID_PARAMS;
     }
 
     tool = MCP_RegistryFind(name->valuestring);
-    if(tool == NULL)
+    if (tool == NULL)
     {
         return -32601;
     }
 
     tool_result = cJSON_CreateObject();
-    if(tool_result == NULL)
+    if (tool_result == NULL)
     {
         return MCP_STATUS_INTERNAL_ERROR;
     }
 
     status = tool->callback(arguments, tool_result, tool->context);
-    if(status != MCP_STATUS_OK)
+    if (status != MCP_STATUS_OK)
     {
         cJSON_Delete(tool_result);
         return status;
@@ -158,13 +158,13 @@ int32_t MCP_JSONRPC_Handle(const char *request, char *response, size_t response_
     cJSON *result = NULL;
     int32_t status = MCP_STATUS_OK;
 
-    if((request == NULL) || (response == NULL))
+    if ((request == NULL) || (response == NULL))
     {
         return -1;
     }
 
     root = cJSON_Parse(request);
-    if((root == NULL) || !cJSON_IsObject(root))
+    if ((root == NULL) || !cJSON_IsObject(root))
     {
         cJSON_Delete(root);
         return MCP_ResponseWriteError(response, response_size, NULL, -32700, "parse_error");
@@ -174,23 +174,23 @@ int32_t MCP_JSONRPC_Handle(const char *request, char *response, size_t response_
     has_response_id = prvHasResponseId(root);
     method = cJSON_GetObjectItemCaseSensitive(root, "method");
 
-    if((method == NULL) || !cJSON_IsString(method) || (method->valuestring == NULL))
+    if ((method == NULL) || !cJSON_IsString(method) || (method->valuestring == NULL))
     {
         status = -32600;
     }
-    else if(strcmp(method->valuestring, "initialize") == 0)
+    else if (strcmp(method->valuestring, "initialize") == 0)
     {
         result = prvCreateInitializeResult();
     }
-    else if(strcmp(method->valuestring, "ping") == 0)
+    else if (strcmp(method->valuestring, "ping") == 0)
     {
         result = prvCreatePingResult();
     }
-    else if(strcmp(method->valuestring, "tools/list") == 0)
+    else if (strcmp(method->valuestring, "tools/list") == 0)
     {
         result = prvCreateToolsListResult();
     }
-    else if(strcmp(method->valuestring, "tools/call") == 0)
+    else if (strcmp(method->valuestring, "tools/call") == 0)
     {
         const cJSON *params = cJSON_GetObjectItemCaseSensitive(root, "params");
         status = prvHandleToolCall(params, &result);
@@ -200,27 +200,27 @@ int32_t MCP_JSONRPC_Handle(const char *request, char *response, size_t response_
         status = -32601;
     }
 
-    if(!has_response_id && (status == MCP_STATUS_OK))
+    if (!has_response_id && (status == MCP_STATUS_OK))
     {
         cJSON_Delete(result);
         cJSON_Delete(root);
         return 0;
     }
 
-    if(status != MCP_STATUS_OK)
+    if (status != MCP_STATUS_OK)
     {
         const char *message = "internal_error";
         int32_t response_length;
 
-        if(status == -32600)
+        if (status == -32600)
         {
             message = "invalid_request";
         }
-        else if(status == -32601)
+        else if (status == -32601)
         {
             message = "method_not_found";
         }
-        else if(status == MCP_STATUS_INVALID_PARAMS)
+        else if (status == MCP_STATUS_INVALID_PARAMS)
         {
             message = "invalid_params";
         }
@@ -230,7 +230,7 @@ int32_t MCP_JSONRPC_Handle(const char *request, char *response, size_t response_
         return response_length;
     }
 
-    if(result == NULL)
+    if (result == NULL)
     {
         int32_t response_length;
 
@@ -240,7 +240,7 @@ int32_t MCP_JSONRPC_Handle(const char *request, char *response, size_t response_
     }
 
     status = MCP_ResponseWriteSuccess(response, response_size, id, result);
-    if(status < 0)
+    if (status < 0)
     {
         status = MCP_ResponseWriteError(response,
                                         response_size,

@@ -11,6 +11,7 @@ extern const mcp_tool_t gNuAILinkGpioWriteTool;
 extern const mcp_tool_t gNuAILinkButtonReadTool;
 extern const mcp_tool_t gNuAILinkEadcReadTool;
 extern const mcp_tool_t gNuAILinkLlsiFillTool;
+extern const mcp_tool_t gNuAILinkLlsiPatternTool;
 
 static const mcp_tool_t *const s_tools[] =
     {
@@ -21,7 +22,8 @@ static const mcp_tool_t *const s_tools[] =
         &gNuAILinkGpioWriteTool,
         &gNuAILinkButtonReadTool,
         &gNuAILinkEadcReadTool,
-        &gNuAILinkLlsiFillTool};
+        &gNuAILinkLlsiFillTool,
+        &gNuAILinkLlsiPatternTool};
 
 uint32_t MCP_RegistryCount(void)
 {
