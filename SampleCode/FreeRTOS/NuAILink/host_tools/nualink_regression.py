@@ -1,0 +1,174 @@
+#!/usr/bin/env python3
+"""NuAILink USB CDC one-click regression test.
+
+Coverage:
+- JSON-RPC handshake: initialize
+- Core method: ping
+- Tool discovery: tools/list
+- Tool execution: system.info, led.set on/off (optional)
+- Stress: ping loop with latency stats
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import statistics
+import sys
+import time
+from typing import Any
+
+
+def _load_serial_module() -> Any:
+    try:
+        import serial  # type: ignore[import-not-found]
+    except ImportError as exc:
+        raise SystemExit("pyserial is required: python -m pip install pyserial") from exc
+    return serial
+
+
+def _send_request(port: Any, request: dict[str, Any], timeout_s: float) -> tuple[dict[str, Any], float]:
+    payload = json.dumps(request, separators=(",", ":")).encode("utf-8") + b"\n"
+    t0 = time.monotonic()
+    deadline = t0 + timeout_s
+
+    port.write(payload)
+    port.flush()
+
+    while time.monotonic() < deadline:
+        line = port.readline()
+        if not line:
+            continue
+
+        text = line.decode("utf-8", errors="replace").strip()
+        if not text:
+            continue
+
+        response = json.loads(text)
+        return response, (time.monotonic() - t0)
+
+    raise TimeoutError(f"No response for method {request.get('method')}")
+
+
+def _expect_ok(response: dict[str, Any], expected_id: int, stage: str) -> None:
+    if not isinstance(response, dict):
+        raise AssertionError(f"[{stage}] response is not a JSON object")
+    if response.get("jsonrpc") != "2.0":
+        raise AssertionError(f"[{stage}] jsonrpc mismatch: {response!r}")
+    if response.get("id") != expected_id:
+        raise AssertionError(f"[{stage}] id mismatch: expected {expected_id}, got {response.get('id')}")
+    if "error" in response:
+        raise AssertionError(f"[{stage}] returned error: {response['error']}")
+
+
+def _p95(values: list[float]) -> float:
+    if not values:
+        return 0.0
+    sorted_values = sorted(values)
+    index = int(0.95 * (len(sorted_values) - 1))
+    return sorted_values[index]
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description="NuAILink USB CDC one-click regression")
+    parser.add_argument("port", help="Serial device, for example COM4")
+    parser.add_argument("--baud", type=int, default=115200, help="CDC baud metadata")
+    parser.add_argument("--timeout", type=float, default=2.0, help="Response timeout (seconds)")
+    parser.add_argument("--ping-count", type=int, default=80, help="Ping stress count")
+    parser.add_argument("--skip-led", action="store_true", help="Skip led.set on/off checks")
+    args = parser.parse_args()
+
+    serial = _load_serial_module()
+
+    print(f"[REG] port={args.port} baud={args.baud} timeout={args.timeout}s ping_count={args.ping_count}")
+
+    with serial.Serial(args.port, args.baud, timeout=0.1, write_timeout=args.timeout) as port:
+        port.setDTR(True)
+        port.setRTS(True)
+        time.sleep(0.30)
+        port.reset_input_buffer()
+        port.reset_output_buffer()
+
+        smoke_requests: list[tuple[str, dict[str, Any], int]] = [
+            ("initialize", {"jsonrpc": "2.0", "id": 1, "method": "initialize", "params": {}}, 1),
+            ("ping", {"jsonrpc": "2.0", "id": 2, "method": "ping"}, 2),
+            ("tools/list", {"jsonrpc": "2.0", "id": 3, "method": "tools/list"}, 3),
+            (
+                "system.info",
+                {
+                    "jsonrpc": "2.0",
+                    "id": 4,
+                    "method": "tools/call",
+                    "params": {"name": "system.info", "arguments": {}},
+                },
+                4,
+            ),
+        ]
+
+        if not args.skip_led:
+            smoke_requests.extend(
+                [
+                    (
+                        "led.set on",
+                        {
+                            "jsonrpc": "2.0",
+                            "id": 5,
+                            "method": "tools/call",
+                            "params": {"name": "led.set", "arguments": {"on": True}},
+                        },
+                        5,
+                    ),
+                    (
+                        "led.set off",
+                        {
+                            "jsonrpc": "2.0",
+                            "id": 6,
+                            "method": "tools/call",
+                            "params": {"name": "led.set", "arguments": {"on": False}},
+                        },
+                        6,
+                    ),
+                ]
+            )
+
+        for stage, request, req_id in smoke_requests:
+            response, elapsed = _send_request(port, request, args.timeout)
+            _expect_ok(response, req_id, stage)
+            print(f"[REG][OK] {stage:<12} {elapsed * 1000.0:7.2f} ms")
+
+        lat_ms: list[float] = []
+        failures: list[str] = []
+
+        for i in range(args.ping_count):
+            req_id = 1000 + i
+            request = {"jsonrpc": "2.0", "id": req_id, "method": "ping"}
+            try:
+                response, elapsed = _send_request(port, request, args.timeout)
+                _expect_ok(response, req_id, f"ping-stress-{i}")
+                lat_ms.append(elapsed * 1000.0)
+            except Exception as exc:  # pragma: no cover - exercised in hardware runs
+                failures.append(f"#{i} {exc}")
+                if len(failures) <= 5:
+                    print(f"[REG][FAIL] ping[{i}] {exc}")
+
+        print("[REG] ---- stress summary ----")
+        print(f"[REG] ping_total={args.ping_count}")
+        print(f"[REG] ping_ok={len(lat_ms)}")
+        print(f"[REG] ping_fail={len(failures)}")
+
+        if lat_ms:
+            print(f"[REG] lat_ms_min={min(lat_ms):.2f}")
+            print(f"[REG] lat_ms_avg={statistics.mean(lat_ms):.2f}")
+            print(f"[REG] lat_ms_p95={_p95(lat_ms):.2f}")
+            print(f"[REG] lat_ms_max={max(lat_ms):.2f}")
+
+        if failures:
+            print("[REG] regression FAILED")
+            return 1
+
+    print("[REG] regression PASSED")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

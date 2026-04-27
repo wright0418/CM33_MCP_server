@@ -2,8 +2,10 @@
 
 #include <stddef.h>
 #include <stdint.h>
+#include <stdio.h>
 #include <string.h>
 
+#include "NuMicro.h"
 #include "FreeRTOS.h"
 #include "queue.h"
 #include "task.h"
@@ -12,6 +14,7 @@
 #include "mcp_jsonrpc.h"
 #include "nualink_board.h"
 #include "nualink_config.h"
+#include "nualink_log.h"
 #include "nualink_transport.h"
 
 typedef struct
@@ -32,9 +35,9 @@ static StaticQueue_t s_request_queue_control;
 static StaticQueue_t s_response_queue_control;
 
 #if defined(__ICCARM__)
-#pragma data_alignment=4
+#pragma data_alignment = 4
 static uint8_t s_request_queue_storage[NUALINK_REQUEST_QUEUE_LENGTH * sizeof(nualink_request_t)];
-#pragma data_alignment=4
+#pragma data_alignment = 4
 static uint8_t s_response_queue_storage[NUALINK_RESPONSE_QUEUE_LENGTH * sizeof(nualink_response_t)];
 #else
 static uint8_t s_request_queue_storage[NUALINK_REQUEST_QUEUE_LENGTH * sizeof(nualink_request_t)] __attribute__((aligned(4)));
@@ -44,9 +47,9 @@ static uint8_t s_response_queue_storage[NUALINK_RESPONSE_QUEUE_LENGTH * sizeof(n
 static StaticTask_t s_usb_task_tcb;
 static StaticTask_t s_parser_task_tcb;
 static StaticTask_t s_heartbeat_task_tcb;
-static StackType_t s_usb_task_stack[1024];
+static StackType_t s_usb_task_stack[2048];
 static StackType_t s_parser_task_stack[4096];
-static StackType_t s_heartbeat_task_stack[512];
+static StackType_t s_heartbeat_task_stack[1024];
 
 static void *prvCJSONMalloc(size_t size)
 {
@@ -73,7 +76,7 @@ static void prvQueueImmediateResponse(const char *text)
     size_t text_length;
 
     text_length = strlen(text);
-    if(text_length >= sizeof(response.data))
+    if (text_length >= sizeof(response.data))
     {
         text_length = sizeof(response.data) - 1U;
     }
@@ -84,57 +87,135 @@ static void prvQueueImmediateResponse(const char *text)
     (void)xQueueSend(s_response_queue, &response, 0U);
 }
 
+static BaseType_t prvHandleRequestInline(const nualink_request_t *request)
+{
+    nualink_response_t response;
+    int32_t length;
+
+    if ((request == NULL) || (request->length == 0U))
+    {
+        return pdFAIL;
+    }
+
+    response.length = 0U;
+    response.data[0] = '\0';
+
+    length = MCP_JSONRPC_Handle(request->data, response.data, sizeof(response.data));
+    if (length <= 0)
+    {
+        return pdPASS;
+    }
+
+    response.length = (uint32_t)length;
+    return xQueueSend(s_response_queue, &response, pdMS_TO_TICKS(20U));
+}
+
 static void prvUsbCommTask(void *parameters)
 {
-    uint8_t packet[NUALINK_USB_RX_PACKET_SIZE];
-    nualink_request_t request;
-    nualink_response_t response;
+    static uint8_t packet[NUALINK_USB_RX_PACKET_SIZE];
+    static nualink_request_t request;
+    static nualink_response_t response;
     bool discarding_oversized_message = false;
+    bool last_attached = false;
+    uint8_t last_configured = 0xffU;
+    uint8_t last_addr = 0xffU;
+    uint32_t last_hispeed_en = 0xffffffffU;
+    TickType_t last_diag_tick = 0U;
 
     (void)parameters;
     memset(&request, 0, sizeof(request));
+    NUALINK_LOG("[USB] comm task start, calling NuAILink_TransportInit()\n");
     NuAILink_TransportInit();
+    NUALINK_LOG("[USB] transport init done\n");
 
-    for(;;)
+    for (;;)
     {
         uint32_t packet_length;
+        bool attached;
+        uint8_t configured;
+        uint8_t addr;
+        uint32_t hispeed_en;
+        uint32_t gint_pending;
+        uint32_t busint_pending;
+        uint32_t busint_raw;
+        TickType_t now;
 
         NuAILink_TransportPoll();
 
-        while(xQueueReceive(s_response_queue, &response, 0U) == pdPASS)
+        attached = NuAILink_TransportIsAttached();
+        configured = g_hsusbd_Configured;
+        addr = g_hsusbd_UsbAddr;
+        hispeed_en = (HSUSBD->OPER & HSUSBD_OPER_HISPDEN_Msk) ? 1U : 0U;
+        gint_pending = HSUSBD->GINTSTS & HSUSBD->GINTEN;
+        busint_pending = HSUSBD->BUSINTSTS & HSUSBD->BUSINTEN;
+        busint_raw = HSUSBD->BUSINTSTS;
+        now = xTaskGetTickCount();
+
+        if ((attached != last_attached) ||
+            (configured != last_configured) ||
+            (addr != last_addr) ||
+            (hispeed_en != last_hispeed_en) ||
+            ((now - last_diag_tick) >= pdMS_TO_TICKS(1000U)))
+        {
+            NUALINK_LOG("[USB] attached=%u cfg=%u addr=%u hs=%lu PHYCTL=0x%08lX OPER=0x%08lX GINTPEND=0x%08lX BUSPEND=0x%08lX BUSRAW=0x%08lX\n",
+                        (unsigned int)(attached ? 1U : 0U),
+                        (unsigned int)configured,
+                        (unsigned int)addr,
+                        (unsigned long)hispeed_en,
+                        (unsigned long)HSUSBD->PHYCTL,
+                        (unsigned long)HSUSBD->OPER,
+                        (unsigned long)gint_pending,
+                        (unsigned long)busint_pending,
+                        (unsigned long)busint_raw);
+
+            last_attached = attached;
+            last_configured = configured;
+            last_addr = addr;
+            last_hispeed_en = hispeed_en;
+            last_diag_tick = now;
+        }
+
+        while (xQueueReceive(s_response_queue, &response, 0U) == pdPASS)
         {
             (void)NuAILink_TransportWrite((const uint8_t *)response.data,
                                           response.length,
                                           pdMS_TO_TICKS(NUALINK_USB_TX_TIMEOUT_MS));
+            NUALINK_LOG("[USB] tx queued response bytes=%lu\n", (unsigned long)response.length);
         }
 
         packet_length = NuAILink_TransportReadPacket(packet, sizeof(packet));
-        if(packet_length > 0U)
+        if (packet_length > 0U)
         {
             uint32_t index;
 
-            for(index = 0U; index < packet_length; index++)
+            NUALINK_LOG("[USB] rx packet bytes=%lu\n", (unsigned long)packet_length);
+
+            for (index = 0U; index < packet_length; index++)
             {
                 uint8_t byte_value = packet[index];
 
-                if(byte_value == '\r')
+                if (byte_value == '\r')
                 {
                     continue;
                 }
 
-                if(byte_value == '\n')
+                if (byte_value == '\n')
                 {
-                    if(discarding_oversized_message)
+                    if (discarding_oversized_message)
                     {
                         discarding_oversized_message = false;
                         request.length = 0U;
                         prvQueueImmediateResponse("{\"jsonrpc\":\"2.0\",\"error\":{\"code\":-32600,\"message\":\"message_too_large\"},\"id\":null}\n");
                     }
-                    else if(request.length > 0U)
+                    else if (request.length > 0U)
                     {
                         request.data[request.length] = '\0';
-                        if(xQueueSend(s_request_queue, &request, 0U) != pdPASS)
+                        NUALINK_LOG("[USB] frame ready len=%lu text=%.120s\n",
+                                    (unsigned long)request.length,
+                                    request.data);
+                        if (prvHandleRequestInline(&request) != pdPASS)
                         {
+                            NUALINK_ERR("[USB] inline handle failed -> server_busy\n");
                             prvQueueImmediateResponse("{\"jsonrpc\":\"2.0\",\"error\":{\"code\":-32000,\"message\":\"server_busy\"},\"id\":null}\n");
                         }
                         request.length = 0U;
@@ -144,9 +225,9 @@ static void prvUsbCommTask(void *parameters)
                         request.length = 0U;
                     }
                 }
-                else if(!discarding_oversized_message)
+                else if (!discarding_oversized_message)
                 {
-                    if(request.length < (sizeof(request.data) - 1U))
+                    if (request.length < (sizeof(request.data) - 1U))
                     {
                         request.data[request.length] = (char)byte_value;
                         request.length++;
@@ -174,21 +255,29 @@ static void prvParserTask(void *parameters)
     nualink_response_t response;
 
     (void)parameters;
+    NUALINK_LOG("[MCP] parser task start\n");
 
-    for(;;)
+    for (;;)
     {
-        if(xQueueReceive(s_request_queue, &request, portMAX_DELAY) == pdPASS)
+        if (xQueueReceive(s_request_queue, &request, portMAX_DELAY) == pdPASS)
         {
             int32_t length;
 
             response.length = 0U;
             response.data[0] = '\0';
 
+            NUALINK_LOG("[MCP] handle request: %.120s\n", request.data);
+
             length = MCP_JSONRPC_Handle(request.data, response.data, sizeof(response.data));
-            if(length > 0)
+            if (length > 0)
             {
                 response.length = (uint32_t)length;
+                NUALINK_LOG("[MCP] response bytes=%ld text=%.120s\n", (long)length, response.data);
                 (void)xQueueSend(s_response_queue, &response, pdMS_TO_TICKS(100U));
+            }
+            else
+            {
+                NUALINK_LOG("[MCP] no response generated (len=%ld)\n", (long)length);
             }
         }
     }
@@ -197,8 +286,9 @@ static void prvParserTask(void *parameters)
 static void prvHeartbeatTask(void *parameters)
 {
     (void)parameters;
+    NUALINK_LOG("[SYS] heartbeat task start\n");
 
-    for(;;)
+    for (;;)
     {
         NuAILink_BoardHeartbeatToggle();
         vTaskDelay(pdMS_TO_TICKS(NUALINK_HEARTBEAT_PERIOD_MS));
@@ -207,6 +297,8 @@ static void prvHeartbeatTask(void *parameters)
 
 BaseType_t NuAILink_TasksCreate(void)
 {
+    NUALINK_LOG("[SYS] creating queues/tasks...\n");
+
     s_request_queue = xQueueCreateStatic(NUALINK_REQUEST_QUEUE_LENGTH,
                                          sizeof(nualink_request_t),
                                          s_request_queue_storage,
@@ -216,43 +308,49 @@ BaseType_t NuAILink_TasksCreate(void)
                                           s_response_queue_storage,
                                           &s_response_queue_control);
 
-    if((s_request_queue == NULL) || (s_response_queue == NULL))
+    if ((s_request_queue == NULL) || (s_response_queue == NULL))
     {
+        NUALINK_ERR("[SYS] queue create failed\n");
         return pdFAIL;
     }
 
-    if(xTaskCreateStatic(prvUsbCommTask,
-                         "USB_Comm",
-                         (uint32_t)(sizeof(s_usb_task_stack) / sizeof(s_usb_task_stack[0])),
-                         NULL,
-                         configMAX_PRIORITIES - 2U,
-                         s_usb_task_stack,
-                         &s_usb_task_tcb) == NULL)
+    if (xTaskCreateStatic(prvUsbCommTask,
+                          "USB_Comm",
+                          (uint32_t)(sizeof(s_usb_task_stack) / sizeof(s_usb_task_stack[0])),
+                          NULL,
+                          configMAX_PRIORITIES - 2U,
+                          s_usb_task_stack,
+                          &s_usb_task_tcb) == NULL)
     {
+        NUALINK_ERR("[SYS] USB_Comm task create failed\n");
         return pdFAIL;
     }
 
-    if(xTaskCreateStatic(prvParserTask,
-                         "MCP_Parse",
-                         (uint32_t)(sizeof(s_parser_task_stack) / sizeof(s_parser_task_stack[0])),
-                         NULL,
-                         configMAX_PRIORITIES - 3U,
-                         s_parser_task_stack,
-                         &s_parser_task_tcb) == NULL)
+    if (xTaskCreateStatic(prvParserTask,
+                          "MCP_Parse",
+                          (uint32_t)(sizeof(s_parser_task_stack) / sizeof(s_parser_task_stack[0])),
+                          NULL,
+                          configMAX_PRIORITIES - 3U,
+                          s_parser_task_stack,
+                          &s_parser_task_tcb) == NULL)
     {
+        NUALINK_ERR("[SYS] MCP_Parse task create failed\n");
         return pdFAIL;
     }
 
-    if(xTaskCreateStatic(prvHeartbeatTask,
-                         "Heartbeat",
-                         (uint32_t)(sizeof(s_heartbeat_task_stack) / sizeof(s_heartbeat_task_stack[0])),
-                         NULL,
-                         1U,
-                         s_heartbeat_task_stack,
-                         &s_heartbeat_task_tcb) == NULL)
+    if (xTaskCreateStatic(prvHeartbeatTask,
+                          "Heartbeat",
+                          (uint32_t)(sizeof(s_heartbeat_task_stack) / sizeof(s_heartbeat_task_stack[0])),
+                          NULL,
+                          1U,
+                          s_heartbeat_task_stack,
+                          &s_heartbeat_task_tcb) == NULL)
     {
+        NUALINK_ERR("[SYS] Heartbeat task create failed\n");
         return pdFAIL;
     }
+
+    NUALINK_LOG("[SYS] queues/tasks created OK\n");
 
     return pdPASS;
 }
