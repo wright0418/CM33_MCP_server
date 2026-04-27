@@ -40,8 +40,7 @@ def _read_json_object(port: Any, deadline: float, stage: str) -> dict[str, Any]:
 
         value = json.loads(text)
         if not isinstance(value, dict):
-            raise AssertionError(
-                f"[{stage}] JSON frame is not an object: {value!r}")
+            raise AssertionError(f"[{stage}] JSON frame is not an object: {value!r}")
         return value
 
     raise TimeoutError(f"No JSON frame for {stage}")
@@ -62,12 +61,10 @@ def _send_request(port: Any, request: dict[str, Any], timeout_s: float) -> tuple
     port.flush()
 
     while time.monotonic() < deadline:
-        response = _read_json_object(
-            port, deadline, f"method {request.get('method')}")
+        response = _read_json_object(port, deadline, f"method {request.get('method')}")
 
         if _is_notification(response):
-            print(
-                f"[REG][EVT] {response.get('method')} {json.dumps(response.get('params', {}), separators=(',', ':'))}")
+            print(f"[REG][EVT] {response.get('method')} {json.dumps(response.get('params', {}), separators=(',', ':'))}")
             continue
 
         if (expected_id is None) or (response.get("id") == expected_id):
@@ -87,8 +84,7 @@ def _wait_for_notification(port: Any, method: str, timeout_s: float) -> dict[str
             return frame
 
         if _is_notification(frame):
-            print(
-                f"[REG][EVT] {frame.get('method')} {json.dumps(frame.get('params', {}), separators=(',', ':'))}")
+            print(f"[REG][EVT] {frame.get('method')} {json.dumps(frame.get('params', {}), separators=(',', ':'))}")
 
     raise TimeoutError(f"No notification {method}")
 
@@ -135,24 +131,19 @@ def _verify_auto_notification(port: Any,
 
     response, elapsed = _send_request(port, start_request, timeout_s)
     _expect_ok(response, start_id, f"{tool_name} notify start")
-    print(
-        f"[REG][OK] {tool_name + ' notify start':<20} {elapsed * 1000.0:7.2f} ms")
+    print(f"[REG][OK] {tool_name + ' notify start':<20} {elapsed * 1000.0:7.2f} ms")
 
-    notification = _wait_for_notification(
-        port, notification_method, max(timeout_s, 2.5))
+    notification = _wait_for_notification(port, notification_method, max(timeout_s, 2.5))
     params = notification.get("params", {})
     if not isinstance(params, dict):
         raise AssertionError(f"[{notification_method}] params missing")
     if int(params.get("event_count", 0)) <= 0:
-        raise AssertionError(
-            f"[{notification_method}] expected event_count > 0")
-    print(
-        f"[REG][OK] {notification_method:<20} {json.dumps(params, separators=(',', ':'))}")
+        raise AssertionError(f"[{notification_method}] expected event_count > 0")
+    print(f"[REG][OK] {notification_method:<20} {json.dumps(params, separators=(',', ':'))}")
 
     response, elapsed = _send_request(port, stop_request, timeout_s)
     _expect_ok(response, stop_id, f"{tool_name} notify stop")
-    print(
-        f"[REG][OK] {tool_name + ' notify stop':<20} {elapsed * 1000.0:7.2f} ms")
+    print(f"[REG][OK] {tool_name + ' notify stop':<20} {elapsed * 1000.0:7.2f} ms")
 
 
 def main() -> int:
@@ -645,8 +636,7 @@ def main() -> int:
                 200,
                 201,
                 "led.auto",
-                {"action": "start", "interval_ms": 40,
-                    "initial_on": False, "notify": True},
+                {"action": "start", "interval_ms": 40, "initial_on": False, "notify": True},
                 "led.auto.event",
             )
             _verify_auto_notification(
@@ -671,8 +661,7 @@ def main() -> int:
                 204,
                 205,
                 "eadc.auto",
-                {"action": "start", "channel": 8,
-                    "interval_ms": 60, "notify": True},
+                {"action": "start", "channel": 8, "interval_ms": 60, "notify": True},
                 "eadc.auto.event",
             )
 
