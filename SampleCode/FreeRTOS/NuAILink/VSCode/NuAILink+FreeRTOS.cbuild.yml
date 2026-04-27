@@ -60,6 +60,7 @@ build:
     - ../../../../ThirdParty/FreeRTOS/Demo/Common/include
     - ../../../../ThirdParty/FreeRTOS/portable/GCC/ARM_CM33_NTZ/non_secure
     - ../../../../ThirdParty/cJSON
+    - ../nualink/include
     - ${CMSIS_PACK_ROOT}/Nuvoton/NuMicroM33_DFP/1.0.3/Device/m3331/Include
   add-path-asm:
     - ${CMSIS_PACK_ROOT}/Nuvoton/NuMicroM33_DFP/1.0.3/Device/m3331/Include
@@ -84,6 +85,42 @@ build:
         - file: ../FreeRTOSConfig.h
           category: header
         - file: ../main.c
+          category: sourceC
+    - group: NuAILink SDK
+      files:
+        - file: ../nualink/include/nualink_config.h
+          category: header
+        - file: ../nualink/include/nualink_board.h
+          category: header
+        - file: ../nualink/include/nualink_tasks.h
+          category: header
+        - file: ../nualink/include/nualink_transport.h
+          category: header
+        - file: ../nualink/include/mcp_types.h
+          category: header
+        - file: ../nualink/include/mcp_registry.h
+          category: header
+        - file: ../nualink/include/mcp_response.h
+          category: header
+        - file: ../nualink/include/mcp_jsonrpc.h
+          category: header
+        - file: ../nualink/src/platform/nualink_board.c
+          category: sourceC
+        - file: ../nualink/src/platform/nualink_tasks.c
+          category: sourceC
+        - file: ../nualink/src/transport/nualink_usb_cdc.c
+          category: sourceC
+        - file: ../nualink/src/transport/nualink_usb_descriptors.c
+          category: sourceC
+        - file: ../nualink/src/core/mcp_registry.c
+          category: sourceC
+        - file: ../nualink/src/core/mcp_jsonrpc.c
+          category: sourceC
+        - file: ../nualink/src/core/mcp_response.c
+          category: sourceC
+        - file: ../nualink/src/plugins/plugin_system.c
+          category: sourceC
+        - file: ../nualink/src/plugins/plugin_led_gpio.c
           category: sourceC
     - group: FreeRTOS files
       files:

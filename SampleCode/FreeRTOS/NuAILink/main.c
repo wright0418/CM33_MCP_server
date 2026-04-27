@@ -33,64 +33,32 @@
  * https://freertos.org/FreeRTOS-quick-start-guide.html
  */
 
-/* FreeRTOS includes. */
 #include <FreeRTOS.h>
 #include <task.h>
-#include <queue.h>
-#include <timers.h>
-#include <semphr.h>
 
-/* Standard includes. */
 #include <stdio.h>
-#include "NuMicro.h"
+
 #include "cJSON.h"
-
-/* LED definitions */
-#define LED_RED_ON()     PC14 = 0
-#define LED_RED_OFF()    PC14 = 1
+#include "nualink_board.h"
+#include "nualink_tasks.h"
 
 /*-----------------------------------------------------------*/
-
-static void prvSetupHardware(void);
-static void exampleTask( void * parameters );
-
-/*-----------------------------------------------------------*/
-
-static void exampleTask( void * parameters )
-{
-    /* Unused parameters. */
-    ( void ) parameters;
-
-    for( ; ; )
-    {
-        /* RED on, GREEN off */
-        LED_RED_ON();
-        vTaskDelay( 10 );
-
-        /* RED off, GREEN on */
-        LED_RED_OFF();
-        vTaskDelay( 10 );
-    }
-}
-/*-----------------------------------------------------------*/
-static StaticTask_t exampleTaskTCB;
-static StackType_t exampleTaskStack[ configMINIMAL_STACK_SIZE ];
 
 int main( void )
 {
-
-    prvSetupHardware();
+    NuAILink_BoardInit();
+    NuAILink_CJSONInitHooks();
 
     ( void ) printf( "NuAILink FreeRTOS Project\n" );
     ( void ) printf( "cJSON version: %s\n", cJSON_Version() );
 
-    ( void ) xTaskCreateStatic( exampleTask,
-                                "example",
-                                configMINIMAL_STACK_SIZE,
-                                NULL,
-                                configMAX_PRIORITIES - 1U,
-                                &( exampleTaskStack[ 0 ] ),
-                                &( exampleTaskTCB ) );
+    if( NuAILink_TasksCreate() != pdPASS )
+    {
+        ( void ) printf( "NuAILink task bootstrap failed\n" );
+        for( ; ; )
+        {
+        }
+    }
 
     /* Start the scheduler. */
     vTaskStartScheduler();
@@ -115,6 +83,19 @@ int main( void )
     }
 
 #endif /* #if ( configCHECK_FOR_STACK_OVERFLOW > 0 ) */
+/*-----------------------------------------------------------*/
+
+#if ( configUSE_MALLOC_FAILED_HOOK == 1 )
+
+    void vApplicationMallocFailedHook( void )
+    {
+        taskDISABLE_INTERRUPTS();
+        for( ; ; )
+        {
+        }
+    }
+
+#endif /* #if ( configUSE_MALLOC_FAILED_HOOK == 1 ) */
 /*-----------------------------------------------------------*/
 
 #if ( configSUPPORT_STATIC_ALLOCATION == 1 )
@@ -146,49 +127,4 @@ int main( void )
     #endif /* configUSE_TIMERS */
 
 #endif /* configSUPPORT_STATIC_ALLOCATION */
-/*-----------------------------------------------------------*/
-
-
-static void prvSetupHardware(void)
-{
-    /* Unlock protected registers */
-    SYS_UnlockReg();
-
-    /* Set PCLK0 and PCLK1 to HCLK/2 */
-    CLK->PCLKDIV = (CLK_PCLKDIV_APB0DIV_DIV2 | CLK_PCLKDIV_APB1DIV_DIV2);
-
-    /* Set core clock */
-    CLK_SetCoreClock(FREQ_180MHZ);
-
-    /* Enable all GPIO clock */
-    CLK->AHBCLK0 |= CLK_AHBCLK0_GPACKEN_Msk | CLK_AHBCLK0_GPBCKEN_Msk | CLK_AHBCLK0_GPCCKEN_Msk | CLK_AHBCLK0_GPDCKEN_Msk |
-                    CLK_AHBCLK0_GPECKEN_Msk | CLK_AHBCLK0_GPFCKEN_Msk | CLK_AHBCLK0_GPGCKEN_Msk | CLK_AHBCLK0_GPHCKEN_Msk;
-
-    /* Select peripheral clock source */
-    CLK_SetModuleClock(UART0_MODULE, CLK_CLKSEL1_UART0SEL_HIRC, CLK_CLKDIV0_UART0(1));
-    CLK_SetModuleClock(TMR0_MODULE, CLK_CLKSEL1_TMR0SEL_HIRC, 0);
-
-    /* Enable peripheral clock */
-    CLK_EnableModuleClock(UART0_MODULE);
-    CLK_EnableModuleClock(TMR0_MODULE);
-
-    /*---------------------------------------------------------------------------------------------------------*/
-    /* Init I/O Multi-function                                                                                 */
-    /*---------------------------------------------------------------------------------------------------------*/
-    /* Set multi-function pins for UART0 RXD and TXD */
-    SET_UART0_RXD_PB12();
-    SET_UART0_TXD_PB13();
-
-    
-    /* Configure PC.14 (RED LED) as Output mode, default off */
-    GPIO_SetMode(PC, BIT14, GPIO_MODE_OUTPUT);
-    LED_RED_OFF();
-
-    /* Lock protected registers */
-    SYS_LockReg();
-
-    /* Init UART to 115200-8n1 for print message */
-    UART_Open(UART0, 115200);
-
-}
 /*-----------------------------------------------------------*/

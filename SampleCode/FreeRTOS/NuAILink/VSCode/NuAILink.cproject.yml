@@ -15,6 +15,7 @@ project:
         - ../../../../ThirdParty/FreeRTOS/Demo/Common/include
         - ../../../../ThirdParty/FreeRTOS/portable/GCC/ARM_CM33_NTZ/non_secure
         - ../../../../ThirdParty/cJSON
+        - ../nualink/include
       debug: "on"
       define:
         - __MICROLIB
@@ -58,6 +59,25 @@ project:
       files:
         - file: ../FreeRTOSConfig.h
         - file: ../main.c
+    - group: NuAILink SDK
+      files:
+        - file: ../nualink/include/nualink_config.h
+        - file: ../nualink/include/nualink_board.h
+        - file: ../nualink/include/nualink_tasks.h
+        - file: ../nualink/include/nualink_transport.h
+        - file: ../nualink/include/mcp_types.h
+        - file: ../nualink/include/mcp_registry.h
+        - file: ../nualink/include/mcp_response.h
+        - file: ../nualink/include/mcp_jsonrpc.h
+        - file: ../nualink/src/platform/nualink_board.c
+        - file: ../nualink/src/platform/nualink_tasks.c
+        - file: ../nualink/src/transport/nualink_usb_cdc.c
+        - file: ../nualink/src/transport/nualink_usb_descriptors.c
+        - file: ../nualink/src/core/mcp_registry.c
+        - file: ../nualink/src/core/mcp_jsonrpc.c
+        - file: ../nualink/src/core/mcp_response.c
+        - file: ../nualink/src/plugins/plugin_system.c
+        - file: ../nualink/src/plugins/plugin_led_gpio.c
     - group: FreeRTOS files
       files:
         - file: ../../../../ThirdParty/FreeRTOS/tasks.c

@@ -11,5 +11,5 @@ build-idx:
       messages:
         info:
           - NuAILink.cbuild-pack.yml - file is already up-to-date
-          - NuAILink+FreeRTOS.cbuild-run.yml - file is already up-to-date
+          - NuAILink+FreeRTOS.cbuild-run.yml - file generated successfully
           - NuAILink+FreeRTOS.cbuild.yml - file is already up-to-date
