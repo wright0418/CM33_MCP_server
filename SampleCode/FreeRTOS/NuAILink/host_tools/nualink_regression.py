@@ -23,12 +23,14 @@ def _load_serial_module() -> Any:
     try:
         import serial  # type: ignore[import-not-found]
     except ImportError as exc:
-        raise SystemExit("pyserial is required: python -m pip install pyserial") from exc
+        raise SystemExit(
+            "pyserial is required: python -m pip install pyserial") from exc
     return serial
 
 
 def _send_request(port: Any, request: dict[str, Any], timeout_s: float) -> tuple[dict[str, Any], float]:
-    payload = json.dumps(request, separators=(",", ":")).encode("utf-8") + b"\n"
+    payload = json.dumps(request, separators=(
+        ",", ":")).encode("utf-8") + b"\n"
     t0 = time.monotonic()
     deadline = t0 + timeout_s
 
@@ -56,7 +58,8 @@ def _expect_ok(response: dict[str, Any], expected_id: int, stage: str) -> None:
     if response.get("jsonrpc") != "2.0":
         raise AssertionError(f"[{stage}] jsonrpc mismatch: {response!r}")
     if response.get("id") != expected_id:
-        raise AssertionError(f"[{stage}] id mismatch: expected {expected_id}, got {response.get('id')}")
+        raise AssertionError(
+            f"[{stage}] id mismatch: expected {expected_id}, got {response.get('id')}")
     if "error" in response:
         raise AssertionError(f"[{stage}] returned error: {response['error']}")
 
@@ -70,17 +73,23 @@ def _p95(values: list[float]) -> float:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="NuAILink USB CDC one-click regression")
+    parser = argparse.ArgumentParser(
+        description="NuAILink USB CDC one-click regression")
     parser.add_argument("port", help="Serial device, for example COM4")
-    parser.add_argument("--baud", type=int, default=115200, help="CDC baud metadata")
-    parser.add_argument("--timeout", type=float, default=2.0, help="Response timeout (seconds)")
-    parser.add_argument("--ping-count", type=int, default=80, help="Ping stress count")
-    parser.add_argument("--skip-led", action="store_true", help="Skip led.set on/off checks")
+    parser.add_argument("--baud", type=int, default=115200,
+                        help="CDC baud metadata")
+    parser.add_argument("--timeout", type=float, default=2.0,
+                        help="Response timeout (seconds)")
+    parser.add_argument("--ping-count", type=int,
+                        default=80, help="Ping stress count")
+    parser.add_argument("--skip-led", action="store_true",
+                        help="Skip led.set on/off checks")
     args = parser.parse_args()
 
     serial = _load_serial_module()
 
-    print(f"[REG] port={args.port} baud={args.baud} timeout={args.timeout}s ping_count={args.ping_count}")
+    print(
+        f"[REG] port={args.port} baud={args.baud} timeout={args.timeout}s ping_count={args.ping_count}")
 
     with serial.Serial(args.port, args.baud, timeout=0.1, write_timeout=args.timeout) as port:
         port.setDTR(True)
@@ -90,9 +99,11 @@ def main() -> int:
         port.reset_output_buffer()
 
         smoke_requests: list[tuple[str, dict[str, Any], int]] = [
-            ("initialize", {"jsonrpc": "2.0", "id": 1, "method": "initialize", "params": {}}, 1),
+            ("initialize", {"jsonrpc": "2.0", "id": 1,
+             "method": "initialize", "params": {}}, 1),
             ("ping", {"jsonrpc": "2.0", "id": 2, "method": "ping"}, 2),
-            ("tools/list", {"jsonrpc": "2.0", "id": 3, "method": "tools/list"}, 3),
+            ("tools/list", {"jsonrpc": "2.0",
+             "id": 3, "method": "tools/list"}, 3),
             (
                 "system.info",
                 {

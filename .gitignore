@@ -42,3 +42,9 @@ __pycache__/
 # OS files
 Thumbs.db
 .DS_Store
+
+# NuAILink local generated artifacts (keep scope narrow)
+SampleCode/FreeRTOS/NuAILink/VSCode/out/
+SampleCode/FreeRTOS/NuAILink/VSCode/tmp/
+SampleCode/FreeRTOS/NuAILink/host_tools/.venv/
+SampleCode/FreeRTOS/NuAILink/host_tools/com4_probe.py

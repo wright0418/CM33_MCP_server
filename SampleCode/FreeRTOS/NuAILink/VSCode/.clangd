@@ -1,6 +1,6 @@
 CompileFlags:
   CompilationDatabase: >-
-    c:\Users\cfwu3\Desktop\Nuvoton_BSP\M3331\SampleCode\FreeRTOS\NuAILink\VSCode\out\NuAILink\FreeRTOS
+    d:\Project\M3331\CM33_MCP_server\SampleCode\FreeRTOS\NuAILink\VSCode\out\NuAILink\FreeRTOS
   Add:
     - '-D_ILP32=1'
     - '-D_USE_STATIC_INLINE=1'
@@ -417,24 +417,25 @@ CompileFlags:
     - '-D__thumb__=1'
     - '-D__ARMCOMPILER_LIBCXX=1'
     - >-
-      -IC:/Users/cfwu3/Desktop/Nuvoton_BSP/M3331/SampleCode/FreeRTOS/NuAILink/VSCode/../../../../Library/CMSIS/Core/Include
+      -ID:/Project/M3331/CM33_MCP_server/SampleCode/FreeRTOS/NuAILink/VSCode/../../../../Library/CMSIS/Core/Include
     - >-
-      -IC:/Users/cfwu3/Desktop/Nuvoton_BSP/M3331/SampleCode/FreeRTOS/NuAILink/VSCode/../../../../Library/Device/Nuvoton/m3331/Config
+      -ID:/Project/M3331/CM33_MCP_server/SampleCode/FreeRTOS/NuAILink/VSCode/../../../../Library/Device/Nuvoton/m3331/Config
     - >-
-      -IC:/Users/cfwu3/Desktop/Nuvoton_BSP/M3331/SampleCode/FreeRTOS/NuAILink/VSCode/../../../../Library/Device/Nuvoton/m3331/Include
+      -ID:/Project/M3331/CM33_MCP_server/SampleCode/FreeRTOS/NuAILink/VSCode/../../../../Library/Device/Nuvoton/m3331/Include
     - >-
-      -IC:/Users/cfwu3/Desktop/Nuvoton_BSP/M3331/SampleCode/FreeRTOS/NuAILink/VSCode/../../../../Library/StdDriver/inc
+      -ID:/Project/M3331/CM33_MCP_server/SampleCode/FreeRTOS/NuAILink/VSCode/../../../../Library/StdDriver/inc
     - >-
-      -IC:/Users/cfwu3/Desktop/Nuvoton_BSP/M3331/SampleCode/FreeRTOS/NuAILink/VSCode/../../../../ThirdParty/FreeRTOS/include
+      -ID:/Project/M3331/CM33_MCP_server/SampleCode/FreeRTOS/NuAILink/VSCode/../../../../ThirdParty/FreeRTOS/include
     - >-
-      -IC:/Users/cfwu3/Desktop/Nuvoton_BSP/M3331/SampleCode/FreeRTOS/NuAILink/VSCode/../../../../ThirdParty/FreeRTOS/Demo/Common/include
+      -ID:/Project/M3331/CM33_MCP_server/SampleCode/FreeRTOS/NuAILink/VSCode/../../../../ThirdParty/FreeRTOS/Demo/Common/include
     - >-
-      -IC:/Users/cfwu3/Desktop/Nuvoton_BSP/M3331/SampleCode/FreeRTOS/NuAILink/VSCode/../../../../ThirdParty/FreeRTOS/portable/GCC/ARM_CM33_NTZ/non_secure
+      -ID:/Project/M3331/CM33_MCP_server/SampleCode/FreeRTOS/NuAILink/VSCode/../../../../ThirdParty/FreeRTOS/portable/GCC/ARM_CM33_NTZ/non_secure
     - >-
-      -IC:/Users/cfwu3/Desktop/Nuvoton_BSP/M3331/SampleCode/FreeRTOS/NuAILink/VSCode/tmp/NuAILink+FreeRTOS
+      -ID:/Project/M3331/CM33_MCP_server/SampleCode/FreeRTOS/NuAILink/VSCode/tmp/NuAILink+FreeRTOS
     - >-
-      -IC:/Users/cfwu3/AppData/Local/Arm/Packs/Nuvoton/NuMicroM33_DFP/1.0.3/Device/m3331/Include
+      -IC:/Users/Wright/AppData/Local/Arm/Packs/Nuvoton/NuMicroM33_DFP/1.0.3/Device/m3331/Include
+    - '-ID:/Project/M3331/CM33_MCP_server/SampleCode/FreeRTOS/NuAILink/VSCode/..'
     - >-
-      -IC:/Users/cfwu3/Desktop/Nuvoton_BSP/M3331/SampleCode/FreeRTOS/NuAILink/VSCode/..
+      -ID:/Project/M3331/CM33_MCP_server/SampleCode/FreeRTOS/NuAILink/VSCode/../nualink/include
     - >-
-      -IC:/Users/cfwu3/Desktop/Nuvoton_BSP/M3331/SampleCode/FreeRTOS/NuAILink/VSCode/../../../../ThirdParty/cJSON
+      -ID:/Project/M3331/CM33_MCP_server/SampleCode/FreeRTOS/NuAILink/VSCode/../../../../ThirdParty/cJSON
