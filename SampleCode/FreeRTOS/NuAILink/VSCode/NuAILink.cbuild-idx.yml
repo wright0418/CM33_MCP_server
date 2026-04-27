@@ -1,0 +1,15 @@
+build-idx:
+  generated-by: csolution version 2.9.0
+  csolution: NuAILink.csolution.yml
+  tmpdir: tmp
+  cprojects:
+    - cproject: NuAILink.cproject.yml
+  cbuilds:
+    - cbuild: NuAILink+FreeRTOS.cbuild.yml
+      project: NuAILink
+      configuration: +FreeRTOS
+      messages:
+        info:
+          - NuAILink.cbuild-pack.yml - file is already up-to-date
+          - NuAILink+FreeRTOS.cbuild-run.yml - file is already up-to-date
+          - NuAILink+FreeRTOS.cbuild.yml - file is already up-to-date

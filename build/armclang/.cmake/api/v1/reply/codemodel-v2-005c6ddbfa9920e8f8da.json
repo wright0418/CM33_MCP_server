@@ -1,0 +1,1375 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						10,
+						21,
+						22
+					],
+					"jsonFile" : "directory-.-Debug-d0094a50bb2071803777.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.21"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						76
+					]
+				},
+				{
+					"build" : "Library/StdDriver/src",
+					"jsonFile" : "directory-Library.StdDriver.src-Debug-f44abc3341ec3e464c81.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.21"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "Library/StdDriver/src",
+					"targetIndexes" : 
+					[
+						100
+					]
+				},
+				{
+					"build" : "Library/NuMaker/xmodem",
+					"jsonFile" : "directory-Library.NuMaker.xmodem-Debug-48cedecc441efa0a5aa6.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.21"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "Library/NuMaker/xmodem",
+					"targetIndexes" : 
+					[
+						106
+					]
+				},
+				{
+					"build" : "Library/UsbHostLib",
+					"jsonFile" : "directory-Library.UsbHostLib-Debug-704e0fd300acfc5a8ae9.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.21"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "Library/UsbHostLib",
+					"targetIndexes" : 
+					[
+						101,
+						102,
+						103,
+						104,
+						105
+					]
+				},
+				{
+					"build" : "ThirdParty/FatFs/source",
+					"jsonFile" : "directory-ThirdParty.FatFs.source-Debug-a2d174b54e41267230ff.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.21"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "ThirdParty/FatFs/source",
+					"targetIndexes" : 
+					[
+						96
+					]
+				},
+				{
+					"build" : "ThirdParty/LibMAD",
+					"jsonFile" : "directory-ThirdParty.LibMAD-Debug-b6d9ff6d1cf5fde9655d.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.21"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "ThirdParty/LibMAD",
+					"targetIndexes" : 
+					[
+						98
+					]
+				},
+				{
+					"build" : "SampleCode/NuMaker-M3334KIv2",
+					"childIndexes" : 
+					[
+						7,
+						8,
+						9
+					],
+					"jsonFile" : "directory-SampleCode.NuMaker-M3334KIv2-Debug-f75e45f9d9bd9eac2d7f.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.21"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "SampleCode/NuMaker-M3334KIv2",
+					"targetIndexes" : 
+					[
+						4,
+						53
+					]
+				},
+				{
+					"build" : "SampleCode/NuMaker-M3334KIv2/LVGL_WidgetsDemo",
+					"jsonFile" : "directory-SampleCode.NuMaker-M3334KIv2.LVGL_WidgetsDemo-Debug-dfc1ebee0430f68c8b99.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.21"
+					},
+					"parentIndex" : 6,
+					"projectIndex" : 0,
+					"source" : "SampleCode/NuMaker-M3334KIv2/LVGL_WidgetsDemo",
+					"targetIndexes" : 
+					[
+						51,
+						97,
+						99
+					]
+				},
+				{
+					"build" : "SampleCode/NuMaker-M3334KIv2/emWin_GIFDecoder",
+					"jsonFile" : "directory-SampleCode.NuMaker-M3334KIv2.emWin_GIFDecoder-Debug-2416116a80a3f3f8ec01.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.21"
+					},
+					"parentIndex" : 6,
+					"projectIndex" : 0,
+					"source" : "SampleCode/NuMaker-M3334KIv2/emWin_GIFDecoder",
+					"targetIndexes" : 
+					[
+						95
+					]
+				},
+				{
+					"build" : "SampleCode/NuMaker-M3334KIv2/NuvotonAudioGUI_Firmware",
+					"jsonFile" : "directory-SampleCode.NuMaker-M3334KIv2.NuvotonAudioGUI_Firmware-Debug-a2c3349a43e3743f4b27.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.21"
+					},
+					"parentIndex" : 6,
+					"projectIndex" : 0,
+					"source" : "SampleCode/NuMaker-M3334KIv2/NuvotonAudioGUI_Firmware",
+					"targetIndexes" : 
+					[
+						54
+					]
+				},
+				{
+					"build" : "SampleCode/StdDriver",
+					"childIndexes" : 
+					[
+						11,
+						12,
+						13,
+						14,
+						15,
+						16,
+						17,
+						18,
+						19,
+						20
+					],
+					"jsonFile" : "directory-SampleCode.StdDriver-Debug-e04b7cc1b603dac1e5c5.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.21"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "SampleCode/StdDriver",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15,
+						16,
+						17,
+						21,
+						22,
+						23,
+						24,
+						25,
+						28,
+						29,
+						31,
+						35,
+						37,
+						39,
+						40,
+						41,
+						49,
+						50,
+						55,
+						56,
+						57,
+						58,
+						59,
+						60,
+						61,
+						62,
+						63,
+						64,
+						65,
+						66,
+						68,
+						75,
+						77,
+						78,
+						79,
+						80,
+						81,
+						82,
+						83,
+						84,
+						85,
+						86,
+						87,
+						88,
+						89,
+						90,
+						91,
+						92,
+						93,
+						94
+					]
+				},
+				{
+					"build" : "SampleCode/StdDriver/FMC_DualBankFwUpdate",
+					"jsonFile" : "directory-SampleCode.StdDriver.FMC_DualBankFwUpdate-Debug-1eee37e2c9e64917346d.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.21"
+					},
+					"parentIndex" : 10,
+					"projectIndex" : 0,
+					"source" : "SampleCode/StdDriver/FMC_DualBankFwUpdate",
+					"targetIndexes" : 
+					[
+						3,
+						52
+					]
+				},
+				{
+					"build" : "SampleCode/StdDriver/FMC_FwUpdateApplication",
+					"jsonFile" : "directory-SampleCode.StdDriver.FMC_FwUpdateApplication-Debug-28a041e79e0100264b59.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.21"
+					},
+					"parentIndex" : 10,
+					"projectIndex" : 0,
+					"source" : "SampleCode/StdDriver/FMC_FwUpdateApplication",
+					"targetIndexes" : 
+					[
+						18,
+						19,
+						20
+					]
+				},
+				{
+					"build" : "SampleCode/StdDriver/HSOTG_Dual_Role_UMAS",
+					"jsonFile" : "directory-SampleCode.StdDriver.HSOTG_Dual_Role_UMAS-Debug-bfb5a291daba9fa6ef99.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.21"
+					},
+					"parentIndex" : 10,
+					"projectIndex" : 0,
+					"source" : "SampleCode/StdDriver/HSOTG_Dual_Role_UMAS",
+					"targetIndexes" : 
+					[
+						26
+					]
+				},
+				{
+					"build" : "SampleCode/StdDriver/HSOTG_HNP",
+					"jsonFile" : "directory-SampleCode.StdDriver.HSOTG_HNP-Debug-9b9ea05438a1791dab7c.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.21"
+					},
+					"parentIndex" : 10,
+					"projectIndex" : 0,
+					"source" : "SampleCode/StdDriver/HSOTG_HNP",
+					"targetIndexes" : 
+					[
+						27
+					]
+				},
+				{
+					"build" : "SampleCode/StdDriver/HSUSBH_USBH_Firmware_Update",
+					"jsonFile" : "directory-SampleCode.StdDriver.HSUSBH_USBH_Firmware_Update-Debug-2e9cc53597b140122487.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.21"
+					},
+					"parentIndex" : 10,
+					"projectIndex" : 0,
+					"source" : "SampleCode/StdDriver/HSUSBH_USBH_Firmware_Update",
+					"targetIndexes" : 
+					[
+						30
+					]
+				},
+				{
+					"build" : "SampleCode/StdDriver/HSUSBH_USBH_HID_Keyboard",
+					"jsonFile" : "directory-SampleCode.StdDriver.HSUSBH_USBH_HID_Keyboard-Debug-5023d501ac9a407905df.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.21"
+					},
+					"parentIndex" : 10,
+					"projectIndex" : 0,
+					"source" : "SampleCode/StdDriver/HSUSBH_USBH_HID_Keyboard",
+					"targetIndexes" : 
+					[
+						32
+					]
+				},
+				{
+					"build" : "SampleCode/StdDriver/HSUSBH_USBH_HID_Mouse_Keyboard",
+					"jsonFile" : "directory-SampleCode.StdDriver.HSUSBH_USBH_HID_Mouse_Keyboard-Debug-f46b463e2ad320bef55a.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.21"
+					},
+					"parentIndex" : 10,
+					"projectIndex" : 0,
+					"source" : "SampleCode/StdDriver/HSUSBH_USBH_HID_Mouse_Keyboard",
+					"targetIndexes" : 
+					[
+						33
+					]
+				},
+				{
+					"build" : "SampleCode/StdDriver/HSUSBH_USBH_MassStorage",
+					"jsonFile" : "directory-SampleCode.StdDriver.HSUSBH_USBH_MassStorage-Debug-150207eae53b4e9a2d43.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.21"
+					},
+					"parentIndex" : 10,
+					"projectIndex" : 0,
+					"source" : "SampleCode/StdDriver/HSUSBH_USBH_MassStorage",
+					"targetIndexes" : 
+					[
+						34
+					]
+				},
+				{
+					"build" : "SampleCode/StdDriver/HSUSBH_USBH_UAC_LoopBack",
+					"jsonFile" : "directory-SampleCode.StdDriver.HSUSBH_USBH_UAC_LoopBack-Debug-f1918ee352acadcc95b9.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.21"
+					},
+					"parentIndex" : 10,
+					"projectIndex" : 0,
+					"source" : "SampleCode/StdDriver/HSUSBH_USBH_UAC_LoopBack",
+					"targetIndexes" : 
+					[
+						36
+					]
+				},
+				{
+					"build" : "SampleCode/StdDriver/HSUSBH_USBH_VENDOR_LBK",
+					"jsonFile" : "directory-SampleCode.StdDriver.HSUSBH_USBH_VENDOR_LBK-Debug-cdc6ea94ac36742c022f.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.21"
+					},
+					"parentIndex" : 10,
+					"projectIndex" : 0,
+					"source" : "SampleCode/StdDriver/HSUSBH_USBH_VENDOR_LBK",
+					"targetIndexes" : 
+					[
+						38
+					]
+				},
+				{
+					"build" : "SampleCode/ISP",
+					"jsonFile" : "directory-SampleCode.ISP-Debug-de3570c6f16e620955e8.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.21"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "SampleCode/ISP",
+					"targetIndexes" : 
+					[
+						42,
+						43,
+						44,
+						45,
+						46,
+						47,
+						48
+					]
+				},
+				{
+					"build" : "SampleCode/PowerManagement",
+					"jsonFile" : "directory-SampleCode.PowerManagement-Debug-928d4120ee9d129bcffe.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.21"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "SampleCode/PowerManagement",
+					"targetIndexes" : 
+					[
+						67,
+						69,
+						70,
+						71,
+						72,
+						73,
+						74
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15,
+						16,
+						17,
+						18,
+						19,
+						20,
+						21,
+						22
+					],
+					"name" : "m3331bsp",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15,
+						16,
+						17,
+						18,
+						19,
+						20,
+						21,
+						22,
+						23,
+						24,
+						25,
+						26,
+						27,
+						28,
+						29,
+						30,
+						31,
+						32,
+						33,
+						34,
+						35,
+						36,
+						37,
+						38,
+						39,
+						40,
+						41,
+						42,
+						43,
+						44,
+						45,
+						46,
+						47,
+						48,
+						49,
+						50,
+						51,
+						52,
+						53,
+						54,
+						55,
+						56,
+						57,
+						58,
+						59,
+						60,
+						61,
+						62,
+						63,
+						64,
+						65,
+						66,
+						67,
+						68,
+						69,
+						70,
+						71,
+						72,
+						73,
+						74,
+						75,
+						76,
+						77,
+						78,
+						79,
+						80,
+						81,
+						82,
+						83,
+						84,
+						85,
+						86,
+						87,
+						88,
+						89,
+						90,
+						91,
+						92,
+						93,
+						94,
+						95,
+						96,
+						97,
+						98,
+						99,
+						100,
+						101,
+						102,
+						103,
+						104,
+						105,
+						106
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 10,
+					"id" : "ACMP_CompareVBG::@a03f269668b424a64866",
+					"jsonFile" : "target-ACMP_CompareVBG-Debug-c3de68ffc199190b62b3.json",
+					"name" : "ACMP_CompareVBG",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "ACMP_Wakeup::@a03f269668b424a64866",
+					"jsonFile" : "target-ACMP_Wakeup-Debug-ebb6fd14f6f78dc29baa.json",
+					"name" : "ACMP_Wakeup",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "ACMP_WindowCompare::@a03f269668b424a64866",
+					"jsonFile" : "target-ACMP_WindowCompare-Debug-5e538bb42ba99102c6c4.json",
+					"name" : "ACMP_WindowCompare",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 11,
+					"id" : "App::@d1cf4354cd782db218ac",
+					"jsonFile" : "target-App-Debug-1da47da540e08642e38e.json",
+					"name" : "App",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 6,
+					"id" : "Blinky::@997c44b2556fcbd4b9c0",
+					"jsonFile" : "target-Blinky-Debug-e3dc9dcbe0bfa97055fa.json",
+					"name" : "Blinky",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "CANFD_CANFD_Loopback::@a03f269668b424a64866",
+					"jsonFile" : "target-CANFD_CANFD_Loopback-Debug-21200fd679fc772c5ead.json",
+					"name" : "CANFD_CANFD_Loopback",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "CANFD_CANFD_TxRx::@a03f269668b424a64866",
+					"jsonFile" : "target-CANFD_CANFD_TxRx-Debug-60bb8282c83468cf71bc.json",
+					"name" : "CANFD_CANFD_TxRx",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "CANFD_CANFD_TxRxINT::@a03f269668b424a64866",
+					"jsonFile" : "target-CANFD_CANFD_TxRxINT-Debug-b1d0d3e1f5e5b449a941.json",
+					"name" : "CANFD_CANFD_TxRxINT",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "CANFD_CAN_Loopback::@a03f269668b424a64866",
+					"jsonFile" : "target-CANFD_CAN_Loopback-Debug-76a78904c1ae9ab0ff1e.json",
+					"name" : "CANFD_CAN_Loopback",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "CANFD_CAN_TxRx::@a03f269668b424a64866",
+					"jsonFile" : "target-CANFD_CAN_TxRx-Debug-9b4076722fe47ba6ccf3.json",
+					"name" : "CANFD_CAN_TxRx",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "CANFD_CAN_TxRxINT::@a03f269668b424a64866",
+					"jsonFile" : "target-CANFD_CAN_TxRxINT-Debug-b0a3814d6a5722772d0a.json",
+					"name" : "CANFD_CAN_TxRxINT",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "CLK_ClockDetector::@a03f269668b424a64866",
+					"jsonFile" : "target-CLK_ClockDetector-Debug-81e718e87eaa15ad2474.json",
+					"name" : "CLK_ClockDetector",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "FMC_APWPROT::@a03f269668b424a64866",
+					"jsonFile" : "target-FMC_APWPROT-Debug-2e51f9d7d6425a531c1a.json",
+					"name" : "FMC_APWPROT",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "FMC_CRC32::@a03f269668b424a64866",
+					"jsonFile" : "target-FMC_CRC32-Debug-42eb252bcd1a2a9a68d7.json",
+					"name" : "FMC_CRC32",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "FMC_ExeInSRAM::@a03f269668b424a64866",
+					"jsonFile" : "target-FMC_ExeInSRAM-Debug-588ed3f3b7edd46349b9.json",
+					"name" : "FMC_ExeInSRAM",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "FMC_MultiBoot::@a03f269668b424a64866",
+					"jsonFile" : "target-FMC_MultiBoot-Debug-4fe163f170e4f3c5102e.json",
+					"name" : "FMC_MultiBoot",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "FMC_RW::@a03f269668b424a64866",
+					"jsonFile" : "target-FMC_RW-Debug-0818d253496d6eab32a2.json",
+					"name" : "FMC_RW",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "FMC_ReadAllOne::@a03f269668b424a64866",
+					"jsonFile" : "target-FMC_ReadAllOne-Debug-b7d56df767261502aed5.json",
+					"name" : "FMC_ReadAllOne",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 12,
+					"id" : "FwApp::@f407012d268a29f1b5fc",
+					"jsonFile" : "target-FwApp-Debug-c8f4f16470d16e53cd88.json",
+					"name" : "FwApp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 12,
+					"id" : "FwBackupApp::@f407012d268a29f1b5fc",
+					"jsonFile" : "target-FwBackupApp-Debug-72f690f651c549124f6c.json",
+					"name" : "FwBackupApp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 12,
+					"id" : "FwLoader::@f407012d268a29f1b5fc",
+					"jsonFile" : "target-FwLoader-Debug-f9e729d6cd48db253b85.json",
+					"name" : "FwLoader",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "GPIO_EINTAndDebounce::@a03f269668b424a64866",
+					"jsonFile" : "target-GPIO_EINTAndDebounce-Debug-671753b65579b12f1805.json",
+					"name" : "GPIO_EINTAndDebounce",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "GPIO_EINTTriggerPDMA::@a03f269668b424a64866",
+					"jsonFile" : "target-GPIO_EINTTriggerPDMA-Debug-ae1a7ff20c45cdc42368.json",
+					"name" : "GPIO_EINTTriggerPDMA",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "GPIO_INT::@a03f269668b424a64866",
+					"jsonFile" : "target-GPIO_INT-Debug-64670f10a0a0f751c964.json",
+					"name" : "GPIO_INT",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "GPIO_OutputInput::@a03f269668b424a64866",
+					"jsonFile" : "target-GPIO_OutputInput-Debug-52bfc2b00b8a360a2623.json",
+					"name" : "GPIO_OutputInput",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "GPIO_PowerDown::@a03f269668b424a64866",
+					"jsonFile" : "target-GPIO_PowerDown-Debug-a3d5334b4e790eddbed1.json",
+					"name" : "GPIO_PowerDown",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 13,
+					"id" : "HSOTG_Dual_Role_UMAS::@26282eac9ab382185229",
+					"jsonFile" : "target-HSOTG_Dual_Role_UMAS-Debug-a2ca5921a6a5a8cb17a3.json",
+					"name" : "HSOTG_Dual_Role_UMAS",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 14,
+					"id" : "HSOTG_HNP::@750f8d54099649619a0e",
+					"jsonFile" : "target-HSOTG_HNP-Debug-45fa58548c8c189dffa8.json",
+					"name" : "HSOTG_HNP",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "HSUSBH_USBH_AudioClass::@a03f269668b424a64866",
+					"jsonFile" : "target-HSUSBH_USBH_AudioClass-Debug-c917771b155fd426f41c.json",
+					"name" : "HSUSBH_USBH_AudioClass",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "HSUSBH_USBH_DEV_CONN::@a03f269668b424a64866",
+					"jsonFile" : "target-HSUSBH_USBH_DEV_CONN-Debug-b281ff8c85567f9d6fff.json",
+					"name" : "HSUSBH_USBH_DEV_CONN",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 15,
+					"id" : "HSUSBH_USBH_Firmware_Update::@dbbe7615ed88f8a43fba",
+					"jsonFile" : "target-HSUSBH_USBH_Firmware_Update-Debug-923adc29ab9658a541d9.json",
+					"name" : "HSUSBH_USBH_Firmware_Update",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "HSUSBH_USBH_HID::@a03f269668b424a64866",
+					"jsonFile" : "target-HSUSBH_USBH_HID-Debug-15fdf31af50fea71bfb2.json",
+					"name" : "HSUSBH_USBH_HID",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 16,
+					"id" : "HSUSBH_USBH_HID_Keyboard::@acfaf295d911e427a554",
+					"jsonFile" : "target-HSUSBH_USBH_HID_Keyboard-Debug-d4aab8d8889455b1eeaf.json",
+					"name" : "HSUSBH_USBH_HID_Keyboard",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 17,
+					"id" : "HSUSBH_USBH_HID_Mouse_Keyboard::@3edd4736c52c4cb9dad0",
+					"jsonFile" : "target-HSUSBH_USBH_HID_Mouse_Keyboard-Debug-ae8dd362b46d31fc0125.json",
+					"name" : "HSUSBH_USBH_HID_Mouse_Keyboard",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 18,
+					"id" : "HSUSBH_USBH_MassStorage::@f50f1f5c5ef61728493c",
+					"jsonFile" : "target-HSUSBH_USBH_MassStorage-Debug-733ec19fe642cefdad0e.json",
+					"name" : "HSUSBH_USBH_MassStorage",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "HSUSBH_USBH_UAC_HID::@a03f269668b424a64866",
+					"jsonFile" : "target-HSUSBH_USBH_UAC_HID-Debug-aaff0d881cab8349fc3e.json",
+					"name" : "HSUSBH_USBH_UAC_HID",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 19,
+					"id" : "HSUSBH_USBH_UAC_LoopBack::@84d308f8d560789402ae",
+					"jsonFile" : "target-HSUSBH_USBH_UAC_LoopBack-Debug-023faec1170b0088df81.json",
+					"name" : "HSUSBH_USBH_UAC_LoopBack",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "HSUSBH_USBH_VCOM::@a03f269668b424a64866",
+					"jsonFile" : "target-HSUSBH_USBH_VCOM-Debug-42a59f5e148d741e36bd.json",
+					"name" : "HSUSBH_USBH_VCOM",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 20,
+					"id" : "HSUSBH_USBH_VENDOR_LBK::@f1cdafd66d328a16c8d0",
+					"jsonFile" : "target-HSUSBH_USBH_VENDOR_LBK-Debug-c154ec2595265e7003c5.json",
+					"name" : "HSUSBH_USBH_VENDOR_LBK",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "I2S_MP3PLAYER::@a03f269668b424a64866",
+					"jsonFile" : "target-I2S_MP3PLAYER-Debug-e54bb409aca2da8a09a0.json",
+					"name" : "I2S_MP3PLAYER",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "I3C_Controller::@a03f269668b424a64866",
+					"jsonFile" : "target-I3C_Controller-Debug-a40c6d3d516e76484d22.json",
+					"name" : "I3C_Controller",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "I3C_Target::@a03f269668b424a64866",
+					"jsonFile" : "target-I3C_Target-Debug-37fdddcbfdd108ab21e9.json",
+					"name" : "I3C_Target",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 21,
+					"id" : "ISP_CAN::@b297954b2e250d564df6",
+					"jsonFile" : "target-ISP_CAN-Debug-fe8f8c4181471ef01a0d.json",
+					"name" : "ISP_CAN",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 21,
+					"id" : "ISP_DFU_20::@b297954b2e250d564df6",
+					"jsonFile" : "target-ISP_DFU_20-Debug-6bcc70d7568b0510086c.json",
+					"name" : "ISP_DFU_20",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 21,
+					"id" : "ISP_HID_20::@b297954b2e250d564df6",
+					"jsonFile" : "target-ISP_HID_20-Debug-0ce821ca51cf463e2700.json",
+					"name" : "ISP_HID_20",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 21,
+					"id" : "ISP_I2C::@b297954b2e250d564df6",
+					"jsonFile" : "target-ISP_I2C-Debug-37d68b3f1cf4171c4c3c.json",
+					"name" : "ISP_I2C",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 21,
+					"id" : "ISP_RS485::@b297954b2e250d564df6",
+					"jsonFile" : "target-ISP_RS485-Debug-30803593d69b51aabfec.json",
+					"name" : "ISP_RS485",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 21,
+					"id" : "ISP_SPI::@b297954b2e250d564df6",
+					"jsonFile" : "target-ISP_SPI-Debug-50b190293a2f343bdf4b.json",
+					"name" : "ISP_SPI",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 21,
+					"id" : "ISP_UART::@b297954b2e250d564df6",
+					"jsonFile" : "target-ISP_UART-Debug-55f1c00eabcb4fe1719c.json",
+					"name" : "ISP_UART",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "LLSI_Marquee::@a03f269668b424a64866",
+					"jsonFile" : "target-LLSI_Marquee-Debug-d69194da3c2fab84b94a.json",
+					"name" : "LLSI_Marquee",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "LLSI_PDMA_Marquee::@a03f269668b424a64866",
+					"jsonFile" : "target-LLSI_PDMA_Marquee-Debug-33073f5e3799ce8914a6.json",
+					"name" : "LLSI_PDMA_Marquee",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 7,
+					"id" : "LVGL_WidgetsDemo::@d347cbad3f0b1f0a6701",
+					"jsonFile" : "target-LVGL_WidgetsDemo-Debug-a041a9f516ac9b09791f.json",
+					"name" : "LVGL_WidgetsDemo",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 11,
+					"id" : "Loader::@d1cf4354cd782db218ac",
+					"jsonFile" : "target-Loader-Debug-6348831f2476974c6b39.json",
+					"name" : "Loader",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 6,
+					"id" : "MP3_Player::@997c44b2556fcbd4b9c0",
+					"jsonFile" : "target-MP3_Player-Debug-701d2417afecbcbb13a2.json",
+					"name" : "MP3_Player",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 9,
+					"id" : "NuvotonAudioGUI_Firmware::@02edcdbaefde568f2005",
+					"jsonFile" : "target-NuvotonAudioGUI_Firmware-Debug-f915cff7c0b28d1c1661.json",
+					"name" : "NuvotonAudioGUI_Firmware",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "PDCI_Output::@a03f269668b424a64866",
+					"jsonFile" : "target-PDCI_Output-Debug-225f5b11e8c31d246985.json",
+					"name" : "PDCI_Output",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "PDCI_PDMA_Output::@a03f269668b424a64866",
+					"jsonFile" : "target-PDCI_PDMA_Output-Debug-0be313c11077725b8e90.json",
+					"name" : "PDCI_PDMA_Output",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "PDMA_BasicMode::@a03f269668b424a64866",
+					"jsonFile" : "target-PDMA_BasicMode-Debug-070dde1d2e9e854d6a68.json",
+					"name" : "PDMA_BasicMode",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "PDMA_ScatterGather::@a03f269668b424a64866",
+					"jsonFile" : "target-PDMA_ScatterGather-Debug-c88bb90938342e8ec310.json",
+					"name" : "PDMA_ScatterGather",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "PDMA_ScatterGather_PingPongBuffer::@a03f269668b424a64866",
+					"jsonFile" : "target-PDMA_ScatterGather_PingPongBuffer-Debug-784be84fad70815433a8.json",
+					"name" : "PDMA_ScatterGather_PingPongBuffer",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "QSPI_DualMode_Flash::@a03f269668b424a64866",
+					"jsonFile" : "target-QSPI_DualMode_Flash-Debug-4aeac09465e6c6323b98.json",
+					"name" : "QSPI_DualMode_Flash",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "QSPI_QuadMode_Flash::@a03f269668b424a64866",
+					"jsonFile" : "target-QSPI_QuadMode_Flash-Debug-5184f36342dcc8ad296e.json",
+					"name" : "QSPI_QuadMode_Flash",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "QSPI_Slave3Wire::@a03f269668b424a64866",
+					"jsonFile" : "target-QSPI_Slave3Wire-Debug-2d92d1710f36b589b81f.json",
+					"name" : "QSPI_Slave3Wire",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "SPI_Loopback::@a03f269668b424a64866",
+					"jsonFile" : "target-SPI_Loopback-Debug-dc5b90322bc8f1480834.json",
+					"name" : "SPI_Loopback",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "SPI_MasterFIFOMode::@a03f269668b424a64866",
+					"jsonFile" : "target-SPI_MasterFIFOMode-Debug-d79fd9a73af9fabe6de9.json",
+					"name" : "SPI_MasterFIFOMode",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "SPI_SlaveFIFOMode::@a03f269668b424a64866",
+					"jsonFile" : "target-SPI_SlaveFIFOMode-Debug-3adf059b0ad17de45a02.json",
+					"name" : "SPI_SlaveFIFOMode",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "SYS_BODWakeup::@a03f269668b424a64866",
+					"jsonFile" : "target-SYS_BODWakeup-Debug-a0d651348d6f8a907762.json",
+					"name" : "SYS_BODWakeup",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 22,
+					"id" : "SYS_DPDMode_Wakeup::@3f50a900de43a3e4517e",
+					"jsonFile" : "target-SYS_DPDMode_Wakeup-Debug-4c9fabd92e84779110b2.json",
+					"name" : "SYS_DPDMode_Wakeup",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "SYS_PLLClockOutput::@a03f269668b424a64866",
+					"jsonFile" : "target-SYS_PLLClockOutput-Debug-f5354a6b97f3c830792a.json",
+					"name" : "SYS_PLLClockOutput",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 22,
+					"id" : "SYS_PowerDownMode::@3f50a900de43a3e4517e",
+					"jsonFile" : "target-SYS_PowerDownMode-Debug-038af4329a64c7f1bb4c.json",
+					"name" : "SYS_PowerDownMode",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 22,
+					"id" : "SYS_PowerDown_MinCurrent::@3f50a900de43a3e4517e",
+					"jsonFile" : "target-SYS_PowerDown_MinCurrent-Debug-e204c30c68e0d73e62ba.json",
+					"name" : "SYS_PowerDown_MinCurrent",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 22,
+					"id" : "SYS_PowerMode::@3f50a900de43a3e4517e",
+					"jsonFile" : "target-SYS_PowerMode-Debug-1c54961b09d8a0fa7832.json",
+					"name" : "SYS_PowerMode",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 22,
+					"id" : "SYS_SPDMode_Wakeup::@3f50a900de43a3e4517e",
+					"jsonFile" : "target-SYS_SPDMode_Wakeup-Debug-6c5257aaf96ce5bb8ffd.json",
+					"name" : "SYS_SPDMode_Wakeup",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 22,
+					"id" : "SYS_SPDMode_WakeupAndReturn::@3f50a900de43a3e4517e",
+					"jsonFile" : "target-SYS_SPDMode_WakeupAndReturn-Debug-25189dd0a54075ed2f6a.json",
+					"name" : "SYS_SPDMode_WakeupAndReturn",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 22,
+					"id" : "SYS_SPDMode_WakeupVTOR::@3f50a900de43a3e4517e",
+					"jsonFile" : "target-SYS_SPDMode_WakeupVTOR-Debug-cfb50047935cb1d39012.json",
+					"name" : "SYS_SPDMode_WakeupVTOR",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "SYS_TrimHIRC::@a03f269668b424a64866",
+					"jsonFile" : "target-SYS_TrimHIRC-Debug-bfdf6fa719df339c69ca.json",
+					"name" : "SYS_TrimHIRC",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "Template::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Template-Debug-a235d474befa5943c6d7.json",
+					"name" : "Template",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "UART_AutoBaudRate::@a03f269668b424a64866",
+					"jsonFile" : "target-UART_AutoBaudRate-Debug-f4f9a14a507b0167f5ea.json",
+					"name" : "UART_AutoBaudRate",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "UART_AutoFlow::@a03f269668b424a64866",
+					"jsonFile" : "target-UART_AutoFlow-Debug-5c481e0e2931b65bfb6e.json",
+					"name" : "UART_AutoFlow",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "UART_IrDA::@a03f269668b424a64866",
+					"jsonFile" : "target-UART_IrDA-Debug-c0113fc1222e4eb7897e.json",
+					"name" : "UART_IrDA",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "UART_LIN::@a03f269668b424a64866",
+					"jsonFile" : "target-UART_LIN-Debug-4c0dde8d7d536c468678.json",
+					"name" : "UART_LIN",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "UART_PDMA::@a03f269668b424a64866",
+					"jsonFile" : "target-UART_PDMA-Debug-e7df0779d977d11abc83.json",
+					"name" : "UART_PDMA",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "UART_RS485::@a03f269668b424a64866",
+					"jsonFile" : "target-UART_RS485-Debug-4a4e764ad6614175c2d2.json",
+					"name" : "UART_RS485",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "UART_SingleWire::@a03f269668b424a64866",
+					"jsonFile" : "target-UART_SingleWire-Debug-24927bcc92d5312828cd.json",
+					"name" : "UART_SingleWire",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "UART_TxRxFunction::@a03f269668b424a64866",
+					"jsonFile" : "target-UART_TxRxFunction-Debug-67fca7f74099e639d1ae.json",
+					"name" : "UART_TxRxFunction",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "UART_Wakeup::@a03f269668b424a64866",
+					"jsonFile" : "target-UART_Wakeup-Debug-abe56e9e12ebfc0ef7ef.json",
+					"name" : "UART_Wakeup",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "USCI_SPI_Loopback::@a03f269668b424a64866",
+					"jsonFile" : "target-USCI_SPI_Loopback-Debug-add9701e70ff87311683.json",
+					"name" : "USCI_SPI_Loopback",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "USCI_SPI_MasterMode::@a03f269668b424a64866",
+					"jsonFile" : "target-USCI_SPI_MasterMode-Debug-df8e5c982d8f994d82f5.json",
+					"name" : "USCI_SPI_MasterMode",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "USCI_SPI_SlaveMode::@a03f269668b424a64866",
+					"jsonFile" : "target-USCI_SPI_SlaveMode-Debug-7009d46505746d57a9cb.json",
+					"name" : "USCI_SPI_SlaveMode",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "USCI_UART_AutoBaudRate::@a03f269668b424a64866",
+					"jsonFile" : "target-USCI_UART_AutoBaudRate-Debug-af94201f5072f6fb512b.json",
+					"name" : "USCI_UART_AutoBaudRate",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "USCI_UART_AutoFlow::@a03f269668b424a64866",
+					"jsonFile" : "target-USCI_UART_AutoFlow-Debug-f0701524707a4c094314.json",
+					"name" : "USCI_UART_AutoFlow",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "USCI_UART_PDMA::@a03f269668b424a64866",
+					"jsonFile" : "target-USCI_UART_PDMA-Debug-e99394c5c50ada67dfae.json",
+					"name" : "USCI_UART_PDMA",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "USCI_UART_RS485::@a03f269668b424a64866",
+					"jsonFile" : "target-USCI_UART_RS485-Debug-d423972506e909b8672d.json",
+					"name" : "USCI_UART_RS485",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "USCI_UART_TxRxFunction::@a03f269668b424a64866",
+					"jsonFile" : "target-USCI_UART_TxRxFunction-Debug-f77bcf09bcba15f9677a.json",
+					"name" : "USCI_UART_TxRxFunction",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 10,
+					"id" : "USCI_UART_Wakeup::@a03f269668b424a64866",
+					"jsonFile" : "target-USCI_UART_Wakeup-Debug-a1b4c9bcb372b6ab1bae.json",
+					"name" : "USCI_UART_Wakeup",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 8,
+					"id" : "emWin_GIFDecoder::@d222a66a57c098556ebe",
+					"jsonFile" : "target-emWin_GIFDecoder-Debug-0ba582e4a2a457935593.json",
+					"name" : "emWin_GIFDecoder",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 4,
+					"id" : "fatfs_lib::@a0847c9b5a3320894f9e",
+					"jsonFile" : "target-fatfs_lib-Debug-0b4b3616174158fa9696.json",
+					"name" : "fatfs_lib",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 7,
+					"id" : "freertos_lib::@d347cbad3f0b1f0a6701",
+					"jsonFile" : "target-freertos_lib-Debug-365250a8a23e1bd5a4a9.json",
+					"name" : "freertos_lib",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 5,
+					"id" : "libmad::@f3d6224c551e3334ab14",
+					"jsonFile" : "target-libmad-Debug-35f8be8d9cba441ffc6f.json",
+					"name" : "libmad",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 7,
+					"id" : "lvgl_lib::@d347cbad3f0b1f0a6701",
+					"jsonFile" : "target-lvgl_lib-Debug-c30b5f03944d62e0a7da.json",
+					"name" : "lvgl_lib",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "standard_driver::@f6c3ccf5af6ef4b72675",
+					"jsonFile" : "target-standard_driver-Debug-4f7aa3192bd89ba1e893.json",
+					"name" : "standard_driver",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "usbhost_cdc::@48c811dfaae48db03eb0",
+					"jsonFile" : "target-usbhost_cdc-Debug-9cf4aaf43497f8baedf1.json",
+					"name" : "usbhost_cdc",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "usbhost_core::@48c811dfaae48db03eb0",
+					"jsonFile" : "target-usbhost_core-Debug-5805eba9bbdee3136aeb.json",
+					"name" : "usbhost_core",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "usbhost_hid::@48c811dfaae48db03eb0",
+					"jsonFile" : "target-usbhost_hid-Debug-0d46b843a39d91508519.json",
+					"name" : "usbhost_hid",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "usbhost_msc::@48c811dfaae48db03eb0",
+					"jsonFile" : "target-usbhost_msc-Debug-31198ff7ad5e1929d2ab.json",
+					"name" : "usbhost_msc",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "usbhost_uac::@48c811dfaae48db03eb0",
+					"jsonFile" : "target-usbhost_uac-Debug-fd3ba2adcc35af9dd602.json",
+					"name" : "usbhost_uac",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "xmodem_lib::@8731c7e1897f32b3623b",
+					"jsonFile" : "target-xmodem_lib-Debug-9d8c93c19993fec06530.json",
+					"name" : "xmodem_lib",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "C:/Users/cfwu3/Desktop/Nuvoton_BSP/M3331/build/armclang",
+		"source" : "C:/Users/cfwu3/Desktop/Nuvoton_BSP/M3331"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 7
+	}
+}

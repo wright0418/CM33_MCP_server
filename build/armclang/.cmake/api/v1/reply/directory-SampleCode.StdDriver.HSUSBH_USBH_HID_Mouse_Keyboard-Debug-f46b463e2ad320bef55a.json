@@ -1,0 +1,14 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : [],
+		"nodes" : []
+	},
+	"installers" : [],
+	"paths" : 
+	{
+		"build" : "SampleCode/StdDriver/HSUSBH_USBH_HID_Mouse_Keyboard",
+		"source" : "SampleCode/StdDriver/HSUSBH_USBH_HID_Mouse_Keyboard"
+	}
+}

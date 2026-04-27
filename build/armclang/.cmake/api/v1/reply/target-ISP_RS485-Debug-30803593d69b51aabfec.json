@@ -1,0 +1,340 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "SampleCode/ISP/ISP_RS485.elf"
+		}
+	],
+	"backtrace" : 2,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_executable",
+			"create_project_no_startup",
+			"target_link_options",
+			"target_link_libraries",
+			"include_directories"
+		],
+		"files" : 
+		[
+			"CMakeLists.txt",
+			"SampleCode/ISP/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 1
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 10,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 164,
+				"parent" : 1
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 168,
+				"parent" : 1
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 165,
+				"parent" : 1
+			},
+			{
+				"file" : 0
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 215,
+				"parent" : 5
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 216,
+				"parent" : 5
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 217,
+				"parent" : 5
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 218,
+				"parent" : 5
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 219,
+				"parent" : 5
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 222,
+				"parent" : 5
+			},
+			{
+				"command" : 4,
+				"file" : 0,
+				"line" : 223,
+				"parent" : 5
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "-xc -std=c99  --target=arm-arm-none-eabi -mcpu=cortex-m33 -mfloat-abi=hard -c -fno-rtti -funsigned-char -fshort-enums -fshort-wchar -D__MICROLIB -gdwarf-3 -O2 -flto -fno-function-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wconditional-uninitialized -Wunused-variable -D__MICROLIB -DMBEDTLS_CONFIG_FILE=mbedtls_config.h -Ic:/Keil_v5/ARM/ARMCLANG/include -g"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 6,
+					"path" : "/include"
+				},
+				{
+					"backtrace" : 7,
+					"path" : "C:/Users/cfwu3/Desktop/Nuvoton_BSP/M3331/Library/CMSIS/Core/Include"
+				},
+				{
+					"backtrace" : 8,
+					"path" : "C:/Users/cfwu3/Desktop/Nuvoton_BSP/M3331/Library/Device/Nuvoton/m3331/Include"
+				},
+				{
+					"backtrace" : 9,
+					"path" : "C:/Users/cfwu3/Desktop/Nuvoton_BSP/M3331/Library/StdDriver/inc"
+				},
+				{
+					"backtrace" : 10,
+					"path" : "C:/Users/cfwu3/Desktop/Nuvoton_BSP/M3331/Library/NuMaker/xmodem"
+				},
+				{
+					"backtrace" : 11,
+					"path" : "C:/Users/cfwu3/Desktop/Nuvoton_BSP/M3331/ThirdParty/FatFs/source"
+				},
+				{
+					"backtrace" : 12,
+					"path" : "C:/Users/cfwu3/Desktop/Nuvoton_BSP/M3331/ThirdParty/LibMAD/inc"
+				}
+			],
+			"language" : "C",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6
+			]
+		}
+	],
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 4,
+			"id" : "standard_driver::@f6c3ccf5af6ef4b72675"
+		}
+	],
+	"id" : "ISP_RS485::@b297954b2e250d564df6",
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "-xc -std=c99  --target=arm-arm-none-eabi -mcpu=cortex-m33 -mfloat-abi=hard -c -fno-rtti -funsigned-char -fshort-enums -fshort-wchar -D__MICROLIB -gdwarf-3 -O2 -flto -fno-function-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wconditional-uninitialized -Wunused-variable -D__MICROLIB -DMBEDTLS_CONFIG_FILE=mbedtls_config.h -Ic:/Keil_v5/ARM/ARMCLANG/include -g",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "--lto",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "--cpu=Cortex-M33",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "--library_type=microlib",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "--lto",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "--scatter",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "C:/Users/cfwu3/Desktop/Nuvoton_BSP/M3331/Library/Device/Nuvoton/m3331/Config/m3331_ac6.sct",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "--entry",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "Reset_Handler",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "--strict",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "--map",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "--datacompressor=off",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "--info=inline",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "--summary_stderr",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "--info",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "totals",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "--load_addr_map_info",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "--xref",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "--callgraph",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "--symbols",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 4,
+				"fragment" : "Library\\StdDriver\\src\\libstandard_driver.a",
+				"role" : "libraries"
+			}
+		],
+		"language" : "C"
+	},
+	"name" : "ISP_RS485",
+	"nameOnDisk" : "ISP_RS485.elf",
+	"paths" : 
+	{
+		"build" : "SampleCode/ISP",
+		"source" : "SampleCode/ISP"
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				3,
+				4,
+				5,
+				6
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Library/Device/Nuvoton/m3331/Source/startup_m3331.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "Library/Device/Nuvoton/m3331/Source/system_m3331.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "SampleCode/ISP/ISP_RS485/main.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "SampleCode/ISP/ISP_RS485/fmc_user.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "SampleCode/ISP/ISP_RS485/isp_user.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "SampleCode/ISP/ISP_RS485/targetdev.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 2,
+			"compileGroupIndex" : 0,
+			"path" : "SampleCode/ISP/ISP_RS485/uart_transfer.c",
+			"sourceGroupIndex" : 0
+		}
+	],
+	"type" : "EXECUTABLE"
+}

@@ -1,0 +1,14 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : [],
+		"nodes" : []
+	},
+	"installers" : [],
+	"paths" : 
+	{
+		"build" : "SampleCode/StdDriver/HSUSBH_USBH_Firmware_Update",
+		"source" : "SampleCode/StdDriver/HSUSBH_USBH_Firmware_Update"
+	}
+}

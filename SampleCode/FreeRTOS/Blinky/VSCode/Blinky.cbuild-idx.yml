@@ -1,0 +1,21 @@
+build-idx:
+  generated-by: csolution version 2.9.0
+  csolution: Blinky.csolution.yml
+  tmpdir: tmp
+  cprojects:
+    - cproject: Blinky.cproject.yml
+  cbuilds:
+    - cbuild: Blinky+FreeRTOS.cbuild.yml
+      project: Blinky
+      configuration: +FreeRTOS
+      errors: true
+      messages:
+        errors:
+          - "required pack: Nuvoton::NuMicroM33_DFP@^1.0.3 not installed"
+          - "specified device 'M3334KIGAE' not found in the installed packs. Use:\n  cpackget add Vendor::PackName"
+          - processing context 'Blinky+FreeRTOS' failed
+        info:
+          - Blinky.cbuild-pack.yml - file skipped
+          - Blinky+FreeRTOS.cbuild.yml - file is already up-to-date
+      packs-missing:
+        - pack: Nuvoton::NuMicroM33_DFP@^1.0.3

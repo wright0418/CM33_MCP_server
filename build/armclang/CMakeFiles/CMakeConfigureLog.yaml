@@ -1,0 +1,737 @@
+
+---
+events:
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineSystem.cmake:200 (message)"
+      - "CMakeLists.txt:109 (project)"
+    message: |
+      The target system is: Generic - 5 - ARM
+      The host system is: Windows - 10.0.22631 - AMD64
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCCompiler.cmake:123 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:109 (project)"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+      Compiler: C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/compilers.arm.armclang/6.24.0/bin/armclang.exe 
+      Build flags: -xc;-std=c99;--target=arm-arm-none-eabi;-mcpu=cortex-m33;-mfloat-abi=hard;-c;-fno-rtti;-funsigned-char;-fshort-enums;-fshort-wchar;-D__MICROLIB;-gdwarf-3;-O2;-flto;-fno-function-sections;-Wno-packed;-Wno-missing-variable-declarations;-Wno-missing-prototypes;-Wno-missing-noreturn;-Wno-sign-conversion;-Wno-nonportable-include-path;-Wno-reserved-id-macro;-Wno-unused-macros;-Wno-documentation-unknown-command;-Wno-documentation;-Wno-license-management;-Wno-parentheses-equality;-Wconditional-uninitialized;-Wunused-variable;-D__MICROLIB;-DMBEDTLS_CONFIG_FILE=mbedtls_config.h;-Ic:/Keil_v5/ARM/ARMCLANG/include
+      Id flags:  
+      
+      The output was:
+      0
+      
+      
+      Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CMakeCCompilerId.o"
+      
+      The C compiler identification could not be found in:
+        C:/Users/cfwu3/Desktop/Nuvoton_BSP/M3331/build/armclang/CMakeFiles/3.31.5/CompilerIdC/CMakeCCompilerId.o
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCCompiler.cmake:123 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:109 (project)"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+      Compiler: C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/compilers.arm.armclang/6.24.0/bin/armclang.exe 
+      Build flags: -xc;-std=c99;--target=arm-arm-none-eabi;-mcpu=cortex-m33;-mfloat-abi=hard;-c;-fno-rtti;-funsigned-char;-fshort-enums;-fshort-wchar;-D__MICROLIB;-gdwarf-3;-O2;-flto;-fno-function-sections;-Wno-packed;-Wno-missing-variable-declarations;-Wno-missing-prototypes;-Wno-missing-noreturn;-Wno-sign-conversion;-Wno-nonportable-include-path;-Wno-reserved-id-macro;-Wno-unused-macros;-Wno-documentation-unknown-command;-Wno-documentation;-Wno-license-management;-Wno-parentheses-equality;-Wconditional-uninitialized;-Wunused-variable;-D__MICROLIB;-DMBEDTLS_CONFIG_FILE=mbedtls_config.h;-Ic:/Keil_v5/ARM/ARMCLANG/include
+      Id flags: -c 
+      
+      The output was:
+      0
+      
+      
+      Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CMakeCCompilerId.o"
+      
+      The C compiler identification could not be found in:
+        C:/Users/cfwu3/Desktop/Nuvoton_BSP/M3331/build/armclang/CMakeFiles/3.31.5/CompilerIdC/CMakeCCompilerId.o
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCCompiler.cmake:123 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:109 (project)"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+      Compiler: C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/compilers.arm.armclang/6.24.0/bin/armclang.exe 
+      Build flags: -xc;-std=c99;--target=arm-arm-none-eabi;-mcpu=cortex-m33;-mfloat-abi=hard;-c;-fno-rtti;-funsigned-char;-fshort-enums;-fshort-wchar;-D__MICROLIB;-gdwarf-3;-O2;-flto;-fno-function-sections;-Wno-packed;-Wno-missing-variable-declarations;-Wno-missing-prototypes;-Wno-missing-noreturn;-Wno-sign-conversion;-Wno-nonportable-include-path;-Wno-reserved-id-macro;-Wno-unused-macros;-Wno-documentation-unknown-command;-Wno-documentation;-Wno-license-management;-Wno-parentheses-equality;-Wconditional-uninitialized;-Wunused-variable;-D__MICROLIB;-DMBEDTLS_CONFIG_FILE=mbedtls_config.h;-Ic:/Keil_v5/ARM/ARMCLANG/include
+      Id flags: -Aa 
+      
+      The output was:
+      0
+      armclang: warning: argument unused during compilation: '-Aa' [-Wunused-command-line-argument]
+      
+      
+      Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CMakeCCompilerId.o"
+      
+      The C compiler identification could not be found in:
+        C:/Users/cfwu3/Desktop/Nuvoton_BSP/M3331/build/armclang/CMakeFiles/3.31.5/CompilerIdC/CMakeCCompilerId.o
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCCompiler.cmake:123 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:109 (project)"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+      Compiler: C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/compilers.arm.armclang/6.24.0/bin/armclang.exe 
+      Build flags: -xc;-std=c99;--target=arm-arm-none-eabi;-mcpu=cortex-m33;-mfloat-abi=hard;-c;-fno-rtti;-funsigned-char;-fshort-enums;-fshort-wchar;-D__MICROLIB;-gdwarf-3;-O2;-flto;-fno-function-sections;-Wno-packed;-Wno-missing-variable-declarations;-Wno-missing-prototypes;-Wno-missing-noreturn;-Wno-sign-conversion;-Wno-nonportable-include-path;-Wno-reserved-id-macro;-Wno-unused-macros;-Wno-documentation-unknown-command;-Wno-documentation;-Wno-license-management;-Wno-parentheses-equality;-Wconditional-uninitialized;-Wunused-variable;-D__MICROLIB;-DMBEDTLS_CONFIG_FILE=mbedtls_config.h;-Ic:/Keil_v5/ARM/ARMCLANG/include
+      Id flags: -D__CLASSIC_C__ 
+      
+      The output was:
+      0
+      CMakeCCompilerId.c:875:5: warning: a function definition without a prototype is deprecated in all versions of C and is not supported in C23 [-Wdeprecated-non-prototype]
+        875 | int main(argc, argv) int argc; char *argv[];
+            |     ^
+      1 warning generated.
+      
+      
+      Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CMakeCCompilerId.o"
+      
+      The C compiler identification could not be found in:
+        C:/Users/cfwu3/Desktop/Nuvoton_BSP/M3331/build/armclang/CMakeFiles/3.31.5/CompilerIdC/CMakeCCompilerId.o
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCCompiler.cmake:123 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:109 (project)"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+      Compiler: C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/compilers.arm.armclang/6.24.0/bin/armclang.exe 
+      Build flags: -xc;-std=c99;--target=arm-arm-none-eabi;-mcpu=cortex-m33;-mfloat-abi=hard;-c;-fno-rtti;-funsigned-char;-fshort-enums;-fshort-wchar;-D__MICROLIB;-gdwarf-3;-O2;-flto;-fno-function-sections;-Wno-packed;-Wno-missing-variable-declarations;-Wno-missing-prototypes;-Wno-missing-noreturn;-Wno-sign-conversion;-Wno-nonportable-include-path;-Wno-reserved-id-macro;-Wno-unused-macros;-Wno-documentation-unknown-command;-Wno-documentation;-Wno-license-management;-Wno-parentheses-equality;-Wconditional-uninitialized;-Wunused-variable;-D__MICROLIB;-DMBEDTLS_CONFIG_FILE=mbedtls_config.h;-Ic:/Keil_v5/ARM/ARMCLANG/include
+      Id flags: --target=arm-arm-none-eabi;-mcpu=cortex-m3 
+      
+      The output was:
+      0
+      armclang: warning: '-mfloat-abi=hard': selected processor lacks floating point registers [-Wunsupported-abi]
+      
+      
+      Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CMakeCCompilerId.o"
+      
+      The C compiler identification could not be found in:
+        C:/Users/cfwu3/Desktop/Nuvoton_BSP/M3331/build/armclang/CMakeFiles/3.31.5/CompilerIdC/CMakeCCompilerId.o
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCCompiler.cmake:123 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:109 (project)"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+      Compiler: C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/compilers.arm.armclang/6.24.0/bin/armclang.exe 
+      Build flags: -xc;-std=c99;--target=arm-arm-none-eabi;-mcpu=cortex-m33;-mfloat-abi=hard;-c;-fno-rtti;-funsigned-char;-fshort-enums;-fshort-wchar;-D__MICROLIB;-gdwarf-3;-O2;-flto;-fno-function-sections;-Wno-packed;-Wno-missing-variable-declarations;-Wno-missing-prototypes;-Wno-missing-noreturn;-Wno-sign-conversion;-Wno-nonportable-include-path;-Wno-reserved-id-macro;-Wno-unused-macros;-Wno-documentation-unknown-command;-Wno-documentation;-Wno-license-management;-Wno-parentheses-equality;-Wconditional-uninitialized;-Wunused-variable;-D__MICROLIB;-DMBEDTLS_CONFIG_FILE=mbedtls_config.h;-Ic:/Keil_v5/ARM/ARMCLANG/include
+      Id flags: -c;-I__does_not_exist__ 
+      
+      The output was:
+      0
+      
+      
+      Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CMakeCCompilerId.o"
+      
+      The C compiler identification could not be found in:
+        C:/Users/cfwu3/Desktop/Nuvoton_BSP/M3331/build/armclang/CMakeFiles/3.31.5/CompilerIdC/CMakeCCompilerId.o
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCCompiler.cmake:123 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:109 (project)"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+      Compiler: C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/compilers.arm.armclang/6.24.0/bin/armclang.exe 
+      Build flags: 
+      Id flags:  
+      
+      The output was:
+      1
+      armclang: fatal error: no target architecture given; use --target=arm-arm-none-eabi or --target=aarch64-arm-none-eabi
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCCompiler.cmake:123 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:109 (project)"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+      Compiler: C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/compilers.arm.armclang/6.24.0/bin/armclang.exe 
+      Build flags: 
+      Id flags: -c 
+      
+      The output was:
+      1
+      armclang: fatal error: no target architecture given; use --target=arm-arm-none-eabi or --target=aarch64-arm-none-eabi
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCCompiler.cmake:123 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:109 (project)"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+      Compiler: C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/compilers.arm.armclang/6.24.0/bin/armclang.exe 
+      Build flags: 
+      Id flags: -Aa 
+      
+      The output was:
+      1
+      armclang: fatal error: no target architecture given; use --target=arm-arm-none-eabi or --target=aarch64-arm-none-eabi
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCCompiler.cmake:123 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:109 (project)"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+      Compiler: C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/compilers.arm.armclang/6.24.0/bin/armclang.exe 
+      Build flags: 
+      Id flags: -D__CLASSIC_C__ 
+      
+      The output was:
+      1
+      armclang: fatal error: no target architecture given; use --target=arm-arm-none-eabi or --target=aarch64-arm-none-eabi
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCCompiler.cmake:123 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:109 (project)"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+      Compiler: C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/compilers.arm.armclang/6.24.0/bin/armclang.exe 
+      Build flags: 
+      Id flags: --target=arm-arm-none-eabi;-mcpu=cortex-m3 
+      
+      The output was:
+      0
+      
+      
+      Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "a.out"
+      
+      The C compiler identification is ARMClang, found in:
+        C:/Users/cfwu3/Desktop/Nuvoton_BSP/M3331/build/armclang/CMakeFiles/3.31.5/CompilerIdC/a.out
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCXXCompiler.cmake:126 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:109 (project)"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+      Compiler: C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/compilers.arm.armclang/6.24.0/bin/armclang.exe 
+      Build flags: --target=arm-arm-none-eabi;-mcpu=cortex-m33;-mfloat-abi=hard;-c;-fno-rtti;-funsigned-char;-fshort-enums;-fshort-wchar;-D__MICROLIB;-gdwarf-3;-O2;-flto;-fno-function-sections;-Wno-packed;-Wno-missing-variable-declarations;-Wno-missing-prototypes;-Wno-missing-noreturn;-Wno-sign-conversion;-Wno-nonportable-include-path;-Wno-reserved-id-macro;-Wno-unused-macros;-Wno-documentation-unknown-command;-Wno-documentation;-Wno-license-management;-Wno-parentheses-equality;-Wconditional-uninitialized;-Wunused-variable;-D__MICROLIB;-DMBEDTLS_CONFIG_FILE=mbedtls_config.h;-Ic:/Keil_v5/ARM/ARMCLANG/include
+      Id flags:  
+      
+      The output was:
+      0
+      
+      
+      Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CMakeCXXCompilerId.o"
+      
+      The CXX compiler identification could not be found in:
+        C:/Users/cfwu3/Desktop/Nuvoton_BSP/M3331/build/armclang/CMakeFiles/3.31.5/CompilerIdCXX/CMakeCXXCompilerId.o
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCXXCompiler.cmake:126 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:109 (project)"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+      Compiler: C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/compilers.arm.armclang/6.24.0/bin/armclang.exe 
+      Build flags: --target=arm-arm-none-eabi;-mcpu=cortex-m33;-mfloat-abi=hard;-c;-fno-rtti;-funsigned-char;-fshort-enums;-fshort-wchar;-D__MICROLIB;-gdwarf-3;-O2;-flto;-fno-function-sections;-Wno-packed;-Wno-missing-variable-declarations;-Wno-missing-prototypes;-Wno-missing-noreturn;-Wno-sign-conversion;-Wno-nonportable-include-path;-Wno-reserved-id-macro;-Wno-unused-macros;-Wno-documentation-unknown-command;-Wno-documentation;-Wno-license-management;-Wno-parentheses-equality;-Wconditional-uninitialized;-Wunused-variable;-D__MICROLIB;-DMBEDTLS_CONFIG_FILE=mbedtls_config.h;-Ic:/Keil_v5/ARM/ARMCLANG/include
+      Id flags: -c 
+      
+      The output was:
+      0
+      
+      
+      Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CMakeCXXCompilerId.o"
+      
+      The CXX compiler identification could not be found in:
+        C:/Users/cfwu3/Desktop/Nuvoton_BSP/M3331/build/armclang/CMakeFiles/3.31.5/CompilerIdCXX/CMakeCXXCompilerId.o
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCXXCompiler.cmake:126 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:109 (project)"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" failed.
+      Compiler: C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/compilers.arm.armclang/6.24.0/bin/armclang.exe 
+      Build flags: --target=arm-arm-none-eabi;-mcpu=cortex-m33;-mfloat-abi=hard;-c;-fno-rtti;-funsigned-char;-fshort-enums;-fshort-wchar;-D__MICROLIB;-gdwarf-3;-O2;-flto;-fno-function-sections;-Wno-packed;-Wno-missing-variable-declarations;-Wno-missing-prototypes;-Wno-missing-noreturn;-Wno-sign-conversion;-Wno-nonportable-include-path;-Wno-reserved-id-macro;-Wno-unused-macros;-Wno-documentation-unknown-command;-Wno-documentation;-Wno-license-management;-Wno-parentheses-equality;-Wconditional-uninitialized;-Wunused-variable;-D__MICROLIB;-DMBEDTLS_CONFIG_FILE=mbedtls_config.h;-Ic:/Keil_v5/ARM/ARMCLANG/include
+      Id flags: --c++ 
+      
+      The output was:
+      1
+      armclang: error: unknown argument: '--c++'
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCXXCompiler.cmake:126 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:109 (project)"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" failed.
+      Compiler: C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/compilers.arm.armclang/6.24.0/bin/armclang.exe 
+      Build flags: --target=arm-arm-none-eabi;-mcpu=cortex-m33;-mfloat-abi=hard;-c;-fno-rtti;-funsigned-char;-fshort-enums;-fshort-wchar;-D__MICROLIB;-gdwarf-3;-O2;-flto;-fno-function-sections;-Wno-packed;-Wno-missing-variable-declarations;-Wno-missing-prototypes;-Wno-missing-noreturn;-Wno-sign-conversion;-Wno-nonportable-include-path;-Wno-reserved-id-macro;-Wno-unused-macros;-Wno-documentation-unknown-command;-Wno-documentation;-Wno-license-management;-Wno-parentheses-equality;-Wconditional-uninitialized;-Wunused-variable;-D__MICROLIB;-DMBEDTLS_CONFIG_FILE=mbedtls_config.h;-Ic:/Keil_v5/ARM/ARMCLANG/include
+      Id flags: --ec++ 
+      
+      The output was:
+      1
+      armclang: error: unknown argument: '--ec++'
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCXXCompiler.cmake:126 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:109 (project)"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+      Compiler: C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/compilers.arm.armclang/6.24.0/bin/armclang.exe 
+      Build flags: --target=arm-arm-none-eabi;-mcpu=cortex-m33;-mfloat-abi=hard;-c;-fno-rtti;-funsigned-char;-fshort-enums;-fshort-wchar;-D__MICROLIB;-gdwarf-3;-O2;-flto;-fno-function-sections;-Wno-packed;-Wno-missing-variable-declarations;-Wno-missing-prototypes;-Wno-missing-noreturn;-Wno-sign-conversion;-Wno-nonportable-include-path;-Wno-reserved-id-macro;-Wno-unused-macros;-Wno-documentation-unknown-command;-Wno-documentation;-Wno-license-management;-Wno-parentheses-equality;-Wconditional-uninitialized;-Wunused-variable;-D__MICROLIB;-DMBEDTLS_CONFIG_FILE=mbedtls_config.h;-Ic:/Keil_v5/ARM/ARMCLANG/include
+      Id flags: --target=arm-arm-none-eabi;-mcpu=cortex-m3 
+      
+      The output was:
+      0
+      armclang: warning: '-mfloat-abi=hard': selected processor lacks floating point registers [-Wunsupported-abi]
+      
+      
+      Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CMakeCXXCompilerId.o"
+      
+      The CXX compiler identification could not be found in:
+        C:/Users/cfwu3/Desktop/Nuvoton_BSP/M3331/build/armclang/CMakeFiles/3.31.5/CompilerIdCXX/CMakeCXXCompilerId.o
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCXXCompiler.cmake:126 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:109 (project)"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+      Compiler: C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/compilers.arm.armclang/6.24.0/bin/armclang.exe 
+      Build flags: --target=arm-arm-none-eabi;-mcpu=cortex-m33;-mfloat-abi=hard;-c;-fno-rtti;-funsigned-char;-fshort-enums;-fshort-wchar;-D__MICROLIB;-gdwarf-3;-O2;-flto;-fno-function-sections;-Wno-packed;-Wno-missing-variable-declarations;-Wno-missing-prototypes;-Wno-missing-noreturn;-Wno-sign-conversion;-Wno-nonportable-include-path;-Wno-reserved-id-macro;-Wno-unused-macros;-Wno-documentation-unknown-command;-Wno-documentation;-Wno-license-management;-Wno-parentheses-equality;-Wconditional-uninitialized;-Wunused-variable;-D__MICROLIB;-DMBEDTLS_CONFIG_FILE=mbedtls_config.h;-Ic:/Keil_v5/ARM/ARMCLANG/include
+      Id flags: -c;-I__does_not_exist__ 
+      
+      The output was:
+      0
+      
+      
+      Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CMakeCXXCompilerId.o"
+      
+      The CXX compiler identification could not be found in:
+        C:/Users/cfwu3/Desktop/Nuvoton_BSP/M3331/build/armclang/CMakeFiles/3.31.5/CompilerIdCXX/CMakeCXXCompilerId.o
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCXXCompiler.cmake:126 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:109 (project)"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" failed.
+      Compiler: C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/compilers.arm.armclang/6.24.0/bin/armclang.exe 
+      Build flags: 
+      Id flags:  
+      
+      The output was:
+      1
+      armclang: fatal error: no target architecture given; use --target=arm-arm-none-eabi or --target=aarch64-arm-none-eabi
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCXXCompiler.cmake:126 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:109 (project)"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" failed.
+      Compiler: C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/compilers.arm.armclang/6.24.0/bin/armclang.exe 
+      Build flags: 
+      Id flags: -c 
+      
+      The output was:
+      1
+      armclang: fatal error: no target architecture given; use --target=arm-arm-none-eabi or --target=aarch64-arm-none-eabi
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCXXCompiler.cmake:126 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:109 (project)"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" failed.
+      Compiler: C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/compilers.arm.armclang/6.24.0/bin/armclang.exe 
+      Build flags: 
+      Id flags: --c++ 
+      
+      The output was:
+      1
+      armclang: error: unknown argument: '--c++'
+      armclang: fatal error: no target architecture given; use --target=arm-arm-none-eabi or --target=aarch64-arm-none-eabi
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCXXCompiler.cmake:126 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:109 (project)"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" failed.
+      Compiler: C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/compilers.arm.armclang/6.24.0/bin/armclang.exe 
+      Build flags: 
+      Id flags: --ec++ 
+      
+      The output was:
+      1
+      armclang: error: unknown argument: '--ec++'
+      armclang: fatal error: no target architecture given; use --target=arm-arm-none-eabi or --target=aarch64-arm-none-eabi
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCXXCompiler.cmake:126 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:109 (project)"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+      Compiler: C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/compilers.arm.armclang/6.24.0/bin/armclang.exe 
+      Build flags: 
+      Id flags: --target=arm-arm-none-eabi;-mcpu=cortex-m3 
+      
+      The output was:
+      0
+      
+      
+      Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "a.out"
+      
+      The CXX compiler identification is ARMClang, found in:
+        C:/Users/cfwu3/Desktop/Nuvoton_BSP/M3331/build/armclang/CMakeFiles/3.31.5/CompilerIdCXX/a.out
+      
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:74 (try_compile)"
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:109 (project)"
+    checks:
+      - "Detecting C compiler ABI info"
+    directories:
+      source: "C:/Users/cfwu3/Desktop/Nuvoton_BSP/M3331/build/armclang/CMakeFiles/CMakeScratch/TryCompile-i9xakn"
+      binary: "C:/Users/cfwu3/Desktop/Nuvoton_BSP/M3331/build/armclang/CMakeFiles/CMakeScratch/TryCompile-i9xakn"
+    cmakeVariables:
+      CMAKE_C_COMPILER_TARGET: "arm-arm-none-eabi"
+      CMAKE_C_FLAGS: "-xc -std=c99  --target=arm-arm-none-eabi -mcpu=cortex-m33 -mfloat-abi=hard -c -fno-rtti -funsigned-char -fshort-enums -fshort-wchar -D__MICROLIB -gdwarf-3 -O2 -flto -fno-function-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wconditional-uninitialized -Wunused-variable -D__MICROLIB -DMBEDTLS_CONFIG_FILE=mbedtls_config.h -Ic:/Keil_v5/ARM/ARMCLANG/include"
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: "--lto"
+    buildResult:
+      variable: "CMAKE_C_ABI_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/Users/cfwu3/Desktop/Nuvoton_BSP/M3331/build/armclang/CMakeFiles/CMakeScratch/TryCompile-i9xakn'
+        
+        Run Build Command(s): C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.ninja.build.ninja/1.12.0/ninja.exe -v cmTC_32391
+        [1/2] C:\\Users\\cfwu3\\.vcpkg\\artifacts\\2139c4c6\\compilers.arm.armclang\\6.24.0\\bin\\armclang.exe --target=arm-arm-none-eabi   -xc -std=c99  --target=arm-arm-none-eabi -mcpu=cortex-m33 -mfloat-abi=hard -c -fno-rtti -funsigned-char -fshort-enums -fshort-wchar -D__MICROLIB -gdwarf-3 -O2 -flto -fno-function-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wconditional-uninitialized -Wunused-variable -D__MICROLIB -DMBEDTLS_CONFIG_FILE=mbedtls_config.h -Ic:/Keil_v5/ARM/ARMCLANG/include    -v -MD -MT CMakeFiles/cmTC_32391.dir/CMakeCCompilerABI.o -MF CMakeFiles\\cmTC_32391.dir\\CMakeCCompilerABI.o.d -o CMakeFiles/cmTC_32391.dir/CMakeCCompilerABI.o -c C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeCCompilerABI.c
+        Product: Keil MDK Nuvoton Edition - Full Cortex-M
+        Component: Arm Compiler for Embedded 6.24
+        Tool: armclang [5f371800]
+        
+        Target: arm-arm-none-eabi
+         (in-process)
+         "C:\\\\Users\\\\cfwu3\\\\.vcpkg\\\\artifacts\\\\2139c4c6\\\\compilers.arm.armclang\\\\6.24.0\\\\bin\\\\armclang.exe" -cc1 -triple thumbv8m.main-arm-none-eabihf -emit-obj -flto=full -flto-unit -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model static -mframe-pointer=none -menable-no-infs -menable-no-nans -fmath-errno -fno-signed-zeros -fdenormal-fp-math=preserve-sign,preserve-sign -ffp-contract=on -fno-rounding-math -ffinite-math-only -mconstructor-aliases -target-cpu cortex-m33 -target-feature -crc -target-feature -dotprod -target-feature +dsp -target-feature -mve -target-feature -ras -target-feature -bf16 -target-feature -sb -target-feature -i8mm -target-feature -lob -target-feature -cdecp0 -target-feature -cdecp1 -target-feature -cdecp2 -target-feature -cdecp3 -target-feature -cdecp4 -target-feature -cdecp5 -target-feature -cdecp6 -target-feature -cdecp7 -target-feature -pacbti -target-feature -fce -target-feature -hwdiv-arm -target-feature +hwdiv -target-feature -vfp2 -target-feature +vfp2sp -target-feature -vfp3 -target-feature -vfp3d16 -target-feature +vfp3d16sp -target-feature -vfp3sp -target-feature +fp16 -target-feature -vfp4 -target-feature -vfp4d16 -target-feature +vfp4d16sp -target-feature -vfp4sp -target-feature -fp-armv8 -target-feature -fp-armv8d16 -target-feature +fp-armv8d16sp -target-feature -fp-armv8sp -target-feature -fullfp16 -target-feature -fp64 -target-feature -d32 -target-feature -neon -target-feature -fp16fml -target-feature -mve.fp -target-feature -crypto -target-feature -sha2 -target-feature -aes -target-abi aapcs -mfloat-abi hard -debug-info-kind=constructor -dwarf-version=3 -debugger-tuning=gdb -fforce-dwarf-frame "-fdebug-compilation-dir=C:\\\\Users\\\\cfwu3\\\\Desktop\\\\Nuvoton_BSP\\\\M3331\\\\build\\\\armclang\\\\CMakeFiles\\\\CMakeScratch\\\\TryCompile-i9xakn" -v -fdata-sections "-fcoverage-compilation-dir=C:\\\\Users\\\\cfwu3\\\\Desktop\\\\Nuvoton_BSP\\\\M3331\\\\build\\\\armclang\\\\CMakeFiles\\\\CMakeScratch\\\\TryCompile-i9xakn" -resource-dir "C:\\\\Users\\\\cfwu3\\\\.vcpkg\\\\artifacts\\\\2139c4c6\\\\compilers.arm.armclang\\\\6.24.0\\\\lib\\\\clang\\\\20" -dependency-file "CMakeFiles\\\\cmTC_32391.dir\\\\CMakeCCompilerABI.o.d" -MT CMakeFiles/cmTC_32391.dir/CMakeCCompilerABI.o -sys-header-deps -D __MICROLIB -D __MICROLIB -D MBEDTLS_CONFIG_FILE=mbedtls_config.h -I c:/Keil_v5/ARM/ARMCLANG/include -internal-isystem "C:\\\\Users\\\\cfwu3\\\\.vcpkg\\\\artifacts\\\\2139c4c6\\\\compilers.arm.armclang\\\\6.24.0\\\\bin\\\\..\\\\include" -nobuiltininc -O2 -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wconditional-uninitialized -Wunused-variable -std=c99 -ferror-limit 19 -fvisibility=hidden -fshort-enums -fno-signed-char -fwchar-type=short -fno-signed-wchar -fgnuc-version=4.2.1 -fskip-odr-check-in-gmf -fsuppress-licensing -vectorize-loops -vectorize-slp -aggressive-jump-threading -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_32391.dir/CMakeCCompilerABI.o -x c C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeCCompilerABI.c
+        Arm Compiler for Embedded 6.24 -cc1 default target aarch64-arm-none-eabi
+        ignoring nonexistent directory "c:/Keil_v5/ARM/ARMCLANG/include"\x0d
+        #include "..." search starts here:\x0d
+        #include <...> search starts here:\x0d
+         C:\\Users\\cfwu3\\.vcpkg\\artifacts\\2139c4c6\\compilers.arm.armclang\\6.24.0\\bin\\..\\include\x0d
+        End of search list.\x0d
+        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\Users\\cfwu3\\.vcpkg\\artifacts\\2139c4c6\\compilers.arm.armclang\\6.24.0\\bin\\armlink.exe --lto -v   CMakeFiles/cmTC_32391.dir/CMakeCCompilerABI.o -o cmTC_32391.elf  --list=cmTC_32391.elf.map && cd ."
+        
+      exitCode: 0
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:182 (message)"
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:109 (project)"
+    message: |
+      Parsed C implicit include dir info: rv=done
+        found start of include info
+        found start of implicit include info
+          add: [C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/compilers.arm.armclang/6.24.0/bin/../include]
+        end of search list found
+        collapse include dir [C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/compilers.arm.armclang/6.24.0/bin/../include] ==> [C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/compilers.arm.armclang/6.24.0/include]
+        implicit include dirs: [C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/compilers.arm.armclang/6.24.0/include]
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:218 (message)"
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:109 (project)"
+    message: |
+      Parsed C implicit link information:
+        link line regex: [^( *|.*[/\\])(armlink\\.exe|;ld[0-9]*(\\.[a-z]+)?|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
+        linker tool regex: [^[ 	]*(->|")?[ 	]*(([^"]*[/\\])?(armlink\\.exe|;ld[0-9]*(\\.[a-z]+)?))("|,| |$)]
+        ignore line: [Change Dir: 'C:/Users/cfwu3/Desktop/Nuvoton_BSP/M3331/build/armclang/CMakeFiles/CMakeScratch/TryCompile-i9xakn']
+        ignore line: []
+        ignore line: [Run Build Command(s): C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.ninja.build.ninja/1.12.0/ninja.exe -v cmTC_32391]
+        ignore line: [[1/2] C:\\Users\\cfwu3\\.vcpkg\\artifacts\\2139c4c6\\compilers.arm.armclang\\6.24.0\\bin\\armclang.exe --target=arm-arm-none-eabi   -xc -std=c99  --target=arm-arm-none-eabi -mcpu=cortex-m33 -mfloat-abi=hard -c -fno-rtti -funsigned-char -fshort-enums -fshort-wchar -D__MICROLIB -gdwarf-3 -O2 -flto -fno-function-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wconditional-uninitialized -Wunused-variable -D__MICROLIB -DMBEDTLS_CONFIG_FILE=mbedtls_config.h -Ic:/Keil_v5/ARM/ARMCLANG/include    -v -MD -MT CMakeFiles/cmTC_32391.dir/CMakeCCompilerABI.o -MF CMakeFiles\\cmTC_32391.dir\\CMakeCCompilerABI.o.d -o CMakeFiles/cmTC_32391.dir/CMakeCCompilerABI.o -c C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeCCompilerABI.c]
+        ignore line: [Product: Keil MDK Nuvoton Edition - Full Cortex-M]
+        ignore line: [Component: Arm Compiler for Embedded 6.24]
+        ignore line: [Tool: armclang [5f371800]]
+        ignore line: []
+        ignore line: [Target: arm-arm-none-eabi]
+        ignore line: [ (in-process)]
+        ignore line: [ "C:\\\\Users\\\\cfwu3\\\\.vcpkg\\\\artifacts\\\\2139c4c6\\\\compilers.arm.armclang\\\\6.24.0\\\\bin\\\\armclang.exe" -cc1 -triple thumbv8m.main-arm-none-eabihf -emit-obj -flto=full -flto-unit -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model static -mframe-pointer=none -menable-no-infs -menable-no-nans -fmath-errno -fno-signed-zeros -fdenormal-fp-math=preserve-sign preserve-sign -ffp-contract=on -fno-rounding-math -ffinite-math-only -mconstructor-aliases -target-cpu cortex-m33 -target-feature -crc -target-feature -dotprod -target-feature +dsp -target-feature -mve -target-feature -ras -target-feature -bf16 -target-feature -sb -target-feature -i8mm -target-feature -lob -target-feature -cdecp0 -target-feature -cdecp1 -target-feature -cdecp2 -target-feature -cdecp3 -target-feature -cdecp4 -target-feature -cdecp5 -target-feature -cdecp6 -target-feature -cdecp7 -target-feature -pacbti -target-feature -fce -target-feature -hwdiv-arm -target-feature +hwdiv -target-feature -vfp2 -target-feature +vfp2sp -target-feature -vfp3 -target-feature -vfp3d16 -target-feature +vfp3d16sp -target-feature -vfp3sp -target-feature +fp16 -target-feature -vfp4 -target-feature -vfp4d16 -target-feature +vfp4d16sp -target-feature -vfp4sp -target-feature -fp-armv8 -target-feature -fp-armv8d16 -target-feature +fp-armv8d16sp -target-feature -fp-armv8sp -target-feature -fullfp16 -target-feature -fp64 -target-feature -d32 -target-feature -neon -target-feature -fp16fml -target-feature -mve.fp -target-feature -crypto -target-feature -sha2 -target-feature -aes -target-abi aapcs -mfloat-abi hard -debug-info-kind=constructor -dwarf-version=3 -debugger-tuning=gdb -fforce-dwarf-frame "-fdebug-compilation-dir=C:\\\\Users\\\\cfwu3\\\\Desktop\\\\Nuvoton_BSP\\\\M3331\\\\build\\\\armclang\\\\CMakeFiles\\\\CMakeScratch\\\\TryCompile-i9xakn" -v -fdata-sections "-fcoverage-compilation-dir=C:\\\\Users\\\\cfwu3\\\\Desktop\\\\Nuvoton_BSP\\\\M3331\\\\build\\\\armclang\\\\CMakeFiles\\\\CMakeScratch\\\\TryCompile-i9xakn" -resource-dir "C:\\\\Users\\\\cfwu3\\\\.vcpkg\\\\artifacts\\\\2139c4c6\\\\compilers.arm.armclang\\\\6.24.0\\\\lib\\\\clang\\\\20" -dependency-file "CMakeFiles\\\\cmTC_32391.dir\\\\CMakeCCompilerABI.o.d" -MT CMakeFiles/cmTC_32391.dir/CMakeCCompilerABI.o -sys-header-deps -D __MICROLIB -D __MICROLIB -D MBEDTLS_CONFIG_FILE=mbedtls_config.h -I c:/Keil_v5/ARM/ARMCLANG/include -internal-isystem "C:\\\\Users\\\\cfwu3\\\\.vcpkg\\\\artifacts\\\\2139c4c6\\\\compilers.arm.armclang\\\\6.24.0\\\\bin\\\\..\\\\include" -nobuiltininc -O2 -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wconditional-uninitialized -Wunused-variable -std=c99 -ferror-limit 19 -fvisibility=hidden -fshort-enums -fno-signed-char -fwchar-type=short -fno-signed-wchar -fgnuc-version=4.2.1 -fskip-odr-check-in-gmf -fsuppress-licensing -vectorize-loops -vectorize-slp -aggressive-jump-threading -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_32391.dir/CMakeCCompilerABI.o -x c C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeCCompilerABI.c]
+        ignore line: [Arm Compiler for Embedded 6.24 -cc1 default target aarch64-arm-none-eabi]
+        ignore line: [ignoring nonexistent directory "c:/Keil_v5/ARM/ARMCLANG/include"\x0d]
+        ignore line: [#include "..." search starts here:\x0d]
+        ignore line: [#include <...> search starts here:\x0d]
+        ignore line: [ C:\\Users\\cfwu3\\.vcpkg\\artifacts\\2139c4c6\\compilers.arm.armclang\\6.24.0\\bin\\..\\include\x0d]
+        ignore line: [End of search list.\x0d]
+        ignore line: [[2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\Users\\cfwu3\\.vcpkg\\artifacts\\2139c4c6\\compilers.arm.armclang\\6.24.0\\bin\\armlink.exe --lto -v   CMakeFiles/cmTC_32391.dir/CMakeCCompilerABI.o -o cmTC_32391.elf  --list=cmTC_32391.elf.map && cd ."]
+        ignore line: []
+        ignore line: []
+        implicit libs: []
+        implicit objs: []
+        implicit dirs: []
+        implicit fwks: []
+      
+      
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:74 (try_compile)"
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:109 (project)"
+    checks:
+      - "Detecting CXX compiler ABI info"
+    directories:
+      source: "C:/Users/cfwu3/Desktop/Nuvoton_BSP/M3331/build/armclang/CMakeFiles/CMakeScratch/TryCompile-295h58"
+      binary: "C:/Users/cfwu3/Desktop/Nuvoton_BSP/M3331/build/armclang/CMakeFiles/CMakeScratch/TryCompile-295h58"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_TARGET: "arm-arm-none-eabi"
+      CMAKE_CXX_FLAGS: "--target=arm-arm-none-eabi -mcpu=cortex-m33 -mfloat-abi=hard -c -fno-rtti -funsigned-char -fshort-enums -fshort-wchar -D__MICROLIB -gdwarf-3 -O2 -flto -fno-function-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wconditional-uninitialized -Wunused-variable -D__MICROLIB -DMBEDTLS_CONFIG_FILE=mbedtls_config.h -Ic:/Keil_v5/ARM/ARMCLANG/include"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_CXX_SCAN_FOR_MODULES: "OFF"
+      CMAKE_C_COMPILER_TARGET: "arm-arm-none-eabi"
+      CMAKE_EXE_LINKER_FLAGS: "--lto"
+    buildResult:
+      variable: "CMAKE_CXX_ABI_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/Users/cfwu3/Desktop/Nuvoton_BSP/M3331/build/armclang/CMakeFiles/CMakeScratch/TryCompile-295h58'
+        
+        Run Build Command(s): C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.ninja.build.ninja/1.12.0/ninja.exe -v cmTC_08e4c
+        [1/2] C:\\Users\\cfwu3\\.vcpkg\\artifacts\\2139c4c6\\compilers.arm.armclang\\6.24.0\\bin\\armclang.exe --target=arm-arm-none-eabi   --target=arm-arm-none-eabi -mcpu=cortex-m33 -mfloat-abi=hard -c -fno-rtti -funsigned-char -fshort-enums -fshort-wchar -D__MICROLIB -gdwarf-3 -O2 -flto -fno-function-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wconditional-uninitialized -Wunused-variable -D__MICROLIB -DMBEDTLS_CONFIG_FILE=mbedtls_config.h -Ic:/Keil_v5/ARM/ARMCLANG/include    -v -MD -MT CMakeFiles/cmTC_08e4c.dir/CMakeCXXCompilerABI.o -MF CMakeFiles\\cmTC_08e4c.dir\\CMakeCXXCompilerABI.o.d -o CMakeFiles/cmTC_08e4c.dir/CMakeCXXCompilerABI.o -c C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeCXXCompilerABI.cpp
+        Product: Keil MDK Nuvoton Edition - Full Cortex-M
+        Component: Arm Compiler for Embedded 6.24
+        Tool: armclang [5f371800]
+        
+        Target: arm-arm-none-eabi
+         (in-process)
+         "C:\\\\Users\\\\cfwu3\\\\.vcpkg\\\\artifacts\\\\2139c4c6\\\\compilers.arm.armclang\\\\6.24.0\\\\bin\\\\armclang.exe" -cc1 -triple thumbv8m.main-arm-none-eabihf -emit-obj -flto=full -flto-unit -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -Werror=return-type -mrelocation-model static -mframe-pointer=none -menable-no-infs -menable-no-nans -fmath-errno -fno-signed-zeros -fdenormal-fp-math=preserve-sign,preserve-sign -ffp-contract=on -fno-rounding-math -ffinite-math-only -mconstructor-aliases -target-cpu cortex-m33 -target-feature -crc -target-feature -dotprod -target-feature +dsp -target-feature -mve -target-feature -ras -target-feature -bf16 -target-feature -sb -target-feature -i8mm -target-feature -lob -target-feature -cdecp0 -target-feature -cdecp1 -target-feature -cdecp2 -target-feature -cdecp3 -target-feature -cdecp4 -target-feature -cdecp5 -target-feature -cdecp6 -target-feature -cdecp7 -target-feature -pacbti -target-feature -fce -target-feature -hwdiv-arm -target-feature +hwdiv -target-feature -vfp2 -target-feature +vfp2sp -target-feature -vfp3 -target-feature -vfp3d16 -target-feature +vfp3d16sp -target-feature -vfp3sp -target-feature +fp16 -target-feature -vfp4 -target-feature -vfp4d16 -target-feature +vfp4d16sp -target-feature -vfp4sp -target-feature -fp-armv8 -target-feature -fp-armv8d16 -target-feature +fp-armv8d16sp -target-feature -fp-armv8sp -target-feature -fullfp16 -target-feature -fp64 -target-feature -d32 -target-feature -neon -target-feature -fp16fml -target-feature -mve.fp -target-feature -crypto -target-feature -sha2 -target-feature -aes -target-abi aapcs -mfloat-abi hard -debug-info-kind=constructor -dwarf-version=3 -debugger-tuning=gdb -fforce-dwarf-frame "-fdebug-compilation-dir=C:\\\\Users\\\\cfwu3\\\\Desktop\\\\Nuvoton_BSP\\\\M3331\\\\build\\\\armclang\\\\CMakeFiles\\\\CMakeScratch\\\\TryCompile-295h58" -v -fdata-sections "-fcoverage-compilation-dir=C:\\\\Users\\\\cfwu3\\\\Desktop\\\\Nuvoton_BSP\\\\M3331\\\\build\\\\armclang\\\\CMakeFiles\\\\CMakeScratch\\\\TryCompile-295h58" -resource-dir "C:\\\\Users\\\\cfwu3\\\\.vcpkg\\\\artifacts\\\\2139c4c6\\\\compilers.arm.armclang\\\\6.24.0\\\\lib\\\\clang\\\\20" -dependency-file "CMakeFiles\\\\cmTC_08e4c.dir\\\\CMakeCXXCompilerABI.o.d" -MT CMakeFiles/cmTC_08e4c.dir/CMakeCXXCompilerABI.o -sys-header-deps -D __MICROLIB -D __MICROLIB -D MBEDTLS_CONFIG_FILE=mbedtls_config.h -I c:/Keil_v5/ARM/ARMCLANG/include -D__ARMCOMPILER_LIBCXX=1 -internal-isystem "C:\\\\Users\\\\cfwu3\\\\.vcpkg\\\\artifacts\\\\2139c4c6\\\\compilers.arm.armclang\\\\6.24.0\\\\bin\\\\..\\\\include\\\\libcxx" -internal-isystem "C:\\\\Users\\\\cfwu3\\\\.vcpkg\\\\artifacts\\\\2139c4c6\\\\compilers.arm.armclang\\\\6.24.0\\\\bin\\\\..\\\\include" -nobuiltininc -O2 -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wconditional-uninitialized -Wunused-variable -fdeprecated-macro -ferror-limit 19 -fvisibility=hidden -fno-rtti -fshort-enums -fno-signed-char -fwchar-type=short -fno-signed-wchar -fgnuc-version=4.2.1 -fskip-odr-check-in-gmf -fcxx-exceptions -fexceptions -fsuppress-licensing -vectorize-loops -vectorize-slp -aggressive-jump-threading -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_08e4c.dir/CMakeCXXCompilerABI.o -x c++ C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeCXXCompilerABI.cpp
+        Arm Compiler for Embedded 6.24 -cc1 default target aarch64-arm-none-eabi
+        ignoring nonexistent directory "c:/Keil_v5/ARM/ARMCLANG/include"
+        #include "..." search starts here:
+        #include <...> search starts here:
+         C:\\Users\\cfwu3\\.vcpkg\\artifacts\\2139c4c6\\compilers.arm.armclang\\6.24.0\\bin\\..\\include\\libcxx
+         C:\\Users\\cfwu3\\.vcpkg\\artifacts\\2139c4c6\\compilers.arm.armclang\\6.24.0\\bin\\..\\include
+        End of search list.\x0d
+        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\Users\\cfwu3\\.vcpkg\\artifacts\\2139c4c6\\compilers.arm.armclang\\6.24.0\\bin\\armlink.exe --lto -v   CMakeFiles/cmTC_08e4c.dir/CMakeCXXCompilerABI.o -o cmTC_08e4c.elf  --list=cmTC_08e4c.elf.map && cd ."
+        
+      exitCode: 0
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:182 (message)"
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:109 (project)"
+    message: |
+      Parsed CXX implicit include dir info: rv=done
+        found start of include info
+        found start of implicit include info
+          add: [C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/compilers.arm.armclang/6.24.0/bin/../include/libcxx]
+          add: [C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/compilers.arm.armclang/6.24.0/bin/../include]
+        end of search list found
+        collapse include dir [C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/compilers.arm.armclang/6.24.0/bin/../include/libcxx] ==> [C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/compilers.arm.armclang/6.24.0/include/libcxx]
+        collapse include dir [C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/compilers.arm.armclang/6.24.0/bin/../include] ==> [C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/compilers.arm.armclang/6.24.0/include]
+        implicit include dirs: [C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/compilers.arm.armclang/6.24.0/include/libcxx;C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/compilers.arm.armclang/6.24.0/include]
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:218 (message)"
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:109 (project)"
+    message: |
+      Parsed CXX implicit link information:
+        link line regex: [^( *|.*[/\\])(armlink\\.exe|;ld[0-9]*(\\.[a-z]+)?|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
+        linker tool regex: [^[ 	]*(->|")?[ 	]*(([^"]*[/\\])?(armlink\\.exe|;ld[0-9]*(\\.[a-z]+)?))("|,| |$)]
+        ignore line: [Change Dir: 'C:/Users/cfwu3/Desktop/Nuvoton_BSP/M3331/build/armclang/CMakeFiles/CMakeScratch/TryCompile-295h58']
+        ignore line: []
+        ignore line: [Run Build Command(s): C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.ninja.build.ninja/1.12.0/ninja.exe -v cmTC_08e4c]
+        ignore line: [[1/2] C:\\Users\\cfwu3\\.vcpkg\\artifacts\\2139c4c6\\compilers.arm.armclang\\6.24.0\\bin\\armclang.exe --target=arm-arm-none-eabi   --target=arm-arm-none-eabi -mcpu=cortex-m33 -mfloat-abi=hard -c -fno-rtti -funsigned-char -fshort-enums -fshort-wchar -D__MICROLIB -gdwarf-3 -O2 -flto -fno-function-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wconditional-uninitialized -Wunused-variable -D__MICROLIB -DMBEDTLS_CONFIG_FILE=mbedtls_config.h -Ic:/Keil_v5/ARM/ARMCLANG/include    -v -MD -MT CMakeFiles/cmTC_08e4c.dir/CMakeCXXCompilerABI.o -MF CMakeFiles\\cmTC_08e4c.dir\\CMakeCXXCompilerABI.o.d -o CMakeFiles/cmTC_08e4c.dir/CMakeCXXCompilerABI.o -c C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeCXXCompilerABI.cpp]
+        ignore line: [Product: Keil MDK Nuvoton Edition - Full Cortex-M]
+        ignore line: [Component: Arm Compiler for Embedded 6.24]
+        ignore line: [Tool: armclang [5f371800]]
+        ignore line: []
+        ignore line: [Target: arm-arm-none-eabi]
+        ignore line: [ (in-process)]
+        ignore line: [ "C:\\\\Users\\\\cfwu3\\\\.vcpkg\\\\artifacts\\\\2139c4c6\\\\compilers.arm.armclang\\\\6.24.0\\\\bin\\\\armclang.exe" -cc1 -triple thumbv8m.main-arm-none-eabihf -emit-obj -flto=full -flto-unit -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -Werror=return-type -mrelocation-model static -mframe-pointer=none -menable-no-infs -menable-no-nans -fmath-errno -fno-signed-zeros -fdenormal-fp-math=preserve-sign preserve-sign -ffp-contract=on -fno-rounding-math -ffinite-math-only -mconstructor-aliases -target-cpu cortex-m33 -target-feature -crc -target-feature -dotprod -target-feature +dsp -target-feature -mve -target-feature -ras -target-feature -bf16 -target-feature -sb -target-feature -i8mm -target-feature -lob -target-feature -cdecp0 -target-feature -cdecp1 -target-feature -cdecp2 -target-feature -cdecp3 -target-feature -cdecp4 -target-feature -cdecp5 -target-feature -cdecp6 -target-feature -cdecp7 -target-feature -pacbti -target-feature -fce -target-feature -hwdiv-arm -target-feature +hwdiv -target-feature -vfp2 -target-feature +vfp2sp -target-feature -vfp3 -target-feature -vfp3d16 -target-feature +vfp3d16sp -target-feature -vfp3sp -target-feature +fp16 -target-feature -vfp4 -target-feature -vfp4d16 -target-feature +vfp4d16sp -target-feature -vfp4sp -target-feature -fp-armv8 -target-feature -fp-armv8d16 -target-feature +fp-armv8d16sp -target-feature -fp-armv8sp -target-feature -fullfp16 -target-feature -fp64 -target-feature -d32 -target-feature -neon -target-feature -fp16fml -target-feature -mve.fp -target-feature -crypto -target-feature -sha2 -target-feature -aes -target-abi aapcs -mfloat-abi hard -debug-info-kind=constructor -dwarf-version=3 -debugger-tuning=gdb -fforce-dwarf-frame "-fdebug-compilation-dir=C:\\\\Users\\\\cfwu3\\\\Desktop\\\\Nuvoton_BSP\\\\M3331\\\\build\\\\armclang\\\\CMakeFiles\\\\CMakeScratch\\\\TryCompile-295h58" -v -fdata-sections "-fcoverage-compilation-dir=C:\\\\Users\\\\cfwu3\\\\Desktop\\\\Nuvoton_BSP\\\\M3331\\\\build\\\\armclang\\\\CMakeFiles\\\\CMakeScratch\\\\TryCompile-295h58" -resource-dir "C:\\\\Users\\\\cfwu3\\\\.vcpkg\\\\artifacts\\\\2139c4c6\\\\compilers.arm.armclang\\\\6.24.0\\\\lib\\\\clang\\\\20" -dependency-file "CMakeFiles\\\\cmTC_08e4c.dir\\\\CMakeCXXCompilerABI.o.d" -MT CMakeFiles/cmTC_08e4c.dir/CMakeCXXCompilerABI.o -sys-header-deps -D __MICROLIB -D __MICROLIB -D MBEDTLS_CONFIG_FILE=mbedtls_config.h -I c:/Keil_v5/ARM/ARMCLANG/include -D__ARMCOMPILER_LIBCXX=1 -internal-isystem "C:\\\\Users\\\\cfwu3\\\\.vcpkg\\\\artifacts\\\\2139c4c6\\\\compilers.arm.armclang\\\\6.24.0\\\\bin\\\\..\\\\include\\\\libcxx" -internal-isystem "C:\\\\Users\\\\cfwu3\\\\.vcpkg\\\\artifacts\\\\2139c4c6\\\\compilers.arm.armclang\\\\6.24.0\\\\bin\\\\..\\\\include" -nobuiltininc -O2 -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wconditional-uninitialized -Wunused-variable -fdeprecated-macro -ferror-limit 19 -fvisibility=hidden -fno-rtti -fshort-enums -fno-signed-char -fwchar-type=short -fno-signed-wchar -fgnuc-version=4.2.1 -fskip-odr-check-in-gmf -fcxx-exceptions -fexceptions -fsuppress-licensing -vectorize-loops -vectorize-slp -aggressive-jump-threading -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_08e4c.dir/CMakeCXXCompilerABI.o -x c++ C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeCXXCompilerABI.cpp]
+        ignore line: [Arm Compiler for Embedded 6.24 -cc1 default target aarch64-arm-none-eabi]
+        ignore line: [ignoring nonexistent directory "c:/Keil_v5/ARM/ARMCLANG/include"]
+        ignore line: [#include "..." search starts here:]
+        ignore line: [#include <...> search starts here:]
+        ignore line: [ C:\\Users\\cfwu3\\.vcpkg\\artifacts\\2139c4c6\\compilers.arm.armclang\\6.24.0\\bin\\..\\include\\libcxx]
+        ignore line: [ C:\\Users\\cfwu3\\.vcpkg\\artifacts\\2139c4c6\\compilers.arm.armclang\\6.24.0\\bin\\..\\include]
+        ignore line: [End of search list.\x0d]
+        ignore line: [[2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\Users\\cfwu3\\.vcpkg\\artifacts\\2139c4c6\\compilers.arm.armclang\\6.24.0\\bin\\armlink.exe --lto -v   CMakeFiles/cmTC_08e4c.dir/CMakeCXXCompilerABI.o -o cmTC_08e4c.elf  --list=cmTC_08e4c.elf.map && cd ."]
+        ignore line: []
+        ignore line: []
+        implicit libs: []
+        implicit objs: []
+        implicit dirs: []
+        implicit fwks: []
+      
+      
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/Internal/FeatureTesting.cmake:34 (try_compile)"
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/Compiler/Clang.cmake:315 (_record_compiler_features)"
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerSupport.cmake:70 (cmake_record_cxx_compile_features)"
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeTestCXXCompiler.cmake:83 (CMAKE_DETERMINE_COMPILER_SUPPORT)"
+      - "CMakeLists.txt:109 (project)"
+    checks:
+      - "Detecting CXX compile features"
+    directories:
+      source: "C:/Users/cfwu3/Desktop/Nuvoton_BSP/M3331/build/armclang/CMakeFiles/CMakeScratch/TryCompile-2gdzyz"
+      binary: "C:/Users/cfwu3/Desktop/Nuvoton_BSP/M3331/build/armclang/CMakeFiles/CMakeScratch/TryCompile-2gdzyz"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_TARGET: "arm-arm-none-eabi"
+      CMAKE_CXX_FLAGS: "--target=arm-arm-none-eabi -mcpu=cortex-m33 -mfloat-abi=hard -c -fno-rtti -funsigned-char -fshort-enums -fshort-wchar -D__MICROLIB -gdwarf-3 -O2 -flto -fno-function-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wconditional-uninitialized -Wunused-variable -D__MICROLIB -DMBEDTLS_CONFIG_FILE=mbedtls_config.h -Ic:/Keil_v5/ARM/ARMCLANG/include"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_C_COMPILER_TARGET: "arm-arm-none-eabi"
+      CMAKE_EXE_LINKER_FLAGS: "--lto"
+    buildResult:
+      variable: "CMAKE_CXX_FEATURE_TEST"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/Users/cfwu3/Desktop/Nuvoton_BSP/M3331/build/armclang/CMakeFiles/CMakeScratch/TryCompile-2gdzyz'
+        
+        Run Build Command(s): C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.ninja.build.ninja/1.12.0/ninja.exe -v cmTC_3d47f
+        [1/2] C:\\Users\\cfwu3\\.vcpkg\\artifacts\\2139c4c6\\compilers.arm.armclang\\6.24.0\\bin\\armclang.exe --target=arm-arm-none-eabi   --target=arm-arm-none-eabi -mcpu=cortex-m33 -mfloat-abi=hard -c -fno-rtti -funsigned-char -fshort-enums -fshort-wchar -D__MICROLIB -gdwarf-3 -O2 -flto -fno-function-sections -Wno-packed -Wno-missing-variable-declarations -Wno-missing-prototypes -Wno-missing-noreturn -Wno-sign-conversion -Wno-nonportable-include-path -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wconditional-uninitialized -Wunused-variable -D__MICROLIB -DMBEDTLS_CONFIG_FILE=mbedtls_config.h -Ic:/Keil_v5/ARM/ARMCLANG/include -MD -MT CMakeFiles/cmTC_3d47f.dir/feature_tests.o -MF CMakeFiles\\cmTC_3d47f.dir\\feature_tests.o.d -o CMakeFiles/cmTC_3d47f.dir/feature_tests.o -c C:/Users/cfwu3/Desktop/Nuvoton_BSP/M3331/build/armclang/CMakeFiles/CMakeScratch/TryCompile-2gdzyz/feature_tests.cxx
+        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && C:\\Users\\cfwu3\\.vcpkg\\artifacts\\2139c4c6\\compilers.arm.armclang\\6.24.0\\bin\\armlink.exe --lto   CMakeFiles/cmTC_3d47f.dir/feature_tests.o -o cmTC_3d47f.elf  --list=cmTC_3d47f.elf.map && cd ."
+        
+      exitCode: 0
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:1250 (message)"
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineASMCompiler.cmake:135 (CMAKE_DETERMINE_COMPILER_ID_VENDOR)"
+      - "SampleCode/PowerManagement/CMakeLists.txt:11 (enable_language)"
+    message: |
+      Checking whether the ASM compiler is GNU using "--version" did not match "(GNU assembler)|(GCC)|(Free Software Foundation)":
+      Product: Keil MDK Nuvoton Edition - Full Cortex-M
+      Component: Arm Compiler for Embedded 6.24
+      Tool: armclang [5f371800]
+      
+      Target: unspecified-arm-none-none
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:1250 (message)"
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineASMCompiler.cmake:135 (CMAKE_DETERMINE_COMPILER_ID_VENDOR)"
+      - "SampleCode/PowerManagement/CMakeLists.txt:11 (enable_language)"
+    message: |
+      Checking whether the ASM compiler is AppleClang using "--version" did not match "(Apple (clang|LLVM) version)":
+      Product: Keil MDK Nuvoton Edition - Full Cortex-M
+      Component: Arm Compiler for Embedded 6.24
+      Tool: armclang [5f371800]
+      
+      Target: unspecified-arm-none-none
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:1250 (message)"
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineASMCompiler.cmake:135 (CMAKE_DETERMINE_COMPILER_ID_VENDOR)"
+      - "SampleCode/PowerManagement/CMakeLists.txt:11 (enable_language)"
+    message: |
+      Checking whether the ASM compiler is Clang using "--version" did not match "(clang version)":
+      Product: Keil MDK Nuvoton Edition - Full Cortex-M
+      Component: Arm Compiler for Embedded 6.24
+      Tool: armclang [5f371800]
+      
+      Target: unspecified-arm-none-none
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:1237 (message)"
+      - "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/tools.kitware.cmake/3.31.5/share/cmake-3.31/Modules/CMakeDetermineASMCompiler.cmake:135 (CMAKE_DETERMINE_COMPILER_ID_VENDOR)"
+      - "SampleCode/PowerManagement/CMakeLists.txt:11 (enable_language)"
+    message: |
+      Checking whether the ASM compiler is ARMClang using "--version" matched "armclang":
+      Product: Keil MDK Nuvoton Edition - Full Cortex-M
+      Component: Arm Compiler for Embedded 6.24
+      Tool: armclang [5f371800]
+      
+      Target: unspecified-arm-none-none
+...

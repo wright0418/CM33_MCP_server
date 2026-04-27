@@ -1,0 +1,6 @@
+{
+    "clangd.arguments": [
+        "--compile-commands-dir=c:\\Users\\cfwu3\\Desktop\\Nuvoton_BSP\\M3331\\SampleCode\\FreeRTOS\\NuAILink\\VSCode\\out\\NuAILink\\FreeRTOS"
+    ],
+    "debug.hideSlowPreLaunchWarning": true
+}

@@ -1,0 +1,62 @@
+build:
+  generated-by: csolution version 2.9.0
+  solution: ../../../../Validation.csolution.yml
+  project: ../../../../Validation/Validation.cproject.yml
+  context: Validation.none+CM0
+  optimize: none
+  debug: on
+  misc:
+    ASM:
+      - -masm=auto
+    C:
+      - -masm-syntax-unified
+      - -Wall
+      - -std=gnu11
+      - -Wno-macro-redefined
+      - -Wno-pragma-pack
+      - -Wno-parentheses-equality
+      - -Wno-license-management
+      - -fomit-frame-pointer
+      - -ffunction-sections
+      - -fdata-sections
+      - --dlib_config DLib_Config_Full.h
+      - -Wno-declaration-after-statement
+      - -Wno-covered-switch-default
+    CPP:
+      - -masm-syntax-unified
+      - -Wall
+      - -Wno-macro-redefined
+      - -Wno-pragma-pack
+      - -Wno-parentheses-equality
+      - -Wno-license-management
+      - -fomit-frame-pointer
+      - -ffunction-sections
+      - -fdata-sections
+      - --dlib_config DLib_Config_Full.h
+      - -Wno-declaration-after-statement
+      - -Wno-covered-switch-default
+    Link:
+      - --specs=rdimon.specs
+      - -lsemihost
+      - --semihosting
+      - --entry=Reset_Handler
+      - --info summarysizes
+      - --summary_stderr
+      - --diag_suppress=L6314W
+      - --specs=nano.specs
+      - --specs=nosys.specs
+      - -Wl,-print-memory-usage
+      - -Wl,--gc-sections
+      - -Wl,--no-warn-rwx-segments
+  define:
+    - PRINT_XML_REPORT: 1
+  add-path:
+    - ../../../../../Include
+    - ../../../../../Source/Config
+  output-dirs:
+    intdir: ../../../../tmp
+    outdir: outdir
+    rtedir: ../../../../Validation/RTE
+  output:
+    - type: elf
+      file: Validation.elf

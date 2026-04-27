@@ -1,0 +1,58 @@
+build:
+  generated-by: csolution version 2.9.0
+  solution: Blinky.csolution.yml
+  project: Blinky.cproject.yml
+  context: Blinky+FreeRTOS
+  compiler: AC6
+  optimize: debug
+  debug: on
+  misc:
+    ASM:
+      - -masm=auto
+    C:
+      - -std=c99
+      - -fno-rtti
+      - -funsigned-char
+      - -fshort-enums
+      - -fshort-wchar
+      - -ffunction-sections
+    CPP:
+      - -xc++
+      - -std=c++11
+      - -fno-exceptions
+      - -fno-rtti
+      - -funsigned-char
+      - -fshort-enums
+      - -fshort-wchar
+      - -ffunction-sections
+    Link:
+      - --library_type=microlib
+      - --map
+      - --load_addr_map_info
+      - --symbols
+      - --info sizes
+      - --info totals
+      - --map --datacompressor=off --info=inline --entry Reset_Handler
+      - --strict
+      - --summary_stderr
+      - --info summarysizes
+  define:
+    - __MICROLIB
+  define-asm:
+    - __MICROLIB
+  add-path:
+    - ..
+    - ../../../../Library/CMSIS/Core/Include
+    - ../../../../Library/Device/Nuvoton/m3331/Config
+    - ../../../../Library/Device/Nuvoton/m3331/Include
+    - ../../../../Library/StdDriver/inc
+    - ../../../../ThirdParty/FreeRTOS/include
+    - ../../../../ThirdParty/FreeRTOS/Demo/Common/include
+    - ../../../../ThirdParty/FreeRTOS/portable/GCC/ARM_CM33_NTZ/non_secure
+  output-dirs:
+    intdir: tmp
+    outdir: out/Blinky/FreeRTOS
+    rtedir: RTE
+  output:
+    - type: elf
+      file: Blinky.axf

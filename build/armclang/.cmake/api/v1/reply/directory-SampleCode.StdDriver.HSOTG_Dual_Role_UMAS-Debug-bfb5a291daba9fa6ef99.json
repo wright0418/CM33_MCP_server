@@ -1,0 +1,14 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : [],
+		"nodes" : []
+	},
+	"installers" : [],
+	"paths" : 
+	{
+		"build" : "SampleCode/StdDriver/HSOTG_Dual_Role_UMAS",
+		"source" : "SampleCode/StdDriver/HSOTG_Dual_Role_UMAS"
+	}
+}

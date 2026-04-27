@@ -1,0 +1,14 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : [],
+		"nodes" : []
+	},
+	"installers" : [],
+	"paths" : 
+	{
+		"build" : "SampleCode/NuMaker-M3334KIv2/LVGL_WidgetsDemo",
+		"source" : "SampleCode/NuMaker-M3334KIv2/LVGL_WidgetsDemo"
+	}
+}

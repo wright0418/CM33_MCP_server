@@ -1,0 +1,62 @@
+build-idx:
+  generated-by: csolution version 2.9.0
+  cdefault: ${CMSIS_COMPILER_ROOT}/cdefault.yml
+  csolution: Validation.csolution.yml
+  tmpdir: tmp
+  cprojects:
+    - cproject: Validation/Validation.cproject.yml
+      clayers:
+        - clayer: ../Layer/App/Validation_Cortex-M/App.clayer.yml
+        - clayer: ../Layer/App/Validation_Cortex-A/App.clayer.yml
+        - clayer: ../Layer/Target/CM0/Target.clayer.yml
+        - clayer: ../Layer/Target/CM0plus/Target.clayer.yml
+        - clayer: ../Layer/Target/CM3/Target.clayer.yml
+        - clayer: ../Layer/Target/CM4/Target.clayer.yml
+        - clayer: ../Layer/Target/CM7/Target.clayer.yml
+        - clayer: ../Layer/Target/CM23/Target.clayer.yml
+        - clayer: ../Layer/Target/CM23S/Target.clayer.yml
+        - clayer: ../Layer/Target/CM23NS/Target.clayer.yml
+        - clayer: ../Layer/Target/CM33/Target.clayer.yml
+        - clayer: ../Layer/Target/CM33S/Target.clayer.yml
+        - clayer: ../Layer/Target/CM33NS/Target.clayer.yml
+        - clayer: ../Layer/Target/CM35P/Target.clayer.yml
+        - clayer: ../Layer/Target/CM35PS/Target.clayer.yml
+        - clayer: ../Layer/Target/CM35PNS/Target.clayer.yml
+        - clayer: ../Layer/Target/CM52/Target.clayer.yml
+        - clayer: ../Layer/Target/CM52S/Target.clayer.yml
+        - clayer: ../Layer/Target/CM52NS/Target.clayer.yml
+        - clayer: ../Layer/Target/CM55/Target.clayer.yml
+        - clayer: ../Layer/Target/CM55S/Target.clayer.yml
+        - clayer: ../Layer/Target/CM55NS/Target.clayer.yml
+        - clayer: ../Layer/Target/CM85/Target.clayer.yml
+        - clayer: ../Layer/Target/CM85S/Target.clayer.yml
+        - clayer: ../Layer/Target/CM85NS/Target.clayer.yml
+        - clayer: ../Layer/Target/CA5/Target.clayer.yml
+        - clayer: ../Layer/Target/CA7/Target.clayer.yml
+        - clayer: ../Layer/Target/CA9/Target.clayer.yml
+    - cproject: Bootloader/Bootloader.cproject.yml
+      clayers:
+        - clayer: ../Layer/App/Bootloader_Cortex-M/App.clayer.yml
+        - clayer: ../Layer/Target/CM23S/Target.clayer.yml
+        - clayer: ../Layer/Target/CM33S/Target.clayer.yml
+        - clayer: ../Layer/Target/CM35PS/Target.clayer.yml
+        - clayer: ../Layer/Target/CM52S/Target.clayer.yml
+        - clayer: ../Layer/Target/CM55S/Target.clayer.yml
+        - clayer: ../Layer/Target/CM85S/Target.clayer.yml
+  cbuilds:
+    - cbuild: build/CM0/none/Validation/Validation.none+CM0.cbuild.yml
+      project: Validation
+      configuration: .none+CM0
+      clayers:
+        - clayer: ../Layer/App/Validation_Cortex-M/App.clayer.yml
+        - clayer: ../Layer/Target/CM0/Target.clayer.yml
+      errors: true
+      messages:
+        errors:
+          - "compiler undefined, use '--toolchain' option or add 'compiler: <value>' to yml input"
+          - "pdsc file was not found in: C:/Users/cfwu3/Desktop/Nuvoton_BSP/M3331/Library"
+          - "specified device 'ARMCM0' not found in the installed packs. Use:\n  cpackget add Vendor::PackName"
+          - processing context 'Validation.none+CM0' failed
+        info:
+          - Validation.cbuild-pack.yml - file skipped
+          - Validation.none+CM0.cbuild.yml - file is already up-to-date

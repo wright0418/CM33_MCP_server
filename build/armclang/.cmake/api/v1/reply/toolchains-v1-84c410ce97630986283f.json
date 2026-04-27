@@ -1,0 +1,82 @@
+{
+	"kind" : "toolchains",
+	"toolchains" : 
+	[
+		{
+			"compiler" : 
+			{
+				"implicit" : {},
+				"path" : "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/compilers.arm.armclang/6.24.0/bin/armclang.exe"
+			},
+			"language" : "ASM"
+		},
+		{
+			"compiler" : 
+			{
+				"id" : "ARMClang",
+				"implicit" : 
+				{
+					"includeDirectories" : 
+					[
+						"C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/compilers.arm.armclang/6.24.0/include"
+					],
+					"linkDirectories" : [],
+					"linkFrameworkDirectories" : [],
+					"linkLibraries" : []
+				},
+				"path" : "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/compilers.arm.armclang/6.24.0/bin/armclang.exe",
+				"target" : "arm-arm-none-eabi",
+				"version" : "6.24.0"
+			},
+			"language" : "C",
+			"sourceFileExtensions" : 
+			[
+				"c",
+				"m"
+			]
+		},
+		{
+			"compiler" : 
+			{
+				"id" : "ARMClang",
+				"implicit" : 
+				{
+					"includeDirectories" : 
+					[
+						"C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/compilers.arm.armclang/6.24.0/include/libcxx",
+						"C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/compilers.arm.armclang/6.24.0/include"
+					],
+					"linkDirectories" : [],
+					"linkFrameworkDirectories" : [],
+					"linkLibraries" : []
+				},
+				"path" : "C:/Users/cfwu3/.vcpkg/artifacts/2139c4c6/compilers.arm.armclang/6.24.0/bin/armclang.exe",
+				"target" : "arm-arm-none-eabi",
+				"version" : "6.24.0"
+			},
+			"language" : "CXX",
+			"sourceFileExtensions" : 
+			[
+				"C",
+				"M",
+				"c++",
+				"cc",
+				"cpp",
+				"cxx",
+				"mm",
+				"mpp",
+				"CPP",
+				"ixx",
+				"cppm",
+				"ccm",
+				"cxxm",
+				"c++m"
+			]
+		}
+	],
+	"version" : 
+	{
+		"major" : 1,
+		"minor" : 0
+	}
+}

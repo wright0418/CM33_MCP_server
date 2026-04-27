@@ -1,0 +1,14 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : [],
+		"nodes" : []
+	},
+	"installers" : [],
+	"paths" : 
+	{
+		"build" : "SampleCode/StdDriver/FMC_FwUpdateApplication",
+		"source" : "SampleCode/StdDriver/FMC_FwUpdateApplication"
+	}
+}

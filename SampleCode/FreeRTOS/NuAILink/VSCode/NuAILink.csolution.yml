@@ -1,0 +1,19 @@
+solution:
+  created-by: uv2csolution@1.6.0
+  created-for: CMSIS-Toolbox@2.7.0
+  compiler: AC6
+  target-types:
+    - type: FreeRTOS
+      device: M3334KIGAE
+      optimize: debug
+      target-set:
+        - set:
+          images:
+            - project-context: NuAILink
+          debugger:
+            name: Nu-Link@pyOCD
+            port: 3333
+            protocol: swd
+            clock: 10000000
+  projects:
+    - project: NuAILink.cproject.yml
