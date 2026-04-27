@@ -4,6 +4,7 @@
  * Tools provided:
  *   llsi.fill    {r,g,b,count?}                       -> fill first N pixels (default: 10)
  *   llsi.pattern {pattern,count?,phase?,r?,g?,b?}    -> pattern frame for animation
+ *   llsi.autoplay {action,start/update args...}       -> autonomous playback control
  */
 
 #include "mcp_types.h"
@@ -50,7 +51,7 @@ static const char s_llsi_pattern_schema[] =
 
 static const char s_llsi_autoplay_schema[] =
     "{\"type\":\"object\",\"properties\":{"
-    "\"action\":{\"type\":\"string\",\"enum\":[\"start\",\"stop\",\"status\"]},"
+    "\"action\":{\"type\":\"string\",\"enum\":[\"start\",\"update\",\"stop\",\"status\"]},"
     "\"pattern\":{\"type\":\"string\",\"enum\":[\"off\",\"solid\",\"chase\",\"gradient\",\"rainbow\"]},"
     "\"count\":{\"type\":\"integer\",\"minimum\":1,\"maximum\":10},"
     "\"phase\":{\"type\":\"integer\",\"minimum\":0,\"maximum\":4095},"
@@ -503,8 +504,20 @@ static int32_t prvLlsiAutoplayCallback(const cJSON *arguments, cJSON *result, vo
     }
     action = action_item->valuestring;
 
-    if (strcmp(action, "start") == 0)
+    if ((strcmp(action, "start") == 0) || (strcmp(action, "update") == 0))
     {
+        if (strcmp(action, "update") == 0)
+        {
+            pattern = s_llsi_autoplay.pattern;
+            count = s_llsi_autoplay.count;
+            phase = s_llsi_autoplay.phase;
+            step = s_llsi_autoplay.step;
+            interval_ms = s_llsi_autoplay.interval_ms;
+            red = s_llsi_autoplay.red;
+            green = s_llsi_autoplay.green;
+            blue = s_llsi_autoplay.blue;
+        }
+
         pattern_item = cJSON_GetObjectItemCaseSensitive(arguments, "pattern");
         if (pattern_item != NULL)
         {
@@ -541,15 +554,22 @@ static int32_t prvLlsiAutoplayCallback(const cJSON *arguments, cJSON *result, vo
         s_llsi_autoplay.red = red;
         s_llsi_autoplay.green = green;
         s_llsi_autoplay.blue = blue;
-        s_llsi_autoplay.enabled = true;
 
-        if (!prvRenderAutoplayFrameAndAdvance())
+        if (strcmp(action, "start") == 0)
+        {
+            s_llsi_autoplay.enabled = true;
+        }
+
+        if (s_llsi_autoplay.enabled && !prvRenderAutoplayFrameAndAdvance())
         {
             s_llsi_autoplay.enabled = false;
             return MCP_STATUS_INTERNAL_ERROR;
         }
 
-        s_llsi_autoplay.next_tick = xTaskGetTickCount() + prvMsToTicksMin1(s_llsi_autoplay.interval_ms);
+        if (s_llsi_autoplay.enabled)
+        {
+            s_llsi_autoplay.next_tick = xTaskGetTickCount() + prvMsToTicksMin1(s_llsi_autoplay.interval_ms);
+        }
     }
     else if (strcmp(action, "stop") == 0)
     {
@@ -606,7 +626,7 @@ const mcp_tool_t gNuAILinkLlsiPatternTool =
 const mcp_tool_t gNuAILinkLlsiAutoplayTool =
     {
         "llsi.autoplay",
-        "Control autonomous LLSI0(PB15) pattern playback (start/stop/status).",
+        "Control autonomous LLSI0(PB15) pattern playback (start/update/stop/status).",
         s_llsi_autoplay_schema,
         prvLlsiAutoplayCallback,
         NULL};

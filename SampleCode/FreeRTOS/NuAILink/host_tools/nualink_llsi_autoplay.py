@@ -11,7 +11,16 @@ from typing import Any
 
 
 PATTERNS = ("off", "solid", "chase", "gradient", "rainbow")
-ACTIONS = ("start", "stop", "status")
+ACTIONS = ("start", "update", "stop", "status")
+
+DEFAULT_PATTERN = "rainbow"
+DEFAULT_COUNT = 10
+DEFAULT_PHASE = 0
+DEFAULT_STEP = 1
+DEFAULT_INTERVAL_MS = 50
+DEFAULT_R = 255
+DEFAULT_G = 0
+DEFAULT_B = 0
 
 
 def _load_serial_module() -> Any:
@@ -25,14 +34,14 @@ def _load_serial_module() -> Any:
 
 def _build_request(req_id: int,
                    action: str,
-                   pattern: str,
-                   count: int,
-                   phase: int,
-                   step: int,
-                   interval_ms: int,
-                   r: int,
-                   g: int,
-                   b: int) -> dict[str, Any]:
+                   pattern: str | None,
+                   count: int | None,
+                   phase: int | None,
+                   step: int | None,
+                   interval_ms: int | None,
+                   r: int | None,
+                   g: int | None,
+                   b: int | None) -> dict[str, Any]:
     arguments: dict[str, Any] = {
         "action": action,
     }
@@ -50,6 +59,23 @@ def _build_request(req_id: int,
                 "b": b,
             }
         )
+    elif action == "update":
+        if pattern is not None:
+            arguments["pattern"] = pattern
+        if count is not None:
+            arguments["count"] = count
+        if phase is not None:
+            arguments["phase"] = phase
+        if step is not None:
+            arguments["step"] = step
+        if interval_ms is not None:
+            arguments["interval_ms"] = interval_ms
+        if r is not None:
+            arguments["r"] = r
+        if g is not None:
+            arguments["g"] = g
+        if b is not None:
+            arguments["b"] = b
 
     return {
         "jsonrpc": "2.0",
@@ -116,22 +142,22 @@ def main() -> int:
     parser.add_argument("port", help="Serial device, for example COM4")
     parser.add_argument("--action", choices=ACTIONS, default="status",
                         help="Autoplay action")
-    parser.add_argument("--pattern", choices=PATTERNS, default="rainbow",
-                        help="Pattern for start action")
-    parser.add_argument("--count", type=int, default=10,
-                        help="Pixel count (1..10)")
-    parser.add_argument("--phase", type=int, default=0,
-                        help="Initial phase (0..4095)")
-    parser.add_argument("--step", type=int, default=1,
-                        help="Phase increment per autoplay frame (1..4095)")
-    parser.add_argument("--interval-ms", type=int, default=50,
-                        help="Autoplay frame interval in milliseconds (10..5000)")
-    parser.add_argument("--r", type=int, default=255,
-                        help="Base red (0..255)")
-    parser.add_argument("--g", type=int, default=0,
-                        help="Base green (0..255)")
-    parser.add_argument("--b", type=int, default=0,
-                        help="Base blue (0..255)")
+    parser.add_argument("--pattern", choices=PATTERNS,
+                        help="Pattern for start/update action")
+    parser.add_argument("--count", type=int,
+                        help="Pixel count (1..10) for start/update")
+    parser.add_argument("--phase", type=int,
+                        help="Initial/current phase (0..4095) for start/update")
+    parser.add_argument("--step", type=int,
+                        help="Phase increment per frame (1..4095) for start/update")
+    parser.add_argument("--interval-ms", type=int,
+                        help="Autoplay frame interval in milliseconds (10..5000) for start/update")
+    parser.add_argument("--r", type=int,
+                        help="Base red (0..255) for start/update")
+    parser.add_argument("--g", type=int,
+                        help="Base green (0..255) for start/update")
+    parser.add_argument("--b", type=int,
+                        help="Base blue (0..255) for start/update")
     parser.add_argument("--run-seconds", type=float, default=0.0,
                         help="After start, wait N seconds before querying status")
     parser.add_argument("--stop-after", action="store_true",
@@ -142,22 +168,52 @@ def main() -> int:
                         help="Response timeout (seconds)")
     args = parser.parse_args()
 
-    for name, value, lo, hi in (
-        ("count", args.count, 1, 10),
-        ("phase", args.phase, 0, 4095),
-        ("step", args.step, 1, 4095),
-        ("interval_ms", args.interval_ms, 10, 5000),
-        ("r", args.r, 0, 255),
-        ("g", args.g, 0, 255),
-        ("b", args.b, 0, 255),
-    ):
-        if value < lo or value > hi:
-            print(f"{name} must be in range [{lo}, {hi}]", file=sys.stderr)
-            return 2
-
     if args.run_seconds < 0.0:
         print("run-seconds must be >= 0", file=sys.stderr)
         return 2
+
+    pattern = args.pattern
+    count = args.count
+    phase = args.phase
+    step = args.step
+    interval_ms = args.interval_ms
+    red = args.r
+    green = args.g
+    blue = args.b
+
+    if args.action == "start":
+        if pattern is None:
+            pattern = DEFAULT_PATTERN
+        if count is None:
+            count = DEFAULT_COUNT
+        if phase is None:
+            phase = DEFAULT_PHASE
+        if step is None:
+            step = DEFAULT_STEP
+        if interval_ms is None:
+            interval_ms = DEFAULT_INTERVAL_MS
+        if red is None:
+            red = DEFAULT_R
+        if green is None:
+            green = DEFAULT_G
+        if blue is None:
+            blue = DEFAULT_B
+
+    if args.action in ("start", "update"):
+        for name, value, lo, hi in (
+            ("count", count, 1, 10),
+            ("phase", phase, 0, 4095),
+            ("step", step, 1, 4095),
+            ("interval_ms", interval_ms, 10, 5000),
+            ("r", red, 0, 255),
+            ("g", green, 0, 255),
+            ("b", blue, 0, 255),
+        ):
+            if value is None:
+                continue
+            if value < lo or value > hi:
+                print(f"{name} must be in range [{lo}, {hi}]", file=sys.stderr)
+                return 2
 
     serial = _load_serial_module()
 
@@ -170,14 +226,14 @@ def main() -> int:
 
         request = _build_request(1,
                                  args.action,
-                                 args.pattern,
-                                 args.count,
-                                 args.phase,
-                                 args.step,
-                                 args.interval_ms,
-                                 args.r,
-                                 args.g,
-                                 args.b)
+                                 pattern,
+                                 count,
+                                 phase,
+                                 step,
+                                 interval_ms,
+                                 red,
+                                 green,
+                                 blue)
         response = _send_request(port, request, args.timeout)
         rc = _print_structured_response(f"[{args.action}]", response)
         if rc != 0:
@@ -188,14 +244,14 @@ def main() -> int:
 
             status_request = _build_request(2,
                                             "status",
-                                            args.pattern,
-                                            args.count,
-                                            args.phase,
-                                            args.step,
-                                            args.interval_ms,
-                                            args.r,
-                                            args.g,
-                                            args.b)
+                                            None,
+                                            None,
+                                            None,
+                                            None,
+                                            None,
+                                            None,
+                                            None,
+                                            None)
             status_response = _send_request(port, status_request, args.timeout)
             rc = _print_structured_response("[status]", status_response)
             if rc != 0:
@@ -204,14 +260,14 @@ def main() -> int:
             if args.stop_after:
                 stop_request = _build_request(3,
                                               "stop",
-                                              args.pattern,
-                                              args.count,
-                                              args.phase,
-                                              args.step,
-                                              args.interval_ms,
-                                              args.r,
-                                              args.g,
-                                              args.b)
+                                              None,
+                                              None,
+                                              None,
+                                              None,
+                                              None,
+                                              None,
+                                              None,
+                                              None)
                 stop_response = _send_request(port, stop_request, args.timeout)
                 rc = _print_structured_response("[stop]", stop_response)
                 if rc != 0:

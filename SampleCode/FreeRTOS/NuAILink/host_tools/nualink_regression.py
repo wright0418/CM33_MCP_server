@@ -276,10 +276,31 @@ def main() -> int:
                         15,
                     ),
                     (
-                        "llsi.autoplay status",
+                        "llsi.autoplay update",
                         {
                             "jsonrpc": "2.0",
                             "id": 16,
+                            "method": "tools/call",
+                            "params": {
+                                "name": "llsi.autoplay",
+                                "arguments": {
+                                    "action": "update",
+                                    "pattern": "chase",
+                                    "step": 1,
+                                    "interval_ms": 30,
+                                    "r": 0,
+                                    "g": 255,
+                                    "b": 0,
+                                },
+                            },
+                        },
+                        16,
+                    ),
+                    (
+                        "llsi.autoplay status",
+                        {
+                            "jsonrpc": "2.0",
+                            "id": 17,
                             "method": "tools/call",
                             "params": {
                                 "name": "llsi.autoplay",
@@ -288,13 +309,13 @@ def main() -> int:
                                 },
                             },
                         },
-                        16,
+                        17,
                     ),
                     (
                         "llsi.autoplay stop",
                         {
                             "jsonrpc": "2.0",
-                            "id": 17,
+                            "id": 18,
                             "method": "tools/call",
                             "params": {
                                 "name": "llsi.autoplay",
@@ -303,7 +324,7 @@ def main() -> int:
                                 },
                             },
                         },
-                        17,
+                        18,
                     ),
                 ]
             )
@@ -311,6 +332,31 @@ def main() -> int:
         for stage, request, req_id in smoke_requests:
             response, elapsed = _send_request(port, request, args.timeout)
             _expect_ok(response, req_id, stage)
+
+            if stage == "llsi.autoplay status":
+                result = response.get("result", {}) if isinstance(
+                    response, dict) else {}
+                structured = result.get("structuredContent", {}) if isinstance(
+                    result, dict) else {}
+                if not isinstance(structured, dict):
+                    raise AssertionError(
+                        "[llsi.autoplay status] missing structuredContent")
+                if not bool(structured.get("running")):
+                    raise AssertionError(
+                        "[llsi.autoplay status] expected running=true")
+
+            if stage == "llsi.autoplay stop":
+                result = response.get("result", {}) if isinstance(
+                    response, dict) else {}
+                structured = result.get("structuredContent", {}) if isinstance(
+                    result, dict) else {}
+                if not isinstance(structured, dict):
+                    raise AssertionError(
+                        "[llsi.autoplay stop] missing structuredContent")
+                if bool(structured.get("running")):
+                    raise AssertionError(
+                        "[llsi.autoplay stop] expected running=false")
+
             print(f"[REG][OK] {stage:<12} {elapsed * 1000.0:7.2f} ms")
 
         lat_ms: list[float] = []
