@@ -321,10 +321,10 @@ Phase 1 method：
 
 ### Phase 4：Host bridge 與壓力測試
 
-- 新增 Python smoke test：直接開 `/dev/ttyACM*` 發送 JSON-RPC。
-- 新增 MCP stdio bridge：上層接標準 MCP client，下層轉 CDC serial。
-- 模擬 10 個 logical clients，連續呼叫 `tools/list` 與 `tools/call`。
-- 記錄 latency、lost response、queue overflow、heap watermark、stack watermark。
+- 新增 Python smoke test：直接開 `/dev/ttyACM*` 發送 JSON-RPC（`host_tools/nualink_serial_smoke.py`）。
+- 新增 MCP stdio bridge：上層接標準 MCP client，下層轉 CDC serial（`host_tools/nualink_stdio_bridge.py`）。
+- 模擬 10 個 logical clients，連續呼叫 `tools/list` 與 `tools/call`（`host_tools/nualink_stress_test.py`）。
+- 記錄 latency、timeout/lost response、notification 數、`system.info` 的 heap/USB drop 指標。
 
 > 註解：MCU 端先保持 serial framing 簡單，MCP 生態相容性放在 Linux bridge 處理，整體更容易測試與維護。
 
