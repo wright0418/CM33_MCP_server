@@ -1,0 +1,44 @@
+# Ignore build artifacts and temporary files for the Nuvoton BSP project
+
+# Build output directories
+/build/
+
+# CMake generated files
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+build.ninja
+compile_commands.json
+
+# Object and binary files
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.dll
+*.elf
+*.bin
+*.hex
+*.map
+*.lst
+
+# IDE and editor files
+.vscode/
+*.code-workspace
+.vs/
+*.suo
+*.user
+
+# Python
+__pycache__/
+*.pyc
+
+# Temporary and backup files
+*~
+*.tmp
+*.log
+
+# OS files
+Thumbs.db
+.DS_Store
