@@ -295,6 +295,74 @@ static void prvHeartbeatTask(void *parameters)
     }
 }
 
+static BaseType_t prvFillResponseFromString(nualink_response_t *response,
+                                            const char *json_line)
+{
+    size_t length;
+
+    if ((response == NULL) || (json_line == NULL))
+    {
+        return pdFAIL;
+    }
+
+    length = strlen(json_line);
+    if (length == 0U)
+    {
+        return pdFAIL;
+    }
+    if (length >= sizeof(response->data))
+    {
+        length = sizeof(response->data) - 1U;
+    }
+
+    memcpy(response->data, json_line, length);
+    response->data[length] = '\0';
+    response->length = (uint32_t)length;
+    return pdPASS;
+}
+
+BaseType_t NuAILink_TasksPushNotification(const char *json_line)
+{
+    /* Use a file-scope static (guarded by a critical section) to avoid
+     * placing a ~2 KB nualink_response_t on the caller's stack. */
+    static nualink_response_t s_task_notify_buffer;
+    BaseType_t result;
+
+    if (s_response_queue == NULL)
+    {
+        return pdFAIL;
+    }
+
+    taskENTER_CRITICAL();
+    if (prvFillResponseFromString(&s_task_notify_buffer, json_line) != pdPASS)
+    {
+        taskEXIT_CRITICAL();
+        return pdFAIL;
+    }
+    result = xQueueSend(s_response_queue, &s_task_notify_buffer, 0U);
+    taskEXIT_CRITICAL();
+    return result;
+}
+
+BaseType_t NuAILink_TasksPushNotificationFromISR(const char *json_line,
+                                                 BaseType_t *higher_priority_task_woken)
+{
+    /* ISR-side static buffer.  The GPB ISR cannot preempt itself, and other
+     * ISRs running at <= the same priority never reach this code, so a single
+     * shared static buffer is safe and avoids putting 2 KB on MSP. */
+    static nualink_response_t s_isr_notify_buffer;
+
+    if (s_response_queue == NULL)
+    {
+        return pdFAIL;
+    }
+    if (prvFillResponseFromString(&s_isr_notify_buffer, json_line) != pdPASS)
+    {
+        return pdFAIL;
+    }
+    return xQueueSendFromISR(s_response_queue, &s_isr_notify_buffer, higher_priority_task_woken);
+}
+
 BaseType_t NuAILink_TasksCreate(void)
 {
     NUALINK_LOG("[SYS] creating queues/tasks...\n");
@@ -351,6 +419,11 @@ BaseType_t NuAILink_TasksCreate(void)
     }
 
     NUALINK_LOG("[SYS] queues/tasks created OK\n");
+
+    /* Phase 2.1: enable PB14 button input + edge interrupt; the ISR pushes
+     * button.event JSON-RPC notifications into the response queue, which the
+     * USB comm task forwards to the host. */
+    NuAILink_BoardButtonInit();
 
     return pdPASS;
 }

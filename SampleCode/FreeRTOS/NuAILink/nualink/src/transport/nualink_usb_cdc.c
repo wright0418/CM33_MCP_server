@@ -543,7 +543,20 @@ int32_t NuAILink_TransportWrite(const uint8_t *data, uint32_t length, TickType_t
         }
 
         s_tx_busy = 1U;
-        HSUSBD->EP[EPA].EPRSPCTL = HSUSBD_EP_RSPCTL_SHORTTXEN;
+        /* Clear any stale IN-token flag before enabling the IRQ; otherwise a
+         * pending INTKIF (left over from a host IN that was NAK'd while we
+         * were preparing this chunk) would fire the IRQ immediately, clear
+         * s_tx_busy prematurely, and let the next chunk overwrite the FIFO
+         * before the current chunk has actually been transmitted. */
+        HSUSBD_CLR_EP_INT_FLAG(EPA, HSUSBD_EPINTSTS_INTKIF_Msk);
+        /* Only request "transmit short packet immediately" on the final
+         * (possibly short) chunk — setting it on full-size packets makes the
+         * controller commit transfers before we have finished filling the
+         * FIFO when responses span multiple max-size packets. */
+        if ((offset + chunk_length) >= length)
+        {
+            HSUSBD->EP[EPA].EPRSPCTL = HSUSBD_EP_RSPCTL_SHORTTXEN;
+        }
         HSUSBD->EP[EPA].EPTXCNT = chunk_length;
         HSUSBD_ENABLE_EP_INT(EPA, HSUSBD_EPINTEN_INTKIEN_Msk);
         offset += chunk_length;

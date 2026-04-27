@@ -78,6 +78,7 @@ project:
         - file: ../nualink/src/core/mcp_response.c
         - file: ../nualink/src/plugins/plugin_system.c
         - file: ../nualink/src/plugins/plugin_led_gpio.c
+        - file: ../nualink/src/plugins/plugin_gpio.c
     - group: FreeRTOS files
       files:
         - file: ../../../../ThirdParty/FreeRTOS/tasks.c

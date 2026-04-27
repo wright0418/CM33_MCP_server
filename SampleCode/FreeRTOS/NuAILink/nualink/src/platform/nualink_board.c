@@ -3,10 +3,22 @@
 #include <stdio.h>
 
 #include "NuMicro.h"
+#include "FreeRTOS.h"
+#include "task.h"
 #include "nualink_log.h"
+#include "nualink_tasks.h"
 
 static volatile bool s_led_on = false;
 static volatile bool s_heartbeat_enabled = true;
+
+/* Phase 2.1: PB14 button state + debounce. */
+#define NUALINK_BUTTON_DEBOUNCE_MS 30U
+static volatile uint32_t s_button_last_event_tick = 0U;
+
+static const char s_button_pressed_json[] =
+    "{\"jsonrpc\":\"2.0\",\"method\":\"button.event\",\"params\":{\"pin\":\"PB14\",\"pressed\":true}}\n";
+static const char s_button_released_json[] =
+    "{\"jsonrpc\":\"2.0\",\"method\":\"button.event\",\"params\":{\"pin\":\"PB14\",\"pressed\":false}}\n";
 
 static void prvSetLedPin(bool on)
 {
@@ -169,4 +181,142 @@ bool NuAILink_BoardIsLedOn(void)
 uint32_t NuAILink_BoardGetCoreClockHz(void)
 {
     return SystemCoreClock;
+}
+
+/*-----------------------------------------------------------*/
+/* Phase 2.1: PB14 button + generic GPIO helpers.            */
+/*-----------------------------------------------------------*/
+
+static GPIO_T *prvGpioPortFromLetter(char port_letter)
+{
+    switch (port_letter)
+    {
+    case 'A':
+    case 'a':
+        return PA;
+    case 'B':
+    case 'b':
+        return PB;
+    case 'C':
+    case 'c':
+        return PC;
+    case 'D':
+    case 'd':
+        return PD;
+    case 'E':
+    case 'e':
+        return PE;
+    case 'F':
+    case 'f':
+        return PF;
+    case 'G':
+    case 'g':
+        return PG;
+    case 'H':
+    case 'h':
+        return PH;
+    default:
+        return NULL;
+    }
+}
+
+void NuAILink_BoardButtonInit(void)
+{
+    SYS_UnlockReg();
+
+    /* GPIOB clock should already be on, but be defensive. */
+    CLK->AHBCLK0 |= CLK_AHBCLK0_GPBCKEN_Msk;
+
+    /* Force PB14 MFP back to GPIO function. */
+    SYS->GPB_MFP3 &= ~SYS_GPB_MFP3_PB14MFP_Msk;
+
+    /* Active-low button with internal pull-up. */
+    GPIO_SetPullCtl(PB, BIT14, GPIO_PUSEL_PULL_UP);
+    GPIO_SetMode(PB, BIT14, GPIO_MODE_INPUT);
+
+    /* Detect press (falling) and release (rising). */
+    GPIO_EnableInt(PB, 14, GPIO_INT_BOTH_EDGE);
+    GPIO_CLR_INT_FLAG(PB, BIT14);
+
+    SYS_LockReg();
+
+    /* Priority must be numerically >= configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY (5)
+     * to legally call FromISR FreeRTOS APIs.  Use 6 (low priority but still preempts
+     * tasks). */
+    NVIC_SetPriority(GPB_IRQn, 6);
+    NVIC_EnableIRQ(GPB_IRQn);
+}
+
+bool NuAILink_BoardButtonIsPressed(void)
+{
+    /* Active-low: pin reads 0 when pressed. */
+    return (PB14 == 0U);
+}
+
+bool NuAILink_BoardGpioRead(char port_letter, uint32_t pin, uint32_t *out_value)
+{
+    GPIO_T *port = prvGpioPortFromLetter(port_letter);
+
+    if ((port == NULL) || (pin > 15U) || (out_value == NULL))
+    {
+        return false;
+    }
+    *out_value = (port->PIN >> pin) & 0x1U;
+    return true;
+}
+
+bool NuAILink_BoardGpioWrite(char port_letter, uint32_t pin, uint32_t value)
+{
+    GPIO_T *port = prvGpioPortFromLetter(port_letter);
+
+    if ((port == NULL) || (pin > 15U))
+    {
+        return false;
+    }
+
+    /* Forbid pins owned by NuAILink core (UART0 console + button input).
+     * PC14 LED is intentionally writable through gpio.write so a host can
+     * still poke it directly when not driven by BPWM. */
+    if (port_letter == 'B' || port_letter == 'b')
+    {
+        if ((pin == 12U) || (pin == 13U) || (pin == 14U))
+        {
+            return false;
+        }
+    }
+
+    GPIO_SetMode(port, (1UL << pin), GPIO_MODE_OUTPUT);
+    if (value)
+    {
+        port->DOUT |= (1UL << pin);
+    }
+    else
+    {
+        port->DOUT &= ~(1UL << pin);
+    }
+    return true;
+}
+
+void GPB_IRQHandler(void)
+{
+    if (GPIO_GET_INT_FLAG(PB, BIT14))
+    {
+        BaseType_t higher_woken = pdFALSE;
+        TickType_t now;
+
+        GPIO_CLR_INT_FLAG(PB, BIT14);
+
+        now = xTaskGetTickCountFromISR();
+        if ((now - s_button_last_event_tick) >= pdMS_TO_TICKS(NUALINK_BUTTON_DEBOUNCE_MS))
+        {
+            bool pressed = (PB14 == 0U);
+
+            s_button_last_event_tick = now;
+            (void)NuAILink_TasksPushNotificationFromISR(
+                pressed ? s_button_pressed_json : s_button_released_json,
+                &higher_woken);
+        }
+
+        portYIELD_FROM_ISR(higher_woken);
+    }
 }

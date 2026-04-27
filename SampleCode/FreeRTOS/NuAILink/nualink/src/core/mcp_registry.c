@@ -5,12 +5,17 @@
 
 extern const mcp_tool_t gNuAILinkSystemInfoTool;
 extern const mcp_tool_t gNuAILinkLedSetTool;
+extern const mcp_tool_t gNuAILinkGpioReadTool;
+extern const mcp_tool_t gNuAILinkGpioWriteTool;
+extern const mcp_tool_t gNuAILinkButtonReadTool;
 
 static const mcp_tool_t *const s_tools[] =
-{
-    &gNuAILinkSystemInfoTool,
-    &gNuAILinkLedSetTool
-};
+    {
+        &gNuAILinkSystemInfoTool,
+        &gNuAILinkLedSetTool,
+        &gNuAILinkGpioReadTool,
+        &gNuAILinkGpioWriteTool,
+        &gNuAILinkButtonReadTool};
 
 uint32_t MCP_RegistryCount(void)
 {
@@ -19,7 +24,7 @@ uint32_t MCP_RegistryCount(void)
 
 const mcp_tool_t *MCP_RegistryGet(uint32_t index)
 {
-    if(index >= MCP_RegistryCount())
+    if (index >= MCP_RegistryCount())
     {
         return NULL;
     }
@@ -31,14 +36,14 @@ const mcp_tool_t *MCP_RegistryFind(const char *name)
 {
     uint32_t index;
 
-    if(name == NULL)
+    if (name == NULL)
     {
         return NULL;
     }
 
-    for(index = 0U; index < MCP_RegistryCount(); index++)
+    for (index = 0U; index < MCP_RegistryCount(); index++)
     {
-        if(strcmp(name, s_tools[index]->name) == 0)
+        if (strcmp(name, s_tools[index]->name) == 0)
         {
             return s_tools[index];
         }

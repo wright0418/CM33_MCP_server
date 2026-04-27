@@ -302,9 +302,10 @@ Phase 1 method：
 ### Phase 2：基礎硬體模板
 
 - GPIO read/write 與 button notification。
+- LLSI RGB LED 燈條控制 10個 WS2812B RGB LED
 - EADC single channel read。
 - EPWM/BPWM duty/frequency control。
-- I2C scan/read/write 與 SHT3x-style sensor template。
+- I2C scan/read/write 與 HTU21-style sensor template。
 - UART/RS485 Modbus RTU wrapper。
 
 > 註解：每個 plugin 都必須有自己的 tool schema、argument validation、timeout 與錯誤碼；不可讓錯誤直接卡住 `Plugin_Action_Task`。
