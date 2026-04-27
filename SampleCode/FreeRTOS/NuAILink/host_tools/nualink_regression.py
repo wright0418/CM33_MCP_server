@@ -90,6 +90,8 @@ def main() -> int:
                         help="Also verify eadc.read for channels 8 and 9")
     parser.add_argument("--check-llsi", action="store_true",
                         help="Also verify llsi.fill on PB15 WS2812 output")
+    parser.add_argument("--check-auto", action="store_true",
+                        help="Also verify autonomous modes: led.auto, gpio.auto, eadc.auto")
     args = parser.parse_args()
 
     serial = _load_serial_module()
@@ -196,6 +198,174 @@ def main() -> int:
                             "params": {"name": "eadc.read", "arguments": {"channel": 9}},
                         },
                         10,
+                    ),
+                ]
+            )
+
+        if args.check_auto:
+            smoke_requests.extend(
+                [
+                    (
+                        "led.auto start",
+                        {
+                            "jsonrpc": "2.0",
+                            "id": 19,
+                            "method": "tools/call",
+                            "params": {
+                                "name": "led.auto",
+                                "arguments": {"action": "start", "interval_ms": 80, "initial_on": True},
+                            },
+                        },
+                        19,
+                    ),
+                    (
+                        "led.auto update",
+                        {
+                            "jsonrpc": "2.0",
+                            "id": 20,
+                            "method": "tools/call",
+                            "params": {
+                                "name": "led.auto",
+                                "arguments": {"action": "update", "interval_ms": 60},
+                            },
+                        },
+                        20,
+                    ),
+                    (
+                        "led.auto status",
+                        {
+                            "jsonrpc": "2.0",
+                            "id": 21,
+                            "method": "tools/call",
+                            "params": {
+                                "name": "led.auto",
+                                "arguments": {"action": "status"},
+                            },
+                        },
+                        21,
+                    ),
+                    (
+                        "led.auto stop",
+                        {
+                            "jsonrpc": "2.0",
+                            "id": 22,
+                            "method": "tools/call",
+                            "params": {
+                                "name": "led.auto",
+                                "arguments": {"action": "stop"},
+                            },
+                        },
+                        22,
+                    ),
+                    (
+                        "gpio.auto start",
+                        {
+                            "jsonrpc": "2.0",
+                            "id": 23,
+                            "method": "tools/call",
+                            "params": {
+                                "name": "gpio.auto",
+                                "arguments": {
+                                    "action": "start",
+                                    "port": "C",
+                                    "pin": 14,
+                                    "initial_value": 0,
+                                    "interval_ms": 80,
+                                },
+                            },
+                        },
+                        23,
+                    ),
+                    (
+                        "gpio.auto update",
+                        {
+                            "jsonrpc": "2.0",
+                            "id": 24,
+                            "method": "tools/call",
+                            "params": {
+                                "name": "gpio.auto",
+                                "arguments": {"action": "update", "interval_ms": 60},
+                            },
+                        },
+                        24,
+                    ),
+                    (
+                        "gpio.auto status",
+                        {
+                            "jsonrpc": "2.0",
+                            "id": 25,
+                            "method": "tools/call",
+                            "params": {
+                                "name": "gpio.auto",
+                                "arguments": {"action": "status"},
+                            },
+                        },
+                        25,
+                    ),
+                    (
+                        "gpio.auto stop",
+                        {
+                            "jsonrpc": "2.0",
+                            "id": 26,
+                            "method": "tools/call",
+                            "params": {
+                                "name": "gpio.auto",
+                                "arguments": {"action": "stop"},
+                            },
+                        },
+                        26,
+                    ),
+                    (
+                        "eadc.auto start",
+                        {
+                            "jsonrpc": "2.0",
+                            "id": 27,
+                            "method": "tools/call",
+                            "params": {
+                                "name": "eadc.auto",
+                                "arguments": {"action": "start", "channel": 8, "interval_ms": 100},
+                            },
+                        },
+                        27,
+                    ),
+                    (
+                        "eadc.auto update",
+                        {
+                            "jsonrpc": "2.0",
+                            "id": 28,
+                            "method": "tools/call",
+                            "params": {
+                                "name": "eadc.auto",
+                                "arguments": {"action": "update", "channel": 9, "interval_ms": 80},
+                            },
+                        },
+                        28,
+                    ),
+                    (
+                        "eadc.auto status",
+                        {
+                            "jsonrpc": "2.0",
+                            "id": 29,
+                            "method": "tools/call",
+                            "params": {
+                                "name": "eadc.auto",
+                                "arguments": {"action": "status"},
+                            },
+                        },
+                        29,
+                    ),
+                    (
+                        "eadc.auto stop",
+                        {
+                            "jsonrpc": "2.0",
+                            "id": 30,
+                            "method": "tools/call",
+                            "params": {
+                                "name": "eadc.auto",
+                                "arguments": {"action": "stop"},
+                            },
+                        },
+                        30,
                     ),
                 ]
             )
@@ -345,6 +515,20 @@ def main() -> int:
                     raise AssertionError(
                         "[llsi.autoplay status] expected running=true")
 
+            if stage in ("led.auto status", "gpio.auto status", "eadc.auto status"):
+                result = response.get("result", {}) if isinstance(
+                    response, dict) else {}
+                structured = result.get("structuredContent", {}) if isinstance(
+                    result, dict) else {}
+                if not isinstance(structured, dict):
+                    raise AssertionError(
+                        f"[{stage}] missing structuredContent")
+                if not bool(structured.get("running")):
+                    raise AssertionError(f"[{stage}] expected running=true")
+                if stage == "eadc.auto status" and not bool(structured.get("sample_valid")):
+                    raise AssertionError(
+                        "[eadc.auto status] expected sample_valid=true")
+
             if stage == "llsi.autoplay stop":
                 result = response.get("result", {}) if isinstance(
                     response, dict) else {}
@@ -356,6 +540,17 @@ def main() -> int:
                 if bool(structured.get("running")):
                     raise AssertionError(
                         "[llsi.autoplay stop] expected running=false")
+
+            if stage in ("led.auto stop", "gpio.auto stop", "eadc.auto stop"):
+                result = response.get("result", {}) if isinstance(
+                    response, dict) else {}
+                structured = result.get("structuredContent", {}) if isinstance(
+                    result, dict) else {}
+                if not isinstance(structured, dict):
+                    raise AssertionError(
+                        f"[{stage}] missing structuredContent")
+                if bool(structured.get("running")):
+                    raise AssertionError(f"[{stage}] expected running=false")
 
             print(f"[REG][OK] {stage:<12} {elapsed * 1000.0:7.2f} ms")
 

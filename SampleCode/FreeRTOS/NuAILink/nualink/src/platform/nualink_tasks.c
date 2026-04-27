@@ -17,8 +17,19 @@
 #include "nualink_log.h"
 #include "nualink_transport.h"
 
-/* Implemented by plugin_llsi.c: advances MCU-side LLSI autoplay frames when due. */
+/* Implemented by peripheral plugins: advance MCU-side autonomous modes when due. */
+void NuAILink_LedAutoProcess(void);
+void NuAILink_GpioAutoProcess(void);
+void NuAILink_EadcAutoProcess(void);
 void NuAILink_LlsiAutoplayProcess(void);
+
+static void prvProcessPeripheralAutoModes(void)
+{
+    NuAILink_LedAutoProcess();
+    NuAILink_GpioAutoProcess();
+    NuAILink_EadcAutoProcess();
+    NuAILink_LlsiAutoplayProcess();
+}
 
 typedef struct
 {
@@ -50,9 +61,18 @@ static uint8_t s_response_queue_storage[NUALINK_RESPONSE_QUEUE_LENGTH * sizeof(n
 static StaticTask_t s_usb_task_tcb;
 static StaticTask_t s_parser_task_tcb;
 static StaticTask_t s_heartbeat_task_tcb;
+#if defined(__ICCARM__)
+#pragma data_alignment = 8
 static StackType_t s_usb_task_stack[2048];
+#pragma data_alignment = 8
 static StackType_t s_parser_task_stack[4096];
+#pragma data_alignment = 8
 static StackType_t s_heartbeat_task_stack[1024];
+#else
+static StackType_t s_usb_task_stack[2048] __attribute__((aligned(8)));
+static StackType_t s_parser_task_stack[4096] __attribute__((aligned(8)));
+static StackType_t s_heartbeat_task_stack[1024] __attribute__((aligned(8)));
+#endif
 
 static void *prvCJSONMalloc(size_t size)
 {
@@ -248,7 +268,7 @@ static void prvUsbCommTask(void *parameters)
             }
         }
 
-        NuAILink_LlsiAutoplayProcess();
+        prvProcessPeripheralAutoModes();
 
         vTaskDelay(pdMS_TO_TICKS(1U));
     }

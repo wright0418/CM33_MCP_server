@@ -242,7 +242,12 @@ void vApplicationGetIdleTaskMemory(StaticTask_t **ppxIdleTaskTCBBuffer,
                                    configSTACK_DEPTH_TYPE *pulIdleTaskStackSize)
 {
     static StaticTask_t xIdleTaskTCB;
+#if defined(__ICCARM__)
+#pragma data_alignment = 8
     static StackType_t uxIdleTaskStack[configMINIMAL_STACK_SIZE];
+#else
+    static StackType_t uxIdleTaskStack[configMINIMAL_STACK_SIZE] __attribute__((aligned(8)));
+#endif
 
     *ppxIdleTaskTCBBuffer = &xIdleTaskTCB;
     *ppxIdleTaskStackBuffer = uxIdleTaskStack;
@@ -255,7 +260,12 @@ void vApplicationGetTimerTaskMemory(StaticTask_t **ppxTimerTaskTCBBuffer,
                                     configSTACK_DEPTH_TYPE *pulTimerTaskStackSize)
 {
     static StaticTask_t xTimerTaskTCB;
+#if defined(__ICCARM__)
+#pragma data_alignment = 8
     static StackType_t uxTimerTaskStack[configTIMER_TASK_STACK_DEPTH];
+#else
+    static StackType_t uxTimerTaskStack[configTIMER_TASK_STACK_DEPTH] __attribute__((aligned(8)));
+#endif
 
     *ppxTimerTaskTCBBuffer = &xTimerTaskTCB;
     *ppxTimerTaskStackBuffer = uxTimerTaskStack;
